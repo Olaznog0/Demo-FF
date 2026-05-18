@@ -1,4 +1,4 @@
-# F&F Car Service demo v7
+# F&F Car Service demo
 
 ## Flat folder structure
 
@@ -24,9 +24,3 @@ WEBSITE/
 2. Install Live Server by Ritwick Dey.
 3. Right-click index.html and choose Open with Live Server.
 4. Test language switching with ?lang=nl and ?lang=en.
-
-
-## v10
-- Restored 90px logo width.
-- Removed subpage hero titles from booking and FAQ.
-- Kept zip-friendly full package output.
