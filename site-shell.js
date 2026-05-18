@@ -32,10 +32,11 @@
     headerTarget.innerHTML = `
       <header class="site-header">
         <div class="container header-inner">
-          <a href="${withLang('index.html', lang)}" class="brand" aria-label="Voorburgse Auto Service home">
-            <img src="assets/logo.jpg" alt="Voorburgse Auto Service logo" class="brand-logo" />
+          <a href="${withLang('index.html', lang)}" class="brand" aria-label="FF Car Service Electronics home">
+            <img src="assets/logo.jpg" alt="FF Car Service Electronics logo" class="brand-logo" />
             <div class="brand-text">
-              <span class="brand-name">Voorburgse Auto Service</span>
+              <span class="brand-name">F&amp;F Car Service</span>
+              <span class="brand-sub">Electronics • Voorburg</span>
             </div>
           </a>
           <nav class="main-nav" aria-label="Hoofd navigatie">
@@ -68,7 +69,7 @@
     footerTarget.innerHTML = `
       <footer class="site-footer">
         <div class="container footer-inner">
-          <p class="footer-text">${lang === 'en' ? 'Demo website concept for Voorburgse Auto Service.' : 'Demo websiteconcept voor Voorburgse Auto Service.'}</p>
+          <p class="footer-text">${lang === 'en' ? 'Demo website concept for F&F Car Service Electronics.' : 'Demo websiteconcept voor F&F Car Service Electronics.'}</p>
           <p class="footer-text">${lang === 'en' ? 'Ready for bilingual content and a future booking module.' : 'Klaar voor meertaligheid en een toekomstige online afsprakenmodule.'}</p>
         </div>
       </footer>`;
