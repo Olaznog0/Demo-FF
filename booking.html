@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="nl" data-page="booking">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Afspraken | Voorburgse Auto Service</title>
+  <meta name="description" content="Afspraakpagina demo voor Voorburgse Auto Service met dienstkeuze, kalender en tijdslotselectie." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="appointment.css" />
+</head>
+<body>
+  <div id="siteHeader"></div>
+
+  <main>
+    <section class="subpage-spacer" aria-hidden="true"></section>
+
+    <section class="section booking-section booking-section-tight">
+      <div class="container booking-layout">
+        <div class="booking-panel">
+          <div class="booking-step-header">
+            <p class="step-label" data-i18n="booking.step1">Stap 1</p>
+            <h2 data-i18n="booking.serviceTitle">Kies uw service</h2>
+            <p data-i18n="booking.serviceText">Selecteer eerst wat de auto nodig heeft.</p>
+          </div>
+          <div id="serviceList" class="service-grid"></div>
+          <div class="booking-divider"></div>
+          <div class="booking-step-header booking-step-header-row">
+            <div>
+              <p class="step-label" data-i18n="booking.step2">Stap 2</p>
+              <h2 data-i18n="booking.dayTitle">Kies een dag</h2>
+              <p data-i18n="booking.dayText">Maandag tot en met zaterdag zijn beschikbaar.</p>
+            </div>
+            <div class="calendar-controls">
+              <button type="button" class="calendar-btn" id="calendarPrev" aria-label="Vorige week">‹</button>
+              <button type="button" class="calendar-btn" id="calendarNext" aria-label="Volgende week">›</button>
+            </div>
+          </div>
+          <div class="week-row">
+            <strong id="calendarMonthLabel"></strong>
+            <span class="week-note" data-i18n="booking.slotNote">Tijdslots om de 30 minuten</span>
+          </div>
+          <div id="dayStrip" class="day-grid"></div>
+          <div class="booking-divider"></div>
+          <div class="booking-step-header">
+            <p class="step-label" data-i18n="booking.step3">Stap 3</p>
+            <h2 data-i18n="booking.slotTitleHeader">Kies een tijdslot</h2>
+            <p id="slotTitle" data-i18n="booking.selectDayFirst">Selecteer eerst een dag</p>
+          </div>
+          <div id="slotGrid" class="slot-grid"></div>
+        </div>
+        <aside class="booking-sidebar">
+          <div class="summary-card">
+            <p class="step-label" data-i18n="booking.summaryLabel">Samenvatting</p>
+            <h2 data-i18n="booking.summaryTitle">Uw afspraak</h2>
+            <dl class="summary-list">
+              <div><dt data-i18n="booking.summaryService">Dienst</dt><dd id="summaryService">—</dd></div>
+              <div><dt data-i18n="booking.summaryDuration">Duur</dt><dd id="summaryDuration">—</dd></div>
+              <div><dt data-i18n="booking.summaryDate">Datum</dt><dd id="summaryDate">—</dd></div>
+              <div><dt data-i18n="booking.summaryTime">Tijd</dt><dd id="summaryTime">—</dd></div>
+            </dl>
+            <button type="button" class="btn btn-primary btn-full" id="bookingDemoBtn" data-i18n="booking.bookButton">Reserveer demo-slot</button>
+            <p class="summary-note" data-i18n="booking.summaryNote">Front-end demo. In de live versie kan dit worden gekoppeld aan echte beschikbaarheid, bevestigingsmails en een kleine beheeromgeving.</p>
+          </div>
+          <div class="summary-card muted-card">
+            <h3 data-i18n="booking.expandTitle">Later uit te breiden met</h3>
+            <ul class="bullet-list">
+              <li data-i18n="booking.expand1">Bevestigingsmail naar klant en garage.</li>
+              <li data-i18n="booking.expand2">Blokkeren van bezette momenten.</li>
+              <li data-i18n="booking.expand3">Koppeling met CRM of agenda.</li>
+              <li data-i18n="booking.expand4">Goedkeuren of verplaatsen van aanvragen.</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+  <script src="site-shell.js"></script>
+  <script src="i18n.js"></script>
+  <script src="appointment.js"></script>
+</body>
+</html>
