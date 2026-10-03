@@ -1,0 +1,10 @@
+.env
+.env.*
+!.env.example
+server.env
+node_modules/
+coverage/
+qa/
+dist/
+
+dist-pitch/

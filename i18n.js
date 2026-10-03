@@ -1,234 +1,759 @@
-(function () {
-  const dictionaries = {
-    nl: {
-      'hero.kicker': 'Betrouwbare autogarage in Voorburg',
-      'hero.title': 'Onderhoud, reparatie en storingsdiagnose voor uw auto, zonder verrassingen.',
-      'hero.subtitle': 'F&F Car Service Electronics verzorgt onderhoud, reparaties en elektronische diagnose voor vrijwel elk merk. Persoonlijk contact, duidelijke prijzen en snelle service zodat u weer veilig de weg op kunt.',
-      'hero.ctaPrimary': 'Plan een afspraak',
-      'hero.ctaSecondary': 'Bekijk onze diensten',
-      'hero.rating': '4,8 uit 5 op Google op basis van tevreden klanten.',
-      'hero.note': 'Snelle reactie op uw aanvraag, vaak dezelfde werkdag.',
-      'hero.photoTitle': 'Onze werkplaats',
-      'hero.photoSubtitle': 'Populierendreef 990A, Voorburg',
-      'services.kicker': 'Diensten',
-      'services.title': 'Alles voor uw auto onder één dak',
-      'services.subtitle': 'Van onderhoud en APK tot complexe elektronische storingen: wij zorgen dat uw auto veilig en betrouwbaar blijft.',
-      'services.card1.title': 'Onderhoud & APK',
-      'services.card1.text': 'Kleine en grote beurten volgens fabrieksvoorschrift, inclusief APK-keuring en heldere terugkoppeling over de staat van uw auto.',
-      'services.card2.title': 'Diagnose & elektronica',
-      'services.card2.text': 'Moderne diagnoseapparatuur voor motorstoringen, ABS, airbag, sensoren en andere elektronische problemen.',
-      'services.card3.title': 'Reparatie & banden',
-      'services.card3.text': 'Remmen, uitlaat, ophanging, accu en banden. We overleggen altijd eerst voordat we extra werkzaamheden uitvoeren.',
-      'reviews.kicker': 'Google reviews',
-      'reviews.title': 'Dit zeggen klanten over ons',
-      'reviews.subtitle': 'Een selectie van recente beoordelingen. In de definitieve versie tonen we automatisch de nieuwste reviews rechtstreeks vanuit Google.',
-      'reviews.metaRecent': 'Recente Google review',
-      'contact.kicker': 'Contact & openingstijden',
-      'contact.title': 'Neem direct contact op',
-      'contact.subtitle': 'Vul het formulier in of bel ons direct. We nemen zo snel mogelijk contact met u op om een afspraak te plannen.',
-      'contact.form.nameLabel': 'Naam',
-      'contact.form.namePlaceholder': 'Uw naam',
-      'contact.form.emailLabel': 'E-mail',
-      'contact.form.emailPlaceholder': 'uw@email.nl',
-      'contact.form.phoneLabel': 'Telefoonnummer',
-      'contact.form.phonePlaceholder': '06 12 34 56 78',
-      'contact.form.messageLabel': 'Uw vraag of klacht',
-      'contact.form.messagePlaceholder': 'Beschrijf kort uw vraag of probleem...',
-      'contact.form.submit': 'Verstuur bericht',
-      'contact.form.note': 'Dit is een demoformulier. In de uiteindelijke versie wordt uw bericht veilig doorgestuurd naar de garage.',
-      'contact.form.alert': 'Demoformulier verzonden. Koppel dit later aan Formspree of een eigen endpoint.',
-      'contact.details.title': 'Praktische informatie',
-      'contact.details.addressLabel': 'Adres',
-      'contact.details.phoneLabel': 'Telefoon',
-      'contact.details.hoursLabel': 'Openingstijden',
-      'contact.details.hoursText': 'Maandag t/m vrijdag 08:00 – 17:30, zaterdag en zondag gesloten.',
-      'contact.map.title': 'Route & parkeren',
-      'contact.map.text': 'De garage is goed bereikbaar met de auto. Parkeren kan in de straat voor de deur.',
-      'bookingPage.kicker': 'Afspraken',
-      'bookingPage.title': 'Plan eenvoudig een afspraak',
-      'bookingPage.subtitle': 'Kies eerst de gewenste service, daarna een beschikbare dag en een tijdslot tussen 08:00 en 17:30. Deze pagina is opgezet als herbruikbare front-end basis voor toekomstige klanten.',
-      'booking.step1': 'Stap 1',
-      'booking.serviceTitle': 'Kies uw service',
-      'booking.serviceText': 'Selecteer eerst wat de auto nodig heeft.',
-      'booking.step2': 'Stap 2',
-      'booking.dayTitle': 'Kies een dag',
-      'booking.dayText': 'Maandag tot en met zaterdag zijn beschikbaar.',
-      'booking.slotNote': 'Tijdslots om de 30 minuten',
-      'booking.step3': 'Stap 3',
-      'booking.slotTitleHeader': 'Kies een tijdslot',
-      'booking.selectDayFirst': 'Selecteer eerst een dag',
-      'booking.summaryLabel': 'Samenvatting',
-      'booking.summaryTitle': 'Uw afspraak',
-      'booking.summaryService': 'Dienst',
-      'booking.summaryDuration': 'Duur',
-      'booking.summaryDate': 'Datum',
-      'booking.summaryTime': 'Tijd',
-      'booking.bookButton': 'Reserveer demo-slot',
-      'booking.summaryNote': 'Front-end demo. In de live versie kan dit worden gekoppeld aan echte beschikbaarheid, bevestigingsmails en een kleine beheeromgeving.',
-      'booking.expandTitle': 'Later uit te breiden met',
-      'booking.expand1': 'Bevestigingsmail naar klant en garage.',
-      'booking.expand2': 'Blokkeren van bezette momenten.',
-      'booking.expand3': 'Koppeling met CRM of agenda.',
-      'booking.expand4': 'Goedkeuren of verplaatsen van aanvragen.',
-      'booking.bookedAlert': 'Demo-slot geselecteerd. Koppel dit later aan je backend of forms flow.',
-      'booking.incompleteAlert': 'Kies eerst een dienst, dag en tijdslot.',
-      'faqPage.kicker': 'FAQ',
-      'faqPage.title': 'Veelgestelde vragen',
-      'faqPage.subtitle': 'Een aparte FAQ-pagina haalt praktische bezwaren weg voordat iemand contact opneemt of een afspraak plant.',
-      'faq.heroChip': 'Snel antwoord',
-      'faq.heroText': 'De meest gestelde vragen staan overzichtelijk gegroepeerd, zodat bezoekers sneller vertrouwen krijgen en makkelijker doorklikken naar contact of afspraken.',
-      'faq.group1kicker': 'Afspraak & service',
-      'faq.group1title': 'Voor uw bezoek',
-      'faq.group2kicker': 'Werkwijze',
-      'faq.group2title': 'Duidelijkheid vooraf',
-      'faq.q1': 'Hoe lang duurt een APK of algemene check?',
-      'faq.a1': 'Dat hangt af van de planning en de staat van de auto, maar meestal kan vooraf een duidelijke indicatie van de benodigde tijd worden gegeven.',
-      'faq.q2': 'Word ik eerst gebeld voordat extra werk wordt uitgevoerd?',
-      'faq.a2': 'Ja, extra werkzaamheden worden idealiter pas uitgevoerd na overleg en akkoord.',
-      'faq.q3': 'Kan ik terecht voor meerdere automerken?',
-      'faq.a3': 'Ja, de garage wordt gepositioneerd als breed inzetbaar voor veelvoorkomend onderhoud en reparaties aan verschillende merken.',
-      'faq.q4': 'Kan ik wachten terwijl mijn auto wordt nagekeken?',
-      'faq.a4': 'Dat hangt af van het type werk. Voor korte checks of eenvoudige werkzaamheden is dat soms mogelijk, maar even vooraf bellen blijft handig.',
-      'faq.q5': 'Wat moet ik meenemen naar mijn afspraak?',
-      'faq.a5': 'Neem bij voorkeur uw kenteken, contactgegevens en een korte omschrijving van de klacht of gewenste service mee.',
-      'faq.q6': 'Welke services kunnen online ingepland worden?',
-      'faq.a6': 'In deze demo zijn onder meer APK check, general check, tire changes, oil change, brake check en diagnostics beschikbaar.',
-      'faq.q7': 'Zijn zaterdagafspraken mogelijk?',
-      'faq.a7': 'Ja, op de afsprakenpagina zijn ook zaterdag-slots zichtbaar zodat de functionaliteit meteen praktisch aanvoelt voor klanten.',
-      'faq.side1title': 'Waarom een losse FAQ-pagina?',
-      'faq.side1text': 'Zo blijft de homepage compacter terwijl veelvoorkomende bezwaren toch professioneel worden opgevangen in een aparte route vanuit de navigatie.',
-      'faq.side2title': 'Snelle route',
-      'faq.side2text': 'Klanten die voldoende informatie hebben, kunnen daarna direct doorklikken naar de afspraakpagina of het contactformulier.',
-      'faq.sideButton': 'Ga naar afspraken'
-    },
-    en: {
-      'hero.kicker': 'Trusted car garage in Voorburg',
-      'hero.title': 'Maintenance, repairs and diagnostics for your car, without surprises.',
-      'hero.subtitle': 'F&F Car Service Electronics provides maintenance, repairs and electronic diagnostics for nearly every brand. Personal contact, clear pricing and fast service so you can get back on the road safely.',
-      'hero.ctaPrimary': 'Book an appointment',
-      'hero.ctaSecondary': 'View our services',
-      'hero.rating': '4.8 out of 5 on Google based on happy customers.',
-      'hero.note': 'Fast response to your request, often the same working day.',
-      'hero.photoTitle': 'Our workshop',
-      'hero.photoSubtitle': 'Populierendreef 990A, Voorburg',
-      'services.kicker': 'Services',
-      'services.title': 'Everything your car needs under one roof',
-      'services.subtitle': 'From maintenance and MOT to complex electronic issues: we keep your car safe and reliable.',
-      'services.card1.title': 'Maintenance & MOT',
-      'services.card1.text': 'Minor and major servicing according to manufacturer guidelines, including MOT checks and clear feedback on your car\'s condition.',
-      'services.card2.title': 'Diagnostics & electronics',
-      'services.card2.text': 'Modern diagnostic equipment for engine faults, ABS, airbags, sensors and other electronic problems.',
-      'services.card3.title': 'Repairs & tyres',
-      'services.card3.text': 'Brakes, exhaust, suspension, battery and tyres. We always discuss extra work before carrying it out.',
-      'reviews.kicker': 'Google reviews',
-      'reviews.title': 'What customers say about us',
-      'reviews.subtitle': 'A selection of recent reviews. In the final version we can pull the latest reviews directly from Google.',
-      'reviews.metaRecent': 'Recent Google review',
-      'contact.kicker': 'Contact & opening hours',
-      'contact.title': 'Get in touch directly',
-      'contact.subtitle': 'Fill in the form or call us directly. We will contact you as soon as possible to plan an appointment.',
-      'contact.form.nameLabel': 'Name',
-      'contact.form.namePlaceholder': 'Your name',
-      'contact.form.emailLabel': 'Email',
-      'contact.form.emailPlaceholder': 'you@email.com',
-      'contact.form.phoneLabel': 'Phone number',
-      'contact.form.phonePlaceholder': '+31 6 12 34 56 78',
-      'contact.form.messageLabel': 'Your question or issue',
-      'contact.form.messagePlaceholder': 'Briefly describe your question or issue...',
-      'contact.form.submit': 'Send message',
-      'contact.form.note': 'This is a demo form. In the final version your message will be securely forwarded to the garage.',
-      'contact.form.alert': 'Demo form submitted. Connect this later to Formspree or your own endpoint.',
-      'contact.details.title': 'Practical information',
-      'contact.details.addressLabel': 'Address',
-      'contact.details.phoneLabel': 'Phone',
-      'contact.details.hoursLabel': 'Opening hours',
-      'contact.details.hoursText': 'Monday to Friday 08:00 – 17:30, Saturday and Sunday closed.',
-      'contact.map.title': 'Route & parking',
-      'contact.map.text': 'The garage is easy to reach by car. Parking is available on the street outside.',
-      'bookingPage.kicker': 'Booking',
-      'bookingPage.title': 'Book an appointment easily',
-      'bookingPage.subtitle': 'Choose the required service first, then pick an available day and a time slot between 08:00 and 17:30. This page is built as a reusable front-end base for future clients.',
-      'booking.step1': 'Step 1',
-      'booking.serviceTitle': 'Choose your service',
-      'booking.serviceText': 'Select what the car needs first.',
-      'booking.step2': 'Step 2',
-      'booking.dayTitle': 'Choose a day',
-      'booking.dayText': 'Monday to Saturday are available.',
-      'booking.slotNote': 'Time slots every 30 minutes',
-      'booking.step3': 'Step 3',
-      'booking.slotTitleHeader': 'Choose a time slot',
-      'booking.selectDayFirst': 'Select a day first',
-      'booking.summaryLabel': 'Summary',
-      'booking.summaryTitle': 'Your appointment',
-      'booking.summaryService': 'Service',
-      'booking.summaryDuration': 'Duration',
-      'booking.summaryDate': 'Date',
-      'booking.summaryTime': 'Time',
-      'booking.bookButton': 'Reserve demo slot',
-      'booking.summaryNote': 'Front-end demo. In the live version this can be connected to real availability, confirmation emails and a small admin flow.',
-      'booking.expandTitle': 'Later expandable with',
-      'booking.expand1': 'Confirmation email to customer and garage.',
-      'booking.expand2': 'Blocking occupied time slots.',
-      'booking.expand3': 'CRM or calendar integration.',
-      'booking.expand4': 'Approving or moving requests.',
-      'booking.bookedAlert': 'Demo slot selected. Connect this later to your backend or form flow.',
-      'booking.incompleteAlert': 'Please choose a service, day and time slot first.',
-      'faqPage.kicker': 'FAQ',
-      'faqPage.title': 'Frequently asked questions',
-      'faqPage.subtitle': 'A separate FAQ page removes practical objections before someone contacts you or books an appointment.',
-      'faq.heroChip': 'Quick answer',
-      'faq.heroText': 'The most common questions are grouped clearly so visitors build trust faster and click through to contact or booking more easily.',
-      'faq.group1kicker': 'Appointment & service',
-      'faq.group1title': 'Before your visit',
-      'faq.group2kicker': 'How it works',
-      'faq.group2title': 'Clear expectations',
-      'faq.q1': 'How long does an MOT or general check take?',
-      'faq.a1': 'That depends on planning and the condition of the car, but in most cases a clear time estimate can be given in advance.',
-      'faq.q2': 'Will I be called before extra work is carried out?',
-      'faq.a2': 'Yes, additional work should ideally only be carried out after discussion and approval.',
-      'faq.q3': 'Can I come in with different car brands?',
-      'faq.a3': 'Yes, the garage is positioned as broadly useful for common maintenance and repair work across different brands.',
-      'faq.q4': 'Can I wait while my car is being checked?',
-      'faq.a4': 'That depends on the type of work. For short checks or simple jobs it can sometimes be possible, but calling ahead is still helpful.',
-      'faq.q5': 'What should I bring to my appointment?',
-      'faq.a5': 'Preferably bring your license plate details, contact information and a short description of the issue or requested service.',
-      'faq.q6': 'Which services can be booked online?',
-      'faq.a6': 'This demo includes MOT check, general check, tire changes, oil change, brake check and diagnostics.',
-      'faq.q7': 'Are Saturday appointments possible?',
-      'faq.a7': 'Yes, Saturday slots are shown on the booking page so the feature already feels practical for customers.',
-      'faq.side1title': 'Why a separate FAQ page?',
-      'faq.side1text': 'This keeps the homepage cleaner while still answering common objections in a dedicated route from the navigation.',
-      'faq.side2title': 'Quick path',
-      'faq.side2text': 'Customers who already have enough information can then click straight through to the booking page or contact form.',
-      'faq.sideButton': 'Go to booking'
-    }
-  };
-
-  function getLang() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('lang') === 'en' ? 'en' : 'nl';
-  }
-
-  function applyI18n() {
-    const lang = getLang();
-    const dict = dictionaries[lang];
-    document.documentElement.lang = lang;
-    document.querySelectorAll('[data-i18n]').forEach((el) => {
-      const key = el.getAttribute('data-i18n');
-      if (dict[key]) el.textContent = dict[key];
-    });
-    document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
-      const key = el.getAttribute('data-i18n-placeholder');
-      if (dict[key]) el.setAttribute('placeholder', dict[key]);
-    });
-    window.__SITE_LANG__ = lang;
-    window.__SITE_I18N__ = dict;
-    document.dispatchEvent(new CustomEvent('site:lang-ready', { detail: { lang, dict } }));
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', applyI18n);
-  } else {
-    applyI18n();
-  }
-})();
+(function(root){
+'use strict';
+const rows={
+  "translatedConcept": [
+    "Vertaling voor dit concept",
+    "Translation for this concept",
+    "Traducción para este concepto",
+    "Traducció per a aquest concepte"
+  ],
+  "liveTime": [
+    "Tijd",
+    "Time",
+    "Hora",
+    "Hora"
+  ],
+  "availabilityLoading": [
+    "Beschikbaarheid laden…",
+    "Loading availability…",
+    "Consultando disponibilidad…",
+    "Consultant disponibilitat…"
+  ],
+  "availabilityEmpty": [
+    "Geen tijden beschikbaar voor deze dag. Kies een andere dag.",
+    "No times are available on this date. Choose another date.",
+    "No hay horas disponibles este día. Elige otra fecha.",
+    "No hi ha hores disponibles aquest dia. Tria una altra data."
+  ],
+  "calendarPending": [
+    "De agenda van dit bedrijf is nog niet geactiveerd. Bel voor een echte afspraak.",
+    "This business calendar is awaiting activation. Call for a real appointment.",
+    "La agenda de este negocio está pendiente de activación. Llama para reservar.",
+    "L’agenda d’aquest negoci està pendent d’activació. Truca per reservar."
+  ],
+  "availabilityError": [
+    "Beschikbaarheid kon niet worden geladen. Probeer opnieuw of bel het bedrijf.",
+    "Availability could not be loaded. Try again or call the business.",
+    "No se pudo consultar disponibilidad. Reintenta o llama al negocio.",
+    "No s’ha pogut consultar disponibilitat. Reintenta o truca al negoci."
+  ],
+  "customerDetails": [
+    "Jouw gegevens",
+    "Your details",
+    "Tus datos",
+    "Les teves dades"
+  ],
+  "bookingEmail": [
+    "E-mailadres",
+    "Email address",
+    "Correo electrónico",
+    "Correu electrònic"
+  ],
+  "bookingPhone": [
+    "Telefoon (optioneel)",
+    "Phone (optional)",
+    "Teléfono (opcional)",
+    "Telèfon (opcional)"
+  ],
+  "confirmBooking": [
+    "Afspraak bevestigen",
+    "Confirm appointment",
+    "Confirmar cita",
+    "Confirma la cita"
+  ],
+  "bookingSubmitting": [
+    "Afspraak wordt bevestigd…",
+    "Confirming your appointment…",
+    "Confirmando tu cita…",
+    "Confirmant la cita…"
+  ],
+  "bookingSuccess": [
+    "Je afspraak is bevestigd. Controleer je e-mail voor de bevestiging en annuleerlink.",
+    "Your appointment is confirmed. Check your email for confirmation and the cancellation link.",
+    "Tu cita está confirmada. Consulta el correo con confirmación y enlace de cancelación.",
+    "La cita està confirmada. Consulta el correu amb la confirmació i l’enllaç de cancel·lació."
+  ],
+  "bookingError": [
+    "De afspraak is niet bevestigd. Controleer de beschikbaarheid opnieuw of bel het bedrijf.",
+    "Your appointment is not confirmed. Check availability again or call the business.",
+    "La cita no está confirmada. Consulta disponibilidad de nuevo o llama al negocio.",
+    "La cita no està confirmada. Consulta disponibilitat de nou o truca al negoci."
+  ],
+  "apiBookingIntro": [
+    "Kies een behandeling, dag en beschikbare tijd. Bevestig vervolgens met je gegevens.",
+    "Choose a service, date and available time. Then confirm with your details.",
+    "Elige servicio, fecha y hora disponible. Después confirma con tus datos.",
+    "Tria servei, data i hora disponible. Després confirma amb les teves dades."
+  ],
+  "bookingPrivacy": [
+    "Na bevestigen worden je gegevens gebruikt voor de afspraak en bevestigingsmail. Annuleren kan via de link in je e-mail.",
+    "On confirmation, your details are used for the appointment and confirmation email. Cancel using the link in your email.",
+    "Al confirmar, se usarán tus datos para la cita y el correo de confirmación. Cancela desde el enlace del correo.",
+    "En confirmar, les dades s’utilitzen per a la cita i el correu de confirmació. Cancel·la des de l’enllaç del correu."
+  ],
+  "chooseOtherDate": [
+    "Of kies een andere datum",
+    "Or choose another date",
+    "O elige otra fecha",
+    "O tria una altra data"
+  ],
+  "contactSend": [
+    "Bericht versturen",
+    "Send message",
+    "Enviar mensaje",
+    "Envia el missatge"
+  ],
+  "contactSubmitting": [
+    "Bericht wordt verstuurd…",
+    "Sending your message…",
+    "Enviando mensaje…",
+    "Enviant el missatge…"
+  ],
+  "contactSuccess": [
+    "Je bericht is verstuurd. Het bedrijf neemt contact met je op.",
+    "Your message has been sent. The business will get in touch.",
+    "Tu mensaje se ha enviado. El negocio se pondrá en contacto contigo.",
+    "El missatge s’ha enviat. El negoci es posarà en contacte amb tu."
+  ],
+  "contactError": [
+    "Je bericht is niet verstuurd. Bel het bedrijf of probeer later opnieuw.",
+    "Your message has not been sent. Call the business or try again later.",
+    "Tu mensaje no se ha enviado. Llama al negocio o reintenta más tarde.",
+    "El missatge no s’ha enviat. Truca al negoci o torna-ho a provar més tard."
+  ],
+  "contactPrivacy": [
+    "Je naam, e-mail en bericht worden naar het bedrijf verstuurd om je vraag te beantwoorden.",
+    "Your name, email and message are sent to the business to answer your enquiry.",
+    "Tu nombre, correo y mensaje se enviarán al negocio para responder tu consulta.",
+    "El nom, correu i missatge s’envien al negoci per respondre la consulta."
+  ],
+  "mapTitle": [
+    "Locatie op Google Maps",
+    "Location on Google Maps",
+    "Ubicación en Google Maps",
+    "Ubicació a Google Maps"
+  ],
+  "carouselPrevious": [
+    "Vorige",
+    "Previous",
+    "Anterior",
+    "Anterior"
+  ],
+  "carouselNext": [
+    "Volgende",
+    "Next",
+    "Siguiente",
+    "Següent"
+  ],
+  "carouselPlay": [
+    "Automatisch afspelen",
+    "Play automatically",
+    "Reproducción automática",
+    "Reproducció automàtica"
+  ],
+  "carouselPause": [
+    "Pauzeren",
+    "Pause",
+    "Pausar",
+    "Pausa"
+  ],
+  "reviewCarousel": [
+    "Google-beoordelingen",
+    "Google reviews",
+    "Reseñas de Google",
+    "Ressenyes de Google"
+  ],
+  "photoCarousel": [
+    "Fotogalerij",
+    "Photo gallery",
+    "Galería de fotos",
+    "Galeria de fotos"
+  ],
+  "translatedReview": [
+    "Vertaald door Google",
+    "Translated by Google",
+    "Traducido por Google",
+    "Traduït per Google"
+  ],
+  "originalReview": [
+    "Originele beoordeling",
+    "Original review",
+    "Reseña original",
+    "Ressenya original"
+  ],
+  "inspiration": [
+    "Haarinspiratie",
+    "Hair inspiration",
+    "Inspiración de estilo",
+    "Inspiració d’estil"
+  ],
+  "inspirationTitle": [
+    "De details maken het verschil.",
+    "It’s all in the details.",
+    "La diferencia está en los detalles.",
+    "La diferència és als detalls."
+  ],
+  "conceptShort": [
+    "Editorial conceptbeeld",
+    "Editorial concept visual",
+    "Imagen editorial conceptual",
+    "Imatge editorial conceptual"
+  ],
+  "connectionPending": [
+    "De live Google-koppeling van deze demo is nog niet geactiveerd.",
+    "This demo’s live Google connection is awaiting activation.",
+    "La conexión de Google de esta demo está pendiente de activación.",
+    "La connexió de Google d’aquesta demo està pendent d’activació."
+  ],
+  "requestTitle": [
+    "Laten we je bezoek plannen.",
+    "Let’s plan your visit.",
+    "Planifiquemos tu visita.",
+    "Planifiquem la teva visita."
+  ],
+  "quickContact": [
+    "Direct contact",
+    "Quick contact",
+    "Contacto directo",
+    "Contacte directe"
+  ],
+  "treatmentNote": [
+    "Prijs en duur: vraag de salon",
+    "Price and duration: ask the salon",
+    "Precio y duración: consulta al negocio",
+    "Preu i durada: consulta al negoci"
+  ],
+  "visitSalon": [
+    "Bezoek de salon",
+    "Visit the salon",
+    "Visita el negocio",
+    "Visita el negoci"
+  ],
+  "allReviews": [
+    "Bekijk alle beoordelingen",
+    "Read all reviews",
+    "Leer todas las reseñas",
+    "Llegeix totes les ressenyes"
+  ],
+  "skip": [
+    "Naar inhoud",
+    "Skip to content",
+    "Ir al contenido",
+    "Ves al contingut"
+  ],
+  "nav": [
+    "Hoofdnavigatie",
+    "Main navigation",
+    "Navegación principal",
+    "Navegació principal"
+  ],
+  "menu": [
+    "Menu",
+    "Menu",
+    "Menú",
+    "Menú"
+  ],
+  "language": [
+    "Taal kiezen",
+    "Choose language",
+    "Elegir idioma",
+    "Tria idioma"
+  ],
+  "services": [
+    "Behandelingen",
+    "Treatments",
+    "Servicios",
+    "Serveis"
+  ],
+  "reviews": [
+    "Ervaringen",
+    "Reviews",
+    "Reseñas",
+    "Ressenyes"
+  ],
+  "gallery": [
+    "De salon",
+    "The salon",
+    "Galería",
+    "Galeria"
+  ],
+  "contact": [
+    "Contact",
+    "Contact",
+    "Contacto",
+    "Contacte"
+  ],
+  "booking": [
+    "Afspraak",
+    "Booking",
+    "Reserva",
+    "Reserva"
+  ],
+  "book": [
+    "Plan je bezoek",
+    "Plan your visit",
+    "Planifica tu visita",
+    "Planifica la teva visita"
+  ],
+  "call": [
+    "Bel de salon",
+    "Call the salon",
+    "Llama al negocio",
+    "Truca al negoci"
+  ],
+  "discover": [
+    "Ontdek de behandelingen",
+    "Explore treatments",
+    "Descubre los servicios",
+    "Descobreix els serveis"
+  ],
+  "concept": [
+    "Websiteconcept door Ocimatik · Geen officiële website",
+    "Website concept by Ocimatik · Not the official website",
+    "Concepto web de Ocimatik · No es la web oficial",
+    "Concepte web d’Ocimatik · No és el web oficial"
+  ],
+  "photoConcept": [
+    "Conceptbeeld · geen foto van de salon of een klant",
+    "Concept visual · not a photo of the salon or a customer",
+    "Imagen conceptual · no es una foto del negocio ni de clientes",
+    "Imatge conceptual · no és una foto del negoci ni de clients"
+  ],
+  "ratingSource": [
+    "Google Maps · gecontroleerd op",
+    "Google Maps · checked on",
+    "Google Maps · comprobado el",
+    "Google Maps · comprovat el"
+  ],
+  "reviewsCount": [
+    "beoordelingen",
+    "reviews",
+    "reseñas",
+    "ressenyes"
+  ],
+  "openMaps": [
+    "Bekijk op Google Maps",
+    "View on Google Maps",
+    "Ver en Google Maps",
+    "Veure a Google Maps"
+  ],
+  "googleReviews": [
+    "Google reviews",
+    "Google reviews",
+    "Reseñas de Google",
+    "Ressenyes de Google"
+  ],
+  "reviewOrder": [
+    "Selectie door Google, op relevantie.",
+    "Selected by Google, ordered by relevance.",
+    "Selección de Google, por relevancia.",
+    "Selecció de Google, per rellevància."
+  ],
+  "reviewTitle": [
+    "Een vertrouwd adres in de buurt.",
+    "A familiar name in the neighbourhood.",
+    "Un negocio con presencia en el barrio.",
+    "Un negoci amb presència al barri."
+  ],
+  "reviewIntro": [
+    "Bekijk de beoordelingen rechtstreeks op Google Maps.",
+    "Explore customer reviews directly on Google Maps.",
+    "Consulta las reseñas directamente en Google Maps.",
+    "Consulta les ressenyes directament a Google Maps."
+  ],
+  "reviewLoading": [
+    "Google-beoordelingen laden…",
+    "Loading Google reviews…",
+    "Cargando reseñas de Google…",
+    "Carregant ressenyes de Google…"
+  ],
+  "reviewPending": [
+    "Bekijk de klantervaringen op Google Maps. De directe koppeling wordt voor deze demo nog geactiveerd.",
+    "Explore customer experiences on Google Maps. The direct connection is awaiting activation for this demo.",
+    "Consulta las opiniones en Google Maps. La conexión directa de esta demo está pendiente de activación.",
+    "Consulta les opinions a Google Maps. La connexió directa d’aquesta demo està pendent d’activació."
+  ],
+  "reviewEmpty": [
+    "Google heeft geen reviewteksten teruggestuurd. Bekijk alle beoordelingen op Google Maps.",
+    "Google returned no review text. View all reviews on Google Maps.",
+    "Google no devolvió textos de reseñas. Consulta todas en Google Maps.",
+    "Google no ha retornat textos de ressenyes. Consulta-les a Google Maps."
+  ],
+  "reviewError": [
+    "Google is momenteel niet beschikbaar. Bekijk beoordelingen via Google Maps.",
+    "Google is currently unavailable. View reviews through Google Maps.",
+    "Google no está disponible ahora. Consulta las reseñas en Google Maps.",
+    "Google no està disponible ara. Consulta les ressenyes a Google Maps."
+  ],
+  "retry": [
+    "Opnieuw proberen",
+    "Try again",
+    "Reintentar",
+    "Torna-ho a provar"
+  ],
+  "readReview": [
+    "Lees op Google Maps",
+    "Read on Google Maps",
+    "Leer en Google Maps",
+    "Llegeix a Google Maps"
+  ],
+  "googlePhotos": [
+    "Foto’s van Google",
+    "Photos from Google",
+    "Fotos de Google",
+    "Fotos de Google"
+  ],
+  "galleryTitle": [
+    "Een kijkje in de salon.",
+    "A look inside the salon.",
+    "Conoce el espacio.",
+    "Coneix l’espai."
+  ],
+  "photoPending": [
+    "Salonfoto’s verschijnen hier met bronvermelding na activering van Google Places. Bekijk de huidige foto’s op Google Maps.",
+    "Salon photos will appear here with attribution when Google Places is activated. View current photos on Google Maps.",
+    "Las fotos aparecerán con atribución al activar Google Places. Puedes verlas en Google Maps.",
+    "Les fotos apareixeran amb atribució en activar Google Places. Pots veure-les a Google Maps."
+  ],
+  "photoLoading": [
+    "Foto’s laden…",
+    "Loading photos…",
+    "Cargando fotos…",
+    "Carregant fotos…"
+  ],
+  "photoEmpty": [
+    "Google heeft geen foto’s beschikbaar gesteld.",
+    "Google did not provide photos.",
+    "Google no facilitó fotos.",
+    "Google no ha facilitat fotos."
+  ],
+  "photoAlt": [
+    "Foto van het bedrijf via Google",
+    "Business photo via Google",
+    "Foto del negocio de Google",
+    "Foto del negoci de Google"
+  ],
+  "details": [
+    "Praktische informatie",
+    "Good to know",
+    "Información práctica",
+    "Informació pràctica"
+  ],
+  "address": [
+    "Adres",
+    "Address",
+    "Dirección",
+    "Adreça"
+  ],
+  "phone": [
+    "Telefoon",
+    "Phone",
+    "Teléfono",
+    "Telèfon"
+  ],
+  "email": [
+    "E-mail",
+    "Email",
+    "Correo",
+    "Correu"
+  ],
+  "hours": [
+    "Openingstijden",
+    "Opening hours",
+    "Horario",
+    "Horari"
+  ],
+  "hoursSource": [
+    "Volgens de openbare bedrijfsvermelding; bevestig voor je bezoek.",
+    "As listed on the public business profile; confirm before visiting.",
+    "Según la ficha pública del negocio; confirma antes de ir.",
+    "Segons la fitxa pública del negoci; confirma abans d’anar-hi."
+  ],
+  "addressNote": [
+    "Google Maps en de bedrijfswebsite schrijven het adres verschillend. Gebruik Google Maps en bevestig telefonisch.",
+    "Google Maps and the business website use different address labels. Follow Google Maps and confirm by phone.",
+    "Maps y su web muestran variantes de la dirección. Sigue Maps y confirma por teléfono.",
+    "Maps i el web mostren variants de l’adreça. Segueix Maps i confirma per telèfon."
+  ],
+  "directions": [
+    "Route naar de salon",
+    "Directions to the salon",
+    "Cómo llegar",
+    "Com arribar"
+  ],
+  "write": [
+    "Vertel ons wat je zoekt.",
+    "Tell us what you have in mind.",
+    "Cuéntanos qué necesitas.",
+    "Explica’ns què necessites."
+  ],
+  "callIntro": [
+    "Bel de salon om je wensen te bespreken of een afspraak te maken.",
+    "Call the salon to discuss your preferences or arrange a visit.",
+    "Llama al negocio para comentar tus preferencias o concertar una cita.",
+    "Truca al negoci per comentar les preferències o concertar una cita."
+  ],
+  "formIntro": [
+    "Kies een behandeling en stel je vraag. Bel rechtstreeks of stel een e-mail op.",
+    "Choose a treatment and ask a question. Call directly or draft an email.",
+    "Elige un servicio y haz tu consulta. Puedes llamar o redactar un correo.",
+    "Tria un servei i fes la consulta. Pots trucar o redactar un correu."
+  ],
+  "name": [
+    "Naam",
+    "Name",
+    "Nombre",
+    "Nom"
+  ],
+  "message": [
+    "Je vraag",
+    "Your message",
+    "Tu consulta",
+    "La teva consulta"
+  ],
+  "send": [
+    "E-mail opstellen",
+    "Draft email",
+    "Redactar correo",
+    "Redacta un correu"
+  ],
+  "formNote": [
+    "Opent je e-mailapp. Deze demo verstuurt of bewaart niets automatisch.",
+    "Opens your email app. This demo does not send or store anything automatically.",
+    "Abre tu aplicación de correo. Esta demo no envía ni guarda nada automáticamente.",
+    "Obre l’aplicació de correu. Aquesta demo no envia ni desa res automàticament."
+  ],
+  "formStatus": [
+    "Je e-mailapp is geopend. Controleer en verstuur het bericht zelf.",
+    "Your email app has been opened. Review and send the message yourself.",
+    "Se ha abierto tu correo. Revisa y envía el mensaje.",
+    "S’ha obert el correu. Revisa i envia el missatge."
+  ],
+  "service": [
+    "Behandeling",
+    "Treatment",
+    "Servicio",
+    "Servei"
+  ],
+  "select": [
+    "Kies een behandeling",
+    "Choose a treatment",
+    "Elige un servicio",
+    "Tria un servei"
+  ],
+  "askPrice": [
+    "Vraag naar prijs en duur",
+    "Ask about price and duration",
+    "Consulta precio y duración",
+    "Consulta preu i durada"
+  ],
+  "published": [
+    "Gepubliceerd op de bedrijfswebsite",
+    "Published on the business website",
+    "Publicado en la web del negocio",
+    "Publicat al web del negoci"
+  ],
+  "howTitle": [
+    "Van een idee naar je volgende look.",
+    "From an idea to your next look.",
+    "De tu idea a tu próxima visita.",
+    "De la teva idea a la pròxima visita."
+  ],
+  "how1": [
+    "Kies je behandeling",
+    "Choose a treatment",
+    "Elige tu servicio",
+    "Tria el servei"
+  ],
+  "how1Text": [
+    "Knippen of baardverzorging: ontdek het aanbod.",
+    "Haircuts or beard grooming: explore the services.",
+    "Explora los cortes y el cuidado de barba.",
+    "Explora els talls i la cura de la barba."
+  ],
+  "how2": [
+    "Neem contact op",
+    "Get in touch",
+    "Ponte en contacto",
+    "Contacta"
+  ],
+  "how2Text": [
+    "Bespreek je wensen, de prijs en de benodigde tijd.",
+    "Discuss your preferences, price and appointment length.",
+    "Confirma tus preferencias, precio y duración.",
+    "Confirma les preferències, el preu i la durada."
+  ],
+  "how3": [
+    "Kom langs in Voorburg",
+    "Visit in Voorburg",
+    "Ven a Voorburg",
+    "Vine a Voorburg"
+  ],
+  "how3Text": [
+    "De salon bevestigt je afspraak. Je vindt de route hieronder.",
+    "The salon confirms your appointment. Find directions below.",
+    "El negocio confirma tu cita. Consulta la ruta debajo.",
+    "El negoci confirma la cita. Consulta la ruta més avall."
+  ],
+  "bookingTitle": [
+    "Tijd voor een nieuwe look.",
+    "Time for a fresh look.",
+    "Es hora de tu próxima visita.",
+    "És hora de la pròxima visita."
+  ],
+  "bookingIntro": [
+    "Kies een behandeling om het reserveringsproces te verkennen.",
+    "Choose a treatment to explore the booking experience.",
+    "Elige un servicio para explorar la reserva.",
+    "Tria un servei per explorar la reserva."
+  ],
+  "demoBooking": [
+    "Demo. De salonagenda is nog niet gekoppeld; voorbeeldtijden zijn geen echte beschikbaarheid.",
+    "Demo. The salon calendar is not connected; example times are not real availability.",
+    "Demo. La agenda aún no está conectada; las horas de ejemplo no indican disponibilidad real.",
+    "Demo. L’agenda encara no està connectada; les hores d’exemple no són disponibilitat real."
+  ],
+  "realBooking": [
+    "Plan je afspraak op de Google Calendar-reserveringspagina van het bedrijf.",
+    "Book on the business’s Google Calendar booking page.",
+    "Reserva en la página de Google Calendar del negocio.",
+    "Reserva a la pàgina de Google Calendar del negoci."
+  ],
+  "openCalendar": [
+    "Open Google Calendar",
+    "Open Google Calendar",
+    "Abrir Google Calendar",
+    "Obre Google Calendar"
+  ],
+  "day": [
+    "Dag",
+    "Date",
+    "Día",
+    "Dia"
+  ],
+  "time": [
+    "Voorbeeldtijd",
+    "Example time",
+    "Hora de ejemplo",
+    "Hora d’exemple"
+  ],
+  "chooseDay": [
+    "Kies eerst een dag",
+    "Choose a date first",
+    "Elige primero un día",
+    "Tria primer un dia"
+  ],
+  "summary": [
+    "Je bezoek",
+    "Your visit",
+    "Tu visita",
+    "La teva visita"
+  ],
+  "demoContinue": [
+    "Bekijk demo-overzicht",
+    "View demo summary",
+    "Ver resumen de demostración",
+    "Veure resum de demostració"
+  ],
+  "demoResult": [
+    "Bedankt voor het plannen van je demo. Er is geen echte afspraak gemaakt en niets verzonden.",
+    "Thank you for booking your demo. No real appointment was made and nothing was sent.",
+    "Gracias por reservar tu demo. No se ha hecho ninguna reserva real ni se ha enviado nada.",
+    "Gràcies per reservar la demo. No s’ha fet cap reserva real ni s’ha enviat res."
+  ],
+  "incomplete": [
+    "Kies een behandeling, dag en voorbeeldtijd.",
+    "Choose a treatment, date and example time.",
+    "Elige un servicio, día y hora de ejemplo.",
+    "Tria un servei, dia i hora d’exemple."
+  ],
+  "demoDuration": [
+    "Tijden en duur worden door de salon bevestigd.",
+    "Times and duration are confirmed by the salon.",
+    "El negocio confirma horas y duración.",
+    "El negoci confirma hores i durada."
+  ],
+  "whatsapp": [
+    "WhatsApp",
+    "WhatsApp",
+    "WhatsApp",
+    "WhatsApp"
+  ],
+  "whatsappPending": [
+    "WhatsApp wordt beschikbaar zodra de salon een nummer bevestigt. Het publieke telefoonnummer is niet automatisch als WhatsApp gebruikt.",
+    "WhatsApp becomes available when the salon confirms a number. The public phone number has not been assumed to support WhatsApp.",
+    "WhatsApp estará disponible cuando el negocio confirme un número. No asumimos que el teléfono publicado tenga WhatsApp.",
+    "WhatsApp estarà disponible quan el negoci confirmi un número. No assumim que el telèfon publicat tingui WhatsApp."
+  ],
+  "whatsappMessage": [
+    "Hallo, ik wil graag informatie over een afspraak.",
+    "Hello, I would like information about an appointment.",
+    "Hola, quisiera información sobre una cita.",
+    "Hola, voldria informació sobre una cita."
+  ],
+  "faq": [
+    "Veelgestelde vragen",
+    "Frequently asked questions",
+    "Preguntas frecuentes",
+    "Preguntes freqüents"
+  ],
+  "home": [
+    "Terug naar de salon",
+    "Back to the salon",
+    "Volver al negocio",
+    "Torna al negoci"
+  ],
+  "privacy": [
+    "Privacy in deze demo",
+    "Privacy in this demo",
+    "Privacidad en esta demo",
+    "Privacitat en aquesta demo"
+  ],
+  "googleTerms": [
+    "Google Maps: gebruiksvoorwaarden",
+    "Google Maps: terms of service",
+    "Google Maps: condiciones de servicio",
+    "Google Maps: condicions de servei"
+  ],
+  "googlePrivacy": [
+    "Google: privacybeleid",
+    "Google: privacy policy",
+    "Google: política de privacidad",
+    "Google: política de privacitat"
+  ],
+  "privacyText": [
+    "Deze conceptsite bewaart geen formuliergegevens. Telefoon, e-mail, Google Maps, Calendar en WhatsApp openen externe diensten met eigen privacyvoorwaarden.",
+    "This concept site does not store form data. Phone, email, Google Maps, Calendar and WhatsApp open external services with their own privacy terms.",
+    "Esta web conceptual no guarda datos de formularios. Teléfono, correo, Maps, Calendar y WhatsApp abren servicios externos con sus propias condiciones.",
+    "Aquest web conceptual no desa dades dels formularis. Telèfon, correu, Maps, Calendar i WhatsApp obren serveis externs amb condicions pròpies."
+  ],
+  "updated": [
+    "Bronnen & demo-informatie",
+    "Sources & demo information",
+    "Fuentes e información de la demo",
+    "Fonts i informació de la demo"
+  ],
+  "sources": [
+    "Bedrijfswebsite",
+    "Business website",
+    "Web del negocio",
+    "Web del negoci"
+  ],
+  "configError": [
+    "Deze klantconfiguratie is niet beschikbaar.",
+    "This client configuration is not available.",
+    "Esta configuración no está disponible.",
+    "Aquesta configuració no està disponible."
+  ],
+  "closed": [
+    "Gesloten",
+    "Closed",
+    "Cerrado",
+    "Tancat"
+  ]
+};
+const languages=['nl','en','es','ca'];
+const dictionaries=Object.fromEntries(languages.map((lang,i)=>[lang,Object.fromEntries(Object.entries(rows).map(([key,v])=>[key,v[i]]))]));
+const api={dictionaries,languages,translate:(key,lang)=>dictionaries[lang]?.[key]||key,localize:(v,lang)=>typeof v==='string'?v:(v?.[lang]||'')};
+if(typeof module!=='undefined')module.exports=api;root.SiteI18n=api;
+})(typeof window==='undefined'?globalThis:window);

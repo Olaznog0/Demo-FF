@@ -1,114 +1,65 @@
-(function () {
-  const services = [
-    { id: 'apk', icon: '✓', duration: 45, names: { nl: 'APK check', en: 'MOT check' }, tags: { nl: 'Keuring', en: 'Inspection' } },
-    { id: 'general', icon: '◎', duration: 60, names: { nl: 'General check', en: 'General check' }, tags: { nl: 'Controle', en: 'Check-up' } },
-    { id: 'tires', icon: '◔', duration: 40, names: { nl: 'Tire changes', en: 'Tyre changes' }, tags: { nl: 'Banden', en: 'Tyres' } },
-    { id: 'oil', icon: '◉', duration: 30, names: { nl: 'Oil change', en: 'Oil change' }, tags: { nl: 'Onderhoud', en: 'Maintenance' } },
-    { id: 'brakes', icon: '□', duration: 45, names: { nl: 'Brake check', en: 'Brake check' }, tags: { nl: 'Veiligheid', en: 'Safety' } },
-    { id: 'diagnostic', icon: '⌁', duration: 50, names: { nl: 'Diagnostics', en: 'Diagnostics' }, tags: { nl: 'Elektronica', en: 'Electronics' } }
-  ];
-  const state = { service: services[0], selectedDate: null, selectedSlot: null, weekOffset: 0 };
-  const els = {};
-  const slots = [];
-  for (let h = 8; h <= 17; h++) {
-    for (let m = 0; m < 60; m += 30) {
-      if (h === 17 && m > 30) continue;
-      slots.push(`${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`);
-    }
+(function(){
+ 'use strict';
+ if(!window.Site||document.documentElement.dataset.page!=='booking')return;
+ const S=window.Site,C=window.SiteCore,F=window.DemoConfirmation,{config:c,t,l,h,link,lang}=S;
+ const copy={nl:{month:'Kies een datum',previous:'Vorige maand',next:'Volgende maand',demo:'Demo · Niets verzonden',examples:'Kies een voorbeeldtijd.',pick:'Kies eerst een onderwerp en datum.',continue:'Bekijk je overzicht',complete:'Bedankt voor je demo.',uncertain:'We konden je bevestiging niet controleren. Neem rechtstreeks contact op voordat je opnieuw reserveert.'},en:{month:'Choose a date',previous:'Previous month',next:'Next month',demo:'Demo · Nothing sent',examples:'Choose an example time.',pick:'Choose a topic and date first.',continue:'View your summary',complete:'Thank you for trying the demo.',uncertain:'We could not verify your confirmation. Contact the business before booking again.'}};
+ const b=key=>key==='pick'&&table?(lang==='nl'?'Kies eerst een datum.':'Choose a date first.'):(copy[lang]||copy.en)[key],api=c.calendar.mode==='api',handoff=c.calendar.mode==='google'&&C.calendarUrl(c.calendar.bookingUrl),table=c.calendar.tableReservation===true;
+ const words=lang==='nl'?{table:'Tafelreservering',guests:'Personen',topic:'Onderwerp',visit:'Type bezoek'}:{table:'Table reservation',guests:'Guests',topic:'Topic',visit:'Appointment type'};
+ const serviceLabel=table?words.guests:c.sector?.includes('dent')?words.visit:c.sector?.includes('account')||c.sector?.includes('mov')?words.topic:t('service');
+ const services=table?[{id:c.calendar.serviceId||'table',title:{nl:'Tafelreservering',en:'Table reservation'}}]:c.services;
+ const selectedId=new URLSearchParams(location.search).get('service');
+ const state={service:table?services[0]:services.find(s=>s.id===selectedId)||null,party:2,date:null,time:null,slots:[],loading:false,submitting:false,confirmed:false,unconfirmed:false};
+ const days=C.futureDays(c.calendar,new Date(),c.timeZone),first=days[0],firstKey=first.toISOString().slice(0,10);
+ const max=new Date(first);max.setUTCMonth(max.getUTCMonth()+(c.calendar.maxBookingWindowMonths||2));const maxKey=max.toISOString().slice(0,10);
+ let month=new Date(Date.UTC(first.getUTCFullYear(),first.getUTCMonth(),1,12)),requestId=0,controller=null;
+ const dateLabel=d=>new Intl.DateTimeFormat(C.locale(lang),{weekday:'long',day:'numeric',month:'long',timeZone:c.timeZone}).format(d);
+ const call=c.business.phone?`<a class="text-link booking-call" href="tel:${h(c.business.phone)}">${h(t('call'))} ↗</a>`:'';
+ document.getElementById('main').innerHTML=`<section class="booking-page"><div class="container"><a class="text-link booking-back" href="${h(link('index.html'))}">← ${h(t('home'))}</a><div class="booking-heading"><div><p class="eyebrow">${h(c.name)}</p><h1>${h(t('bookingTitle'))}</h1></div>${api||handoff?'':`<span class="booking-mode">${h(b('demo'))}</span>`}</div>${handoff?`<div class="live-calendar"><a class="button" href="${h(handoff)}" target="_blank" rel="noopener noreferrer">${h(t('openCalendar'))} ↗</a>${call}</div>`:`<div class="booking-layout"><div class="booking-panel"><fieldset><legend><span>01</span>${h(serviceLabel)}</legend><div class="booking-service-grid" id="serviceList"></div></fieldset><fieldset><legend><span>02</span>${h(t('day'))}</legend><div class="month-calendar"><div class="month-header"><h2 id="calendarMonth"></h2><div><button type="button" id="monthPrevious" aria-label="${h(b('previous'))}">←</button><button type="button" id="monthNext" aria-label="${h(b('next'))}">→</button></div></div><div class="week-labels">${Array.from({length:7},(_,i)=>`<span>${h(new Intl.DateTimeFormat(C.locale(lang),{weekday:'short'}).format(new Date(Date.UTC(2026,0,5+i,12))))}</span>`).join('')}</div><div class="month-grid" id="dayList"></div></div></fieldset><fieldset><legend><span>03</span>${h(t(api?'liveTime':'time'))}</legend><p class="time-hint" id="timeHelp" role="status">${h(b('pick'))}</p><div class="slot-grid" id="slotGrid"></div></fieldset></div><aside class="booking-summary"><p class="eyebrow">${h(t('summary'))}</p><h2>${h(c.shortName)}</h2><dl><div><dt>${h(serviceLabel)}</dt><dd id="summaryService">—</dd></div><div><dt>${h(t('day'))}</dt><dd id="summaryDate">—</dd></div><div><dt>${h(t(api?'liveTime':'time'))}</dt><dd id="summaryTime">—</dd></div></dl>${api?`<form id="bookingForm" class="booking-customer"><h3>${h(t('customerDetails'))}</h3><label for="customerName">${h(t('name'))}</label><input id="customerName" name="name" autocomplete="name" required maxlength="120"><label for="customerEmail">${h(t('bookingEmail'))}</label><input id="customerEmail" name="email" type="email" autocomplete="email" required maxlength="200"><label for="customerPhone">${h(t('bookingPhone'))}</label><input id="customerPhone" name="phone" type="tel" autocomplete="tel" maxlength="40"><button class="button" id="bookingContinue" type="submit" disabled>${h(t('confirmBooking'))}<span aria-hidden="true">↗</span></button></form>`:`<button class="button" id="bookingContinue" type="button" disabled>${h(b('continue'))}<span aria-hidden="true">↗</span></button>`}<p id="bookingResult" class="booking-status" tabindex="-1" role="status"></p>${call}</aside></div>`}</div></section>`;
+ if(handoff)return;
+ const result=document.getElementById('bookingResult'),button=document.getElementById('bookingContinue'),timeHelp=document.getElementById('timeHelp');
+ function clearResult(){result.textContent='';result.className='booking-status';}
+ function chooseDate(date){state.date=date;state.time=null;clearResult();render();loadSlots();}
+ function renderCalendar(){
+  document.getElementById('calendarMonth').textContent=new Intl.DateTimeFormat(C.locale(lang),{month:'long',year:'numeric'}).format(month);
+  const prev=document.getElementById('monthPrevious'),next=document.getElementById('monthNext');
+  prev.disabled=month.getUTCFullYear()===first.getUTCFullYear()&&month.getUTCMonth()===first.getUTCMonth()||state.submitting;next.disabled=month.getUTCFullYear()===max.getUTCFullYear()&&month.getUTCMonth()===max.getUTCMonth()||state.submitting;
+  const grid=document.getElementById('dayList');grid.innerHTML='';
+  const offset=(month.getUTCDay()+6)%7,length=new Date(Date.UTC(month.getUTCFullYear(),month.getUTCMonth()+1,0,12)).getUTCDate();
+  for(let i=0;i<offset;i++){const space=document.createElement('span');space.className='calendar-empty';space.setAttribute('aria-hidden','true');grid.append(space);}
+  for(let number=1;number<=length;number++){
+   const date=new Date(Date.UTC(month.getUTCFullYear(),month.getUTCMonth(),number,12)),key=date.toISOString().slice(0,10),selected=state.date?.toISOString().slice(0,10)===key;
+   const day=document.createElement('button');day.type='button';day.className='calendar-day'+(selected?' is-active':'');day.dataset.date=key;day.textContent=String(number);day.setAttribute('aria-label',dateLabel(date));day.setAttribute('aria-pressed',String(selected));
+   day.disabled=key<firstKey||key>maxKey||!c.calendar.workingDays.includes(date.getUTCDay())||state.submitting||state.confirmed||state.unconfirmed;
+   day.addEventListener('click',()=>chooseDate(date));day.addEventListener('keydown',event=>{const steps={ArrowLeft:-1,ArrowRight:1,ArrowUp:-7,ArrowDown:7};if(!steps[event.key])return;event.preventDefault();const target=new Date(date);target.setUTCDate(target.getUTCDate()+steps[event.key]);for(let i=0;i<7&&!c.calendar.workingDays.includes(target.getUTCDay());i++)target.setUTCDate(target.getUTCDate()+Math.sign(steps[event.key]));const targetKey=target.toISOString().slice(0,10);if(targetKey<firstKey||targetKey>maxKey)return;month=new Date(Date.UTC(target.getUTCFullYear(),target.getUTCMonth(),1,12));renderCalendar();document.querySelector(`[data-date="${targetKey}"]`)?.focus();});grid.append(day);
   }
-  const lang = () => window.__SITE_LANG__ || 'nl';
-  const dict = () => window.__SITE_I18N__ || {};
-  const locale = () => lang() === 'en' ? 'en-GB' : 'nl-NL';
-  const longDate = (d) => new Intl.DateTimeFormat(locale(), { weekday: 'long', day: 'numeric', month: 'long' }).format(d);
-  const shortDay = (d) => new Intl.DateTimeFormat(locale(), { weekday: 'short' }).format(d);
-  const shortMonth = (d) => new Intl.DateTimeFormat(locale(), { month: 'short' }).format(d);
-  const duration = (m) => `${m} min`;
-
-  function monday(date) {
-    const d = new Date(date);
-    const day = d.getDay();
-    const diff = day === 0 ? -6 : 1 - day;
-    d.setDate(d.getDate() + diff);
-    d.setHours(0,0,0,0);
-    return d;
-  }
-  function weekDays(offset) {
-    const base = monday(new Date());
-    base.setDate(base.getDate() + offset * 7);
-    return Array.from({ length: 6 }, (_, i) => { const d = new Date(base); d.setDate(base.getDate() + i); return d; });
-  }
-  function disabledSlots(date) {
-    if (!date) return [];
-    return {1:['09:00','12:30'],2:['10:30','14:00'],3:['08:30','15:30'],4:['11:00','13:30'],5:['09:30','16:00'],6:['10:00','12:00']}[date.getDay()] || [];
-  }
-  function renderServices() {
-    els.serviceList.innerHTML = '';
-    services.forEach((service) => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'service-card' + (state.service.id === service.id ? ' is-active' : '');
-      btn.innerHTML = `<div class="service-head"><div><span class="service-name">${service.names[lang()]}</span><div class="service-meta">${duration(service.duration)}</div></div><span class="service-icon">${service.icon}</span></div><span class="service-tag">${service.tags[lang()]}</span>`;
-      btn.addEventListener('click', () => { state.service = service; renderServices(); renderSummary(); });
-      els.serviceList.appendChild(btn);
-    });
-  }
-  function renderDays() {
-    const days = weekDays(state.weekOffset);
-    els.dayStrip.innerHTML = '';
-    document.getElementById('calendarMonthLabel').textContent = `${longDate(days[0])} — ${longDate(days[days.length - 1])}`;
-    days.forEach((date) => {
-      const key = date.toISOString().slice(0,10);
-      const active = state.selectedDate && key === state.selectedDate.toISOString().slice(0,10);
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'day-card' + (active ? ' is-active' : '');
-      btn.innerHTML = `<span class="day-name">${shortDay(date)}</span><span class="day-date">${date.getDate()}</span><span class="day-month">${shortMonth(date)}</span>`;
-      btn.addEventListener('click', () => { state.selectedDate = date; state.selectedSlot = null; renderDays(); renderSlots(); renderSummary(); });
-      els.dayStrip.appendChild(btn);
-    });
-  }
-  function renderSlots() {
-    els.slotGrid.innerHTML = '';
-    if (!state.selectedDate) {
-      els.slotTitle.textContent = dict()['booking.selectDayFirst'] || '';
-      return;
-    }
-    els.slotTitle.textContent = `${dict()['booking.slotTitleHeader'] || ''}: ${longDate(state.selectedDate)}`;
-    const disabled = disabledSlots(state.selectedDate);
-    slots.forEach((slot) => {
-      const btn = document.createElement('button');
-      const off = disabled.includes(slot);
-      const active = state.selectedSlot === slot;
-      btn.type = 'button';
-      btn.className = 'slot-btn' + (active ? ' is-active' : '') + (off ? ' is-disabled' : '');
-      btn.textContent = slot;
-      if (off) btn.disabled = true;
-      else btn.addEventListener('click', () => { state.selectedSlot = slot; renderSlots(); renderSummary(); });
-      els.slotGrid.appendChild(btn);
-    });
-  }
-  function renderSummary() {
-    document.getElementById('summaryService').textContent = state.service ? state.service.names[lang()] : '—';
-    document.getElementById('summaryDuration').textContent = state.service ? duration(state.service.duration) : '—';
-    document.getElementById('summaryDate').textContent = state.selectedDate ? longDate(state.selectedDate) : '—';
-    document.getElementById('summaryTime').textContent = state.selectedSlot || '—';
-  }
-  function bind() {
-    document.getElementById('calendarPrev').addEventListener('click', () => { state.weekOffset -= 1; renderDays(); renderSlots(); renderSummary(); });
-    document.getElementById('calendarNext').addEventListener('click', () => { state.weekOffset += 1; renderDays(); renderSlots(); renderSummary(); });
-    document.getElementById('bookingDemoBtn').addEventListener('click', () => {
-      const ok = state.service && state.selectedDate && state.selectedSlot;
-      window.alert(ok ? (dict()['booking.bookedAlert'] || '') : (dict()['booking.incompleteAlert'] || ''));
-    });
-  }
-  function init() {
-    els.serviceList = document.getElementById('serviceList');
-    els.dayStrip = document.getElementById('dayStrip');
-    els.slotGrid = document.getElementById('slotGrid');
-    els.slotTitle = document.getElementById('slotTitle');
-    if (!els.serviceList) return;
-    renderServices(); renderDays(); renderSlots(); renderSummary(); bind();
-  }
-  document.addEventListener('site:lang-ready', () => { if (document.getElementById('serviceList')) { renderServices(); renderDays(); renderSlots(); renderSummary(); } });
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+ }
+ function buttonList(target,items,active,onClick,service=false){target.innerHTML='';for(const item of items){const choice=document.createElement('button');choice.type='button';choice.className='choice-button'+(service?' service-choice':'')+(active===item.id?' is-active':'');choice.setAttribute('aria-pressed',String(active===item.id));choice.disabled=state.submitting||state.confirmed||state.unconfirmed;if(service)choice.innerHTML=`<span>${h(item.label)}</span><span class="choice-tick" aria-hidden="true">✓</span>`;else choice.textContent=item.label;choice.addEventListener('click',()=>onClick(item));target.append(choice);}}
+ function render(){
+  const serviceList=document.getElementById('serviceList');
+  if(table){serviceList.innerHTML=`<label class="guest-choice" for="tableGuests">${h(words.guests)}<select id="tableGuests" name="party">${Array.from({length:12},(_,i)=>`<option value="${i+1}" ${state.party===i+1?'selected':''}>${i+1}</option>`).join('')}</select></label>`;const guests=document.getElementById('tableGuests');guests.disabled=state.submitting||state.confirmed||state.unconfirmed;guests.addEventListener('change',()=>{state.party=Number(guests.value);render();});}
+  else buttonList(serviceList,services.map(service=>({id:service.id,label:l(service.title)+(api&&service.durationMinutes?' · '+service.durationMinutes+' min':'')})),state.service?.id,item=>{state.service=services.find(service=>service.id===item.id);state.time=null;clearResult();render();loadSlots();},true);
+  renderCalendar();
+  const slots=api?state.slots:state.date?C.demoSlots(c,state.date):[];
+  buttonList(document.getElementById('slotGrid'),slots.map(time=>({id:time,label:time})),state.time,item=>{state.time=item.id;clearResult();render();});
+  if(!api)timeHelp.textContent=state.date&&state.service?b('examples'):b('pick');else if(!state.date||!state.service)timeHelp.textContent=b('pick');
+  document.getElementById('summaryService').textContent=table?String(state.party):state.service?l(state.service.title):'—';document.getElementById('summaryDate').textContent=state.date?dateLabel(state.date):'—';document.getElementById('summaryTime').textContent=state.time||'—';
+  button.disabled=!(state.service&&state.date&&state.time)||state.loading||state.submitting||state.confirmed||state.unconfirmed;
+ }
+ function endpoint(){const url=new URL(c.calendar.endpoint||'/api/bookings',location.origin);if(url.origin!==location.origin)throw new Error('Calendar must use the same origin');return url;}
+ async function loadSlots(){
+  if(!api)return;controller?.abort();const current=++requestId;state.slots=[];state.time=null;
+  if(!state.service||!state.date){render();return;}controller=new AbortController();state.loading=true;timeHelp.textContent=t('availabilityLoading');render();
+  try{const url=endpoint();url.search=new URLSearchParams({client:c.id,lang,serviceId:state.service.id,date:state.date.toISOString().slice(0,10)});const response=await fetch(url,{signal:AbortSignal.any([controller.signal,AbortSignal.timeout(15000)]),credentials:'same-origin'});if(current!==requestId)return;if(!response.ok)throw new Error(response.status===503?'Pending':'Unavailable');const data=await response.json();if(current!==requestId)return;if(data.ok!==true)throw new Error('Unavailable');state.slots=(data.slots||[]).filter(slot=>slot.available&&/^([01]\d|2[0-3]):[0-5]\d$/.test(slot.time)).map(slot=>slot.time);timeHelp.textContent=state.slots.length?t('liveTime'):t('availabilityEmpty');}
+  catch(error){if(current!==requestId||controller.signal.aborted)return;timeHelp.textContent=t(error.message==='Pending'?'calendarPending':'availabilityError');}
+  finally{if(current===requestId){state.loading=false;render();}}
+ }
+ const summary=()=>({type:table?'table':'booking',serviceId:state.service.id,date:state.date.toISOString().slice(0,10),time:state.time,...(table?{party:state.party}:{})});
+ document.getElementById('monthPrevious').addEventListener('click',()=>{month.setUTCMonth(month.getUTCMonth()-1);renderCalendar();});document.getElementById('monthNext').addEventListener('click',()=>{month.setUTCMonth(month.getUTCMonth()+1);renderCalendar();});
+ if(api){document.getElementById('bookingForm').addEventListener('submit',async event=>{
+  event.preventDefault();if(button.disabled)return;const form=event.currentTarget;if(!form.reportValidity())return;state.submitting=true;button.textContent=t('bookingSubmitting');clearResult();render();
+  try{const url=endpoint();url.search=new URLSearchParams({client:c.id,lang});const response=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',signal:AbortSignal.timeout(25000),body:JSON.stringify({serviceId:state.service.id,date:state.date.toISOString().slice(0,10),time:state.time,customer:{name:form.elements.name.value.trim(),email:form.elements.email.value.trim(),phone:form.elements.phone.value.trim()},locale:lang,...(table?{party:state.party}:{})})});const data=await response.json().catch(()=>null);if(!response.ok||data?.ok!==true||typeof data.eventId!=='string'||!data.eventId.trim())throw new Error('Unconfirmed');state.confirmed=true;if(!F?.complete(c,lang,summary(),'api',data)){result.className='booking-status success';result.textContent=t('bookingSuccess');}form.querySelectorAll('input').forEach(input=>input.disabled=true);}
+  catch{state.unconfirmed=true;result.className='booking-status error';result.textContent=b('uncertain');}
+  finally{state.submitting=false;button.textContent=t('confirmBooking');render();result.focus();}
+ });}else button.addEventListener('click',()=>{if(button.disabled)return;if(!F?.complete(c,lang,summary(),'demo')){result.textContent=b('complete');result.focus();}});
+ window.addEventListener('pagehide',()=>controller?.abort());render();
 })();

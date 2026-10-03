@@ -1,0 +1,21 @@
+{
+  "asset": "latin-concept-hero.webp",
+  "preservedOriginalAsset": "latin-concept-hero.png",
+  "deliveryBytes": 251002,
+  "kind": "AI-generated concept food photograph",
+  "generated": "2026-10-03",
+  "tool": "image_gen",
+  "purpose": "Independent Latin Caribbean restaurant website concept",
+  "depictsActualRestaurantDish": false,
+  "depictsActualRestaurantPremises": false,
+  "visibleDisclosure": "AI concept image · not an actual restaurant dish (NL/EN/ES)",
+  "selectedSource": "C:/Users/Gonza/.codex/generated_images/01a101f0-df98-7cf3-97b6-4b793174bcc2/exec-809c318b-0afe-4210-8b44-d435e1cf9f8b.png",
+  "retainedDraft": "C:/Users/Gonza/.codex/generated_images/01a101f0-df98-7cf3-97b6-4b793174bcc2/exec-34765255-f276-4497-af88-ad252454de8f.png",
+  "constraints": "No logos, text or restaurant claims; no actual menu price or availability represented.",
+  "additionalAssets": [
+    {"asset":"pica-pollo-illustration.svg","kind":"Original native SVG concept illustration","depictsActualDish":false},
+    {"asset":"rabo-illustration.svg","kind":"Original native SVG concept illustration","depictsActualDish":false},
+    {"asset":"tostones-illustration.svg","kind":"Original native SVG concept illustration","depictsActualDish":false}
+  ],
+  "usage": "Food photograph appears once in the hero. Three distinct SVG illustrations accompany the menu. The Google photo gallery stays hidden until actual live photos are available."
+}
