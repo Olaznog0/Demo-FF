@@ -12,6 +12,15 @@ test('all five Dutch business concepts expose only NL/EN with the same theme and
   for(const value of Object.values(client.theme))assert.equal(typeof value,'string');
  }
 });
+test('business language controls show EN before NL without changing the default or registry',()=>{
+ const registries=[require('../client-config.js'),require('../public-client-config.js')];
+ for(const registry of registries)for(const client of Object.values(registry.clients)){
+  const original=[...client.languages],defaultLanguage=client.defaultLanguage;
+  const displayed=core.languageOrder(client.languages);
+  if(displayed.includes('en')&&displayed.includes('nl'))assert(displayed.indexOf('en')<displayed.indexOf('nl'));
+  assert.deepEqual(client.languages,original);assert.equal(client.defaultLanguage,defaultLanguage);
+ }
+});
 for(const sector of sectors){
  const config=require(`../sectors/${sector.folder}/config.js`);
  test(`${sector.id} keeps its own identity and unconnected calendar/contact separate`,()=>{
@@ -29,7 +38,8 @@ for(const sector of sectors){
    vm.runInContext(fs.readFileSync(path.join(__dirname,'../sector-site.js'),'utf8'),context);
    vm.runInContext(fs.readFileSync(path.join(__dirname,'../sectors',sector.folder,sector.file),'utf8'),context);
    await new Promise(resolve=>setImmediate(resolve));
-   const markup=nodes.get('main').innerHTML;
+    const markup=nodes.get('main').innerHTML,header=nodes.get('header').innerHTML;
+    assert(header.indexOf('lang="en"')<header.indexOf('lang="nl"'));
    assert.equal(document.documentElement.lang,lang);assert(markup.includes(core.escape(config.copy.heroIntro[lang])));assert(markup.includes('data-contact-widget'));assert(markup.includes('booking.html?client='+sector.id+'&amp;lang='+lang));assert(!markup.includes('visit-section'));assert(!markup.includes('F&F'));assert(!markup.includes('Kapsalon Ayden'));
    if(config.business.address){assert(markup.includes('<iframe'));assert(markup.includes(encodeURIComponent(config.business.coordinates.lat+','+config.business.coordinates.lng)));}else assert(!markup.includes('<iframe'));
    if(config.google.snapshot?.reviews?.length){const reviews=nodes.get('reviews').innerHTML;assert(reviews.includes(config.google.snapshot.reviews[0].authorName));assert(reviews.includes('Google Maps ·'));if(lang==='en')assert(!reviews.includes('geleden'));}
@@ -42,4 +52,22 @@ test('a dated review snapshot remains scoped and uses the original language with
  const nl=core.snapshotData(c,'nl');assert.equal(core.reviewCopy(nl.reviews[0],'nl').text,'Goed bezoek');assert.equal(core.reviewCopy(nl.reviews[0],'nl').translated,true);
  const en=core.snapshotData(c,'en');assert.equal(core.reviewCopy(en.reviews[0],'en').text,'Good visit');assert.equal(core.reviewCopy(en.reviews[0],'en').translated,false);
  c.id='another-business';assert.equal(core.snapshotData(c,'en'),null);
+});
+test('the moving route starter transfers bounded preferences to the existing contact form without sending',()=>{
+ const config=structuredClone(require('../sectors/movers/config.js'));config.google.enabled=false;
+ const handlers=new Map(),scrolled=[],focused=[],nodes=new Map();
+ for(const id of ['skip','header','main','footer','reviews','photos','routeFrom','routeTo','routeDate'])nodes.set(id,{innerHTML:'',textContent:'',dataset:{},value:'',addEventListener(){}});
+ nodes.set('contact',{scrollIntoView:options=>scrolled.push(options)});
+ const tomorrow=core.futureDays({workingDays:[0,1,2,3,4,5,6]},new Date(),config.timeZone)[0].toISOString().slice(0,10);
+ nodes.get('routeFrom').value='  Den Haag  ';nodes.get('routeTo').value='D'.repeat(110);nodes.get('routeDate').value=tomorrow;
+ let valid=true;nodes.get('routeDate').reportValidity=()=>valid;
+ const fields={movingFrom:{value:''},movingTo:{value:''},movingDate:{value:''},name:{focus:options=>focused.push(options)}};
+ const form={elements:{namedItem:name=>fields[name]}},start={addEventListener:(event,handler)=>handlers.set(event,handler)};
+ const document={documentElement:{dataset:{}},getElementById:id=>nodes.get(id),querySelectorAll:()=>[],querySelector:selector=>selector==='.route-start-button'?start:selector==='[data-contact-widget] form'?form:null};
+ let requests=0;const window={SiteCore:core,addEventListener(){},matchMedia:()=>({matches:true}),SalonCarousel:{mount(){return {destroy(){}}}},ContactWidget:{mountAll(){}}};
+ const context=vm.createContext({window,document,location:{origin:'http://localhost:4174'},URLSearchParams,URL,Intl,Date,AbortSignal,fetch(){requests++;throw Error('No request expected');}});
+ vm.runInContext(fs.readFileSync(path.join(__dirname,'../sector-site.js'),'utf8'),context);window.SectorSite.render({client:config,lang:'en'});
+ assert.equal(nodes.get('routeDate').min,tomorrow);assert.equal(nodes.get('main').innerHTML.match(/data-contact-widget/g).length,1);assert(!nodes.get('main').innerHTML.includes('<form'));
+ handlers.get('click')();assert.equal(fields.movingFrom.value,'Den Haag');assert.equal(fields.movingTo.value.length,90);assert.equal(fields.movingDate.value,tomorrow);assert.equal(scrolled[0].behavior,'auto');assert.equal(focused.length,1);assert.equal(requests,0);
+ valid=false;nodes.get('routeDate').value='2020-01-01';handlers.get('click')();assert.equal(scrolled.length,1);assert.equal(fields.movingDate.value,tomorrow);assert.equal(requests,0);
 });

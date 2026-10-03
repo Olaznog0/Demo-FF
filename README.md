@@ -115,7 +115,11 @@ Sintaxis JS y pruebas frontend verifican idiomas, navegación/seguridad, horario
 
 Los símbolos de marca son SVG propios por sector: tijeras, diente, libro/gráfico, casa/cajas y llama. `actions.css` mejora de forma compartida los botones y conserva los colores de cada diseño, sin cambiar tipografía o imagen al seleccionar NL/EN.
 
+Las cinco composiciones tienen identidades distintas: peluquería editorial con espejo y marca centrada; restaurante con portada gastronómica y cabecera en dos niveles; dentista con presentación centrada y recepción panorámica; contabilidad con navegación lateral en escritorio y composición de oficina; mudanzas con portada logística y un inicio de planificación de ruta. Este último completa fecha/origen/destino en el formulario compartido, sin crear una segunda vía de envío. Los diseños se aplican tanto a conceptos ficticios como a pitches reales, conservando calendario, contacto, FAQ, Maps y reseñas. La navegación lateral se convierte en cabecera móvil y los selectores de idioma adoptan el estilo de cada sector. Se mantiene EN → NL, con etiquetas accesibles completas, la misma imagen y espacios de texto reservados al cambiar de idioma. No hay numeración decorativa en tarjetas ni encabezados; cifras Google, calendario y personas conservan su significado. La galería privada presenta las cinco imágenes con recorte uniforme y enlaces directos a cada pitch.
+
 ## Biblioteca pública y presentaciones privadas
+
+Los cinco diseños reutilizables y sus componentes están documentados en [Sector themes](docs/SECTOR-THEMES.md).
 
 `public-client-config.js` registra cinco marcas ficticias: Bloom, Brasa, Lumen, Northline y BrightMove, bajo `concepts/`. Comparten calendario, contacto y agradecimiento demo. `SiteShell` puede funcionar únicamente con `PublicClientRegistry`; sus enlaces mantienen la ruta completa y el tipo de resumen al cambiar idioma, también cuando `public-core.js` hace absolutos los enlaces. El build público excluye las configuraciones y los datos de los negocios reales. Sus reseñas de concepto no se etiquetan como Google; el mapa muestra un monumento por su propio nombre, sin inventar ubicaciones de negocios. Las presentaciones de Ayden/Petit/Axis/Max/Fogón permanecen en el entorno privado, con fuentes y reseñas verificadas. No se añaden plantillas de Barcelona.
 

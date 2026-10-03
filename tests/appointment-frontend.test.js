@@ -1,8 +1,8 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
 const registry=require('../public-client-config.js'),core=require('../core.js'),i18n=require('../i18n.js'),source=fs.readFileSync(path.join(__dirname,'../appointment.js'),'utf8');
-function setup(id='bloom',mode='demo',receipt={ok:true,eventId:'provider-event'}){
- const config=structuredClone(registry.clients[id]);config.calendar.mode=mode;const nodes=new Map(),requests=[],completed=[];let temp=0;
+function setup(id='bloom',mode='demo',receipt={ok:true,eventId:'provider-event'},extraClient={}){
+ const config=Object.assign(structuredClone(registry.clients[id]),extraClient);config.calendar.mode=mode;const nodes=new Map(),requests=[],completed=[];let temp=0;
  function node(id){if(nodes.has(id))return nodes.get(id);const events={},element={id,dataset:{},className:'',textContent:'',disabled:false,value:'2',children:[],attributes:{},setAttribute(k,v){this.attributes[k]=v;},append(child){this.children.push(child);},addEventListener(k,callback){events[k]=callback;},fire(k,extra={}){return events[k]?.({preventDefault(){},currentTarget:this,...extra});},focus(){},reportValidity:()=>true,querySelectorAll:()=>[{disabled:false}],elements:{name:{value:'Test visitor'},email:{value:'visitor@example.test'},phone:{value:''}}};let markup='';Object.defineProperty(element,'innerHTML',{get:()=>markup,set:value=>{markup=value;element.children=[];for(const match of value.matchAll(/id="([^"]+)"/g))node(match[1]);}});nodes.set(id,element);return element;}
  node('main');const document={documentElement:{dataset:{page:'booking'}},getElementById:node,createElement:()=>node('temp'+temp++),querySelector:selector=>[...nodes.values()].find(n=>selector===`[data-date="${n.dataset.date}"]`)};
  const window={Site:{config,lang:'en',t:key=>i18n.localize(config.ui?.[key],'en')||i18n.translate(key,'en'),l:value=>i18n.localize(value,'en'),h:core.escape,link:p=>'/'+core.link(p,config.id,'en')},SiteCore:core,DemoConfirmation:{complete(...args){completed.push(args);return true;}},addEventListener(){}};
@@ -25,3 +25,12 @@ test('restaurant calendar asks for guests, date and time rather than a menu dish
  const f=setup('brasa');assert(f.node('main').innerHTML.includes('Guests'));assert.equal(f.node('timeHelp').textContent,'Choose a date first.');assert(!f.node('serviceList').innerHTML.includes('Crispy chicken'));f.node('tableGuests').value='4';f.node('tableGuests').fire('change');await choose(f);f.node('bookingContinue').fire('click');assert.equal(f.completed[0][2].type,'table');assert.equal(f.completed[0][2].party,4);assert.equal(f.requests.length,0);
 });
 test('sector booking labels do not inherit salon treatment terminology',()=>{for(const id of ['lumen','northline','brightmove']){const f=setup(id),markup=f.node('main').innerHTML;assert(!markup.includes('Treatment'));assert(markup.includes(id==='lumen'?'Appointment type':'Topic'));}});
+
+test('contact-only enquiries cannot be selected as calendar appointments while genuine consultations remain',()=>{
+ const moving=require('../sectors/movers/config.js'),f=setup('brightmove','demo',undefined,moving);
+ const choices=f.node('serviceList').children.map(choice=>choice.innerHTML);
+ assert.equal(choices.length,2);assert(choices.some(label=>label.includes('Discuss a move')));assert(choices.some(label=>label.includes('Your preferred date')));assert(!choices.some(label=>/general enquiry/i.test(label)));
+ const dental=setup('lumen');assert(dental.node('serviceList').children.some(choice=>choice.innerHTML.includes('First visit')));
+ const accounting=setup('northline');assert(accounting.node('serviceList').children.some(choice=>choice.innerHTML.includes('An introduction')));
+ const salon=setup('bloom','demo',undefined,require('../client-config.js').clients.ayden);assert(salon.node('serviceList').children.some(choice=>choice.innerHTML.includes('Your hair wishes')));
+});

@@ -2,6 +2,14 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const {compileFunction}=require('../integration-loader.js');
 const event=(client,method='GET',query={})=>({httpMethod:method,queryStringParameters:{client,...query},headers:{},body:'',rawUrl:'http://localhost:4174/api/bookings'});
+test('Client calendar definitions exclude contact-only enquiries before backend availability and booking validation',async()=>{
+ const {withClient,calendarDefinition}=require('../integration-context.js');
+ const inspect=withClient(async()=>({statusCode:200,body:JSON.stringify(calendarDefinition({services:[]}))}),'inspect');
+ const mover=JSON.parse((await inspect(event('moving'))).body);
+ assert.deepEqual(mover.services.map(s=>s.id),['move','date']);
+ const dental=JSON.parse((await inspect(event('dental'))).body);
+ assert.ok(dental.services.length>0,'Dental visits remain bookable');
+});
 test('Google source preserves avatars, critical reviews and smart translation without mixing businesses',async()=>{
  const oldFetch=global.fetch,oldEnv={...process.env};const translated=[];const places=[];
  process.env.GOOGLE_PLACES_API_KEY='unit-test-key';process.env.GOOGLE_TRANSLATE_API_KEY='unit-test-translate';process.env.GOOGLE_PLACE_ID='FF_PLACE_UNIT_TEST';

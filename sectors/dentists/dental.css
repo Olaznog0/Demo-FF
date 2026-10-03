@@ -7,3 +7,116 @@
 
 /* Reading size shared with the larger template standard. */
 .brand small{font-size:16px;letter-spacing:.01em;max-width:170px}.service-card p,.step p,.map-concept p,.contact-box p,.review-text{font-size:18px}.hero-intro{font-size:20px}.visual-caption{font-size:16px;left:0;bottom:-15px}.visual-pill strong,.visual-pill small{font-size:16px}.visual-pill{max-width:340px}.hero-note{font-size:16px}.footer-inner p,.footer-links{font-size:16px}.google-credit{font-size:16px}.carousel-footer,.carousel-autoplay{font-size:16px}dialog p{font-size:18px}@media(max-width:650px){body{font-size:18px}.hero-intro{font-size:18px}.visual{margin-bottom:25px;min-height:365px}.visual-pill{bottom:48px;left:0;max-width:310px}.visual-caption{bottom:-4px;line-height:1.4}.section-head>p,.reviews>p,.visit-intro,.contact-grid>div>p:not(.eyebrow){font-size:18px}.notice{font-size:16px}.brand small{font-size:16px}.header-inner{min-height:98px}.brand{font-size:25px}.langs{font-size:16px}.principles>div{font-size:18px}.hero-note{font-size:16px}.carousel-footer,.carousel-autoplay{font-size:16px}.carousel-footer{flex-wrap:wrap}.carousel-arrows{margin-left:auto}}
+/* Dental composition: a spacious reception image, practical cards and a calm visit area.
+   Sector specificity keeps this layout independent from the later shared rhythm. */
+body.sector-dental{--ink:#183e43;--teal:#176d70;--primary:#176d70;--soft:#eaf3f1;--mint:#c8e4dc;--muted:#52696c;--line:#d9e6e2;--paper:#fafcfb;background:var(--paper);font-size:18px}
+body.sector-dental h1,body.sector-dental h2,body.sector-dental h3{font-family:Arial,Helvetica,sans-serif;font-weight:400;letter-spacing:-.045em}
+body.sector-dental .container{width:min(calc(100% - 80px),1240px)}
+body.sector-dental #header{background:#fff;border-bottom:1px solid var(--line)}
+body.sector-dental .header-inner{min-height:104px;gap:26px}
+body.sector-dental .brand{font-weight:600;font-size:25px;letter-spacing:-.045em;flex:0 1 230px}
+body.sector-dental .brand svg{color:var(--teal);flex:none;width:34px;height:38px}
+body.sector-dental .brand small{font-size:16px;text-transform:none;white-space:normal;width:auto;max-width:210px;line-height:1.45;letter-spacing:0}
+body.sector-dental .nav{gap:24px}
+body.sector-dental .header-actions{gap:20px}
+body.sector-dental .header-actions>.button{width:auto;max-width:235px;white-space:normal}
+body.sector-dental .button{border-radius:999px;min-height:56px;padding:15px 25px;font-size:18px;line-height:1.35;gap:14px}
+body.sector-dental .button.small{min-height:48px;font-size:16px;padding:12px 21px}
+body.sector-dental .button.outline{background:#fff;border-color:#b5d1ca;color:var(--teal)}
+body.sector-dental .button:hover{background:#12595c}
+body.sector-dental .button.outline:hover{background:var(--soft)}
+body.sector-dental #main .hero{background:#fff;border:0;overflow:visible}
+body.sector-dental #main .hero-grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);grid-template-areas:'image copy';gap:62px;align-items:center;min-height:690px;padding-block:42px 62px}
+body.sector-dental #main .hero-copy{grid-area:copy;display:flex;flex-direction:column;justify-content:center;min-height:510px;min-width:0;max-width:none}
+body.sector-dental #main .hero-copy .eyebrow{font-size:16px;line-height:1.55;letter-spacing:.075em;min-height:3.1em;margin:0 0 23px;color:var(--teal);max-width:390px}
+body.sector-dental #main .hero-copy h1{font-size:clamp(46px,4.15vw,63px);line-height:1.09;min-height:2.18em;max-width:100%;white-space:normal;overflow-wrap:normal;margin:0 0 27px}
+body.sector-dental #main .hero-copy .hero-intro{font-size:20px;line-height:1.7;min-height:6.8em;max-width:430px;margin:0;color:var(--muted)}
+body.sector-dental #main .hero-copy .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px;max-width:100%}
+body.sector-dental #main .hero-copy .actions .button{width:auto;max-width:100%;white-space:normal}
+body.sector-dental #main .hero-grid>div.visual{grid-area:image;display:block;position:relative;width:100%;height:550px;min-height:550px;max-width:none;aspect-ratio:auto;margin:0;align-self:center;padding:0;border:0;border-radius:6px 6px 76px 6px;box-shadow:none;background:var(--soft)}
+body.sector-dental #main .hero-grid>.visual>img,body.sector-dental #main .hero-grid .visual .sector-cover{display:block;width:100%;height:100%;max-height:none;object-fit:cover;object-position:center;border-radius:6px 6px 76px 6px;box-shadow:none}
+body.sector-dental #main #information{background:var(--soft);padding-block:64px 72px;border-block:1px solid var(--line)}
+body.sector-dental #main .section-head{align-items:start;gap:48px;margin-bottom:38px}
+body.sector-dental #main .section-head h2{font-size:clamp(35px,3.1vw,46px);line-height:1.15}
+body.sector-dental #main .section-head>p{font-size:18px;line-height:1.7;max-width:390px;margin:0}
+body.sector-dental #main .section-head .eyebrow{font-size:16px;line-height:1.5;letter-spacing:.075em;margin-bottom:17px}
+body.sector-dental #main .services-compact{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;border:0}
+body.sector-dental #main .services-compact .service-card{display:flex;flex-direction:column;align-items:flex-start;gap:0;padding:31px 29px 28px;min-width:0;border:1px solid #d5e4de;border-radius:8px;background:#fff;box-shadow:none}
+body.sector-dental #main .services-compact .service-icon{width:48px;height:48px;flex:none;background:transparent;border:0;border-radius:0;margin:0 0 28px;color:var(--teal)}
+body.sector-dental #main .services-compact .service-icon svg{width:38px;height:38px;stroke:var(--teal);stroke-width:1.4}
+body.sector-dental #main .services-compact .service-copy{min-width:0;margin-bottom:28px}
+body.sector-dental #main .services-compact .service-card h3{font-size:27px;line-height:1.22;margin:0 0 16px;max-width:none}
+body.sector-dental #main .services-compact .service-card p{font-size:18px;line-height:1.65;margin:0;max-width:none}
+body.sector-dental #main .services-compact .service-card .text-link{font-size:18px;line-height:1.45;white-space:normal;margin:auto 0 0;align-self:flex-start}
+body.sector-dental #main #location{padding-block:76px;background:#fff}
+body.sector-dental #main .location-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:26px;align-items:stretch}
+body.sector-dental #main .map{border:1px solid var(--line);border-radius:8px;box-shadow:none;background:var(--paper);min-width:0}
+body.sector-dental #main .map iframe{height:390px;min-height:0}
+body.sector-dental #main .map-caption{padding:24px 27px}
+body.sector-dental #main .map-caption p,body.sector-dental #main .map-concept p,body.sector-dental #main .reviews>p{font-size:18px;line-height:1.65}
+body.sector-dental #main .reviews{border:0;border-radius:8px;box-shadow:none;background:var(--soft);padding:34px;min-width:0}
+body.sector-dental #main .reviews h3{font-size:29px;line-height:1.2}
+body.sector-dental #main .review-text{font-size:18px;line-height:1.7}
+body.sector-dental #main .public-voice blockquote{font-size:22px;line-height:1.6}
+body.sector-dental #main .review-author img{width:48px;height:48px}
+body.sector-dental #main .carousel-footer{flex-wrap:wrap;gap:12px}
+body.sector-dental #main .carousel-arrows{margin-left:auto}
+body.sector-dental #main .contact-section{background:#edf4f1;color:var(--ink);border-radius:0;padding-block:76px;border-top:1px solid var(--line)}
+body.sector-dental #main .contact-grid{grid-template-columns:minmax(0,.83fr) minmax(0,1.17fr);gap:70px;align-items:start;padding-block:0}
+body.sector-dental #main .contact-grid h2{font-size:clamp(36px,3.5vw,50px);max-width:470px;line-height:1.15}
+body.sector-dental #main .contact-grid>div>p:not(.eyebrow){font-size:18px;line-height:1.7;color:var(--muted);max-width:400px}
+body.sector-dental #main .contact-grid .button.light{background:var(--teal);border-color:var(--teal);color:white}
+body.sector-dental #main .contact-grid .hours{font-size:18px;color:var(--ink)}
+body.sector-dental #main .contact-grid .hours>div{border-color:#c8dad3;flex-wrap:wrap;gap:5px 15px}
+body.sector-dental #main .contact-widget.contact-widget[data-contact-widget]{--cw-ink:#183e43;--cw-muted:#52696c;--cw-paper:#fff;--cw-field:#fff;--cw-line:#cbded7;--cw-tint:#edf4f1;--cw-accent:#176d70;border-radius:8px;box-shadow:none;padding:32px}
+body.sector-dental #main .contact-widget.contact-widget .cw-title{font-family:Arial,Helvetica,sans-serif;font-size:30px;letter-spacing:-.04em;font-weight:400}
+body.sector-dental .footer-inner{padding-block:35px;gap:35px}
+body.sector-dental .text-link{font-size:18px;line-height:1.5}
+/* A reception arch and a restrained smile line give the clinical layout its own silhouette. */
+body.sector-dental #main .hero .hero-grid>div.visual{isolation:isolate;border-radius:42% 42% 76px 6px;background:#e5f1ec;box-shadow:0 14px 38px #183e430b}
+body.sector-dental #main .hero .hero-grid>.visual>img,body.sector-dental #main .hero .hero-grid .visual .sector-cover{border-radius:42% 42% 76px 6px}
+body.sector-dental #main .hero .hero-grid>.visual::before{content:"";position:absolute;z-index:-1;inset:-12px 11px 12px -11px;border:1px solid #bad7cc;border-radius:42% 42% 76px 6px;pointer-events:none}
+body.sector-dental #main .hero .hero-grid>.visual::after{content:"";position:absolute;width:112px;height:46px;right:25px;bottom:22px;border:2px solid #fff9;border-top:0;border-left-color:transparent;border-right-color:transparent;border-radius:0 0 50% 50%;pointer-events:none}
+body.sector-dental #main .hero-copy .eyebrow{border-left:2px solid #94beb0;padding-left:17px}
+body.sector-dental #main .services-compact .service-card{border-radius:8px 8px 32px 8px;transition:border-color .18s,box-shadow .18s}
+body.sector-dental #main .services-compact .service-card:hover{border-color:#a8cbbf;box-shadow:0 9px 25px #183e4308}
+body.sector-dental #main .services-compact .service-icon{border-radius:50%;background:#eaf4ef;width:58px;height:58px;padding:10px}
+body.sector-dental #main .contact-section{background:linear-gradient(135deg,#eaf3ef,#f3f8f5)}
+body.sector-dental #main .contact-widget.contact-widget[data-contact-widget]{border-top:3px solid #b9d8cc;border-radius:8px 8px 34px 8px}
+@media(max-width:820px){body.sector-dental #main .services-compact .service-icon{width:48px;height:48px;padding:7px}}
+@media(max-width:650px){body.sector-dental #main .hero .hero-grid>div.visual,body.sector-dental #main .hero .hero-grid>.visual>img,body.sector-dental #main .hero .hero-grid .visual .sector-cover{border-radius:38% 38% 48px 5px}body.sector-dental #main .hero .hero-grid>.visual::before{inset:-8px 7px 8px -7px;border-radius:38% 38% 48px 5px}body.sector-dental #main .hero .hero-grid>.visual::after{width:85px;height:34px;right:19px;bottom:18px}body.sector-dental #main .services-compact .service-icon{width:34px;height:38px;padding:4px}body.sector-dental #main .services-compact .service-icon svg{width:27px;height:29px}}
+@media(max-width:1100px){body.sector-dental #main .hero-grid{gap:38px;min-height:650px}body.sector-dental #main .hero-grid>div.visual{height:515px;min-height:515px}body.sector-dental #main .hero-copy h1{font-size:49px}body.sector-dental #main .hero-copy .hero-intro{font-size:18px}body.sector-dental .nav{display:none}body.sector-dental #main .contact-grid{gap:40px}body.sector-dental #main .services-compact .service-card{padding:28px 22px}}
+@media(max-width:820px){body.sector-dental .container{width:calc(100% - 44px)}body.sector-dental #main .hero-grid{gap:28px;min-height:600px}body.sector-dental #main .hero-copy h1{font-size:42px}body.sector-dental #main .hero-grid>div.visual{height:485px;min-height:485px;border-bottom-left-radius:6px;border-bottom-right-radius:52px}body.sector-dental #main .services-compact{grid-template-columns:minmax(0,1fr)}body.sector-dental #main .services-compact .service-card{display:grid;grid-template-columns:48px minmax(0,1fr);gap:20px;padding:27px}body.sector-dental #main .services-compact .service-icon{margin:0}body.sector-dental #main .services-compact .service-copy{margin:0}body.sector-dental #main .services-compact .service-card .text-link{grid-column:2;margin-top:2px}body.sector-dental #main .section-head{display:block}body.sector-dental #main .section-head>p{margin-top:22px;max-width:580px}body.sector-dental #main .location-grid{grid-template-columns:minmax(0,1fr)}body.sector-dental #main .contact-grid{grid-template-columns:minmax(0,1fr);gap:35px}body.sector-dental #main .contact-grid>div>p:not(.eyebrow){max-width:580px}}
+@media(max-width:650px){body.sector-dental .container{width:calc(100% - 36px)}body.sector-dental .header-inner{min-height:96px;gap:12px}body.sector-dental .header-inner .brand{flex:1 1 auto;min-width:0;font-size:24px;gap:9px}body.sector-dental .header-inner .brand small{font-size:16px;white-space:normal;width:auto;max-width:170px;min-height:0}body.sector-dental .brand svg{width:28px;height:32px}body.sector-dental .header-actions{gap:0;flex:none}body.sector-dental .header-actions>.button{display:none}body.sector-dental .header-actions .langs{width:66px;font-size:16px;gap:8px}body.sector-dental .langs>a{width:29px;min-height:44px;display:grid;place-items:center}body.sector-dental #main .hero-grid{grid-template-columns:minmax(0,1fr);grid-template-areas:'copy' 'image';min-height:0;gap:30px;padding-block:34px 38px}body.sector-dental #main .hero-copy{min-height:0}body.sector-dental #main .hero-copy .eyebrow{min-height:3.1em;margin-bottom:20px;max-width:100%}body.sector-dental #main .hero-copy h1{font-size:clamp(36px,10vw,49px);min-height:2.18em;line-height:1.12;margin-bottom:23px}body.sector-dental #main .hero-copy .hero-intro{min-height:8.5em;font-size:18px;line-height:1.7;max-width:100%}body.sector-dental #main .hero-copy .actions{margin-top:21px;display:grid;grid-template-columns:minmax(0,1fr);gap:10px}body.sector-dental #main .hero-copy .actions .button{width:100%;min-height:54px;font-size:18px}body.sector-dental #main .hero-grid>div.visual{height:330px;min-height:330px;max-width:none;border-radius:5px 5px 48px 5px}body.sector-dental #main .hero-grid>.visual>img,body.sector-dental #main .hero-grid .visual .sector-cover{border-radius:5px 5px 48px 5px}body.sector-dental #main #information,body.sector-dental #main #location,body.sector-dental #main .contact-section{padding-block:49px}body.sector-dental #main .section-head h2,body.sector-dental #main .contact-grid h2{font-size:37px}body.sector-dental #main .services-compact .service-card{grid-template-columns:36px minmax(0,1fr);padding:23px 20px;gap:16px}body.sector-dental #main .services-compact .service-icon{width:34px;height:38px}body.sector-dental #main .services-compact .service-icon svg{width:31px;height:33px}body.sector-dental #main .services-compact .service-card h3{font-size:25px}body.sector-dental #main .services-compact .service-card p{font-size:18px}body.sector-dental #main .reviews{padding:27px 23px}body.sector-dental #main .map iframe{height:300px}body.sector-dental #main .map-caption{padding:23px}body.sector-dental #main .contact-widget.contact-widget[data-contact-widget]{padding:25px 20px}body.sector-dental #main .contact-widget.contact-widget .cw-title{font-size:29px}body.sector-dental #main .contact-grid .hours>div{font-size:18px}body.sector-dental .footer-inner{flex-wrap:wrap}body.sector-dental #main .carousel-autoplay{font-size:16px}}
+
+/* Practice cover: a quiet centred invitation above a generous reception panorama. */
+body.sector-dental #main .hero.hero--practice{background:#f2f8f5;padding:34px 0 0;border:0;overflow:visible}
+body.sector-dental #main .hero--practice .hero-grid{display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:'copy' 'image';gap:30px;min-height:0;padding:0;max-width:1240px;text-align:center}
+body.sector-dental #main .hero--practice .hero-copy{grid-area:copy;display:grid;justify-items:center;align-content:start;min-height:0;width:100%;max-width:800px;justify-self:center}
+body.sector-dental #main .hero--practice .hero-copy .eyebrow{font-size:14px;line-height:1.6;letter-spacing:.11em;min-height:1.6em;max-width:100%;margin:0 0 19px}
+body.sector-dental #main .hero--practice .hero-copy h1{font-size:clamp(48px,4.6vw,66px);line-height:1.07;min-height:2.14em;width:100%;max-width:800px;margin:0 0 19px;letter-spacing:-.045em;font-weight:400}
+body.sector-dental #main .hero--practice .hero-copy .hero-intro{font-size:19px;line-height:1.65;min-height:4.95em;width:100%;max-width:680px;margin:0;color:#49656a}
+body.sector-dental #main .hero--practice .hero-copy .actions{display:flex;justify-content:center;gap:21px;min-height:82px;width:100%;align-items:center;margin:21px 0 0}
+body.sector-dental #main .hero--practice .hero-copy .actions>.button{width:230px;min-height:56px;max-width:100%;padding:14px 22px}
+body.sector-dental #main .hero--practice .hero-copy .actions>.button.outline{width:250px;border:0;background:transparent;text-decoration:underline;box-shadow:none}
+body.sector-dental #main .hero--practice .hero-grid>.visual{grid-area:image;width:100%;height:390px;min-height:390px;max-width:none;margin:0;border-radius:110px 110px 0 0;overflow:hidden;background:#dcece5;border:1px solid #d8e5df}
+body.sector-dental #main .hero--practice .hero-grid>.visual>img{border-radius:0;object-fit:cover;object-position:center 58%;width:100%;height:100%;box-shadow:none}
+body.sector-dental .practice-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:#fff;border:1px solid #d8e5df;border-top:0;border-radius:0 0 14px 14px;margin-bottom:38px}
+body.sector-dental .practice-links>a{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:85px;padding:22px 28px;font-size:18px;line-height:1.4;text-align:left;color:#176d70}
+body.sector-dental .practice-links>a+a{border-left:1px solid #d8e5df}
+body.sector-dental .practice-links>a>span:last-child{display:grid;place-items:center;width:34px;height:34px;flex:none;border-radius:50%;border:1px solid #c7dfd7;font-size:24px}
+body.sector-dental #main #information .section-head h2{font-weight:400}
+@media(max-width:760px){
+ body.sector-dental #main .hero.hero--practice{padding-top:28px}
+ body.sector-dental #main .hero--practice .hero-grid{gap:27px}
+ body.sector-dental #main .hero--practice .hero-copy{min-height:0;padding:0}
+ body.sector-dental #main .hero--practice .hero-copy .eyebrow{font-size:13px;min-height:3.2em;max-width:280px;line-height:1.6;margin-bottom:14px}
+ body.sector-dental #main .hero--practice .hero-copy h1{font-size:clamp(35px,9.1vw,49px);line-height:1.1;min-height:3.3em;margin-bottom:18px;max-width:100%}
+ body.sector-dental #main .hero--practice .hero-copy .hero-intro{font-size:18px;line-height:1.65;min-height:6.6em;max-width:100%}
+ body.sector-dental #main .hero--practice .hero-copy .actions{flex-direction:column;gap:7px;min-height:118px;margin-top:17px}
+ body.sector-dental #main .hero--practice .hero-copy .actions>.button{width:230px;min-height:55px;font-size:17px}
+ body.sector-dental #main .hero--practice .hero-grid>.visual{height:290px;min-height:290px;border-radius:70px 70px 0 0}
+ body.sector-dental .practice-links{grid-template-columns:minmax(0,1fr);margin-bottom:28px;border-radius:0 0 9px 9px}
+ body.sector-dental .practice-links>a{min-height:68px;padding:16px 21px;font-size:17px}
+ body.sector-dental .practice-links>a+a{border-left:0;border-top:1px solid #d8e5df}
+}

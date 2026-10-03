@@ -3,19 +3,22 @@
  const c=window.PublicConceptConfig,C=window.SiteCore;
  if(!c||!C)return;
  const requested=new URLSearchParams(location.search).get('lang');
- const lang=c.languages.includes(requested)?requested:c.defaultLanguage;
+ const lang=C.resolveLanguage(c,requested);
  const h=C.escape,l=value=>typeof value==='string'?value:value?.[lang]||value?.en||'';
- const text={nl:{voices:'Ervaringen',voicesIntro:'Verhalen uit ons conceptkwartier.',local:'Een stukje buurt.\nEen warm welkom.',map:'Vredespaleis · Den Haag',mapContext:'Een monument in de stad',address:'Adres in het conceptkwartier',more:'Meer websites',previous:'Vorige',next:'Volgende',play:'Automatisch afspelen',pause:'Pauzeren',footer:'Portfolio concept van Ocimatik'},en:{voices:'Guest voices',voicesIntro:'Stories from our imagined neighbourhood.',local:'A little local colour.\nA warm welcome.',map:'Peace Palace · The Hague',mapContext:'A landmark in the city',address:'Address in the concept quarter',more:'More websites',previous:'Previous',next:'Next',play:'Play automatically',pause:'Pause',footer:'Portfolio concept by Ocimatik'}}[lang];
+ const text={nl:{voices:'Ervaringen',voicesIntro:'Een paar persoonlijke ervaringen.',local:'Een stukje buurt.\nEen warm welkom.',map:'Vredespaleis · Den Haag',mapContext:'Een monument in de stad',address:'Ons adres',more:'Meer websites',previous:'Vorige',next:'Volgende',play:'Automatisch afspelen',pause:'Pauzeren',footer:'Portfolio concept van Ocimatik'},en:{voices:'Guest voices',voicesIntro:'A few personal experiences.',local:'A little local colour.\nA warm welcome.',map:'Peace Palace · The Hague',mapContext:'A landmark in the city',address:'Our address',more:'More websites',previous:'Previous',next:'Next',play:'Play automatically',pause:'Pause',footer:'Portfolio concept by Ocimatik'}}[lang];
  const paths={scissors:'M6 14 23 3M10 14 25 22M12 12l4 4M3 14a4 4 0 1 0 8 0 4 4 0 0 0-8 0Zm16 10a4 4 0 1 0 8 0 4 4 0 0 0-8 0Z',tooth:'M12 3C8 1 3 3 4 9l2 8c1 4 3 8 5 8 2 0 1-8 4-8s2 8 4 8c2 0 4-4 5-8l2-8c1-6-4-8-8-6-2 1-4 1-6 0Z',flame:'M16 2c2 8-5 9-2 15 2-1 4-4 5-7 8 7 9 17-3 18C3 27 3 15 11 9c-1 6 1 7 3 7-4-6 2-9 2-14Z',document:'M6 3h13l6 6v19H6ZM18 3v7h7M10 15h10M10 20h10M10 25h6',box:'m4 9 12-5 12 5v15l-12 5-12-5ZM4 9l12 6 12-6M16 15v14M10 6l12 6',truck:'M3 8h16v13H3ZM19 12h5l4 5v4h-9ZM5 23a3 3 0 1 0 6 0 3 3 0 0 0-6 0Zm15 0a3 3 0 1 0 6 0 3 3 0 0 0-6 0Z',calendar:'M4 7h23v20H4ZM10 3v8M21 3v8M4 14h23M10 19h4M19 19h3',spark:'m16 3 4 9 9 4-9 4-4 9-4-9-9-4 9-4Z',briefcase:'M3 10h26v18H3ZM10 10V5h12v5M3 17h26M13 17v5h6v-5'};
  const icon=name=>`<svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="${paths[name]||paths.document}"/></svg>`;
  const logoName={salon:'scissors',restaurant:'flame',dentist:'tooth',accountant:'document','moving-company':'box'}[c.sector];
  if(c.sector!=='salon'){
-  const visual=`<div class="visual public-visual"><img class="public-cover" src="${h(c.images.hero)}" alt="${h(c.name)}" width="1536" height="1024" fetchpriority="high"></div>`;
+  const imageAlt={restaurant:['Kip, rijst en goudgele bakbanaan op een bord','Chicken, rice and golden plantain on a plate'],dentist:['Lichte ontvangstruimte met comfortabele zitplaatsen','Bright reception interior with comfortable seating'],accountant:['Lichte werkruimte met een houten bureau','Bright workspace with a wooden desk'],'moving-company':['Verhuisdozen en een open bestelwagen bij een woning','Moving boxes and an open van outside a home']}[c.sector];
+  const visual=`<div class="visual public-visual"><img class="public-cover" src="${h(c.images.hero)}" alt="${h(imageAlt?.[lang==='nl'?0:1]||c.name)}" width="1536" height="1024" fetchpriority="high"></div>`;
   window.SectorSite.render({client:c,lang,visual,logo:icon(logoName),icons:icon});
   Object.entries({primary:c.theme.primary,teal:c.theme.primary,accent:c.theme.accent,paper:c.theme.background}).forEach(([key,value])=>document.documentElement.style.setProperty('--'+key,value));
  }
  document.title=c.name+' · '+l(c.copy.heroTitle).replace(/\n/g,' ');
  document.querySelector('meta[name="description"]').content=l(c.copy.heroIntro);
+ document.querySelector('meta[property="og:title"]').content=document.title;
+ document.querySelector('meta[property="og:description"]').content=l(c.copy.heroIntro);
  document.querySelectorAll('.lang-btn,.langs a').forEach(link=>{
   const language=link.getAttribute('lang')||new URL(link.getAttribute('href'),location.href).searchParams.get('lang');
   if(c.languages.includes(language))link.href='/'+c.homePage+'?lang='+language;
@@ -34,6 +37,7 @@
  if(box){box.innerHTML=`<h3>${h(text.voices)}</h3><p class="public-voices-intro">${h(text.voicesIntro)}</p>${carousel()}`;}
  document.querySelectorAll('.image-credit,.hero-credit,.visual-caption,.whatsapp-state,.google-attribution,#googleAttribution').forEach(element=>element.remove());
  if(c.sector==='salon'){
+  const cover=document.querySelector('.hero-image');if(cover)cover.alt=lang==='nl'?'Een kapper knipt haar in een zonnige salon':'A stylist cutting hair in a sunlit salon';
   document.querySelectorAll('#liveBusinessHours .fine-print').forEach(caption=>caption.remove());
   document.querySelectorAll('.brand-mark').forEach(mark=>mark.innerHTML=icon('scissors'));
   document.querySelectorAll('.brand-name small').forEach(label=>label.textContent=l(c.ui.brandLabel));
@@ -50,8 +54,9 @@
   });
  }
  const footer=document.getElementById(c.sector==='salon'?'siteFooter':'footer');
- if(footer)footer.innerHTML=`<footer class="public-footer"><div class="container"><a class="public-footer-brand" href="/${h(c.homePage)}?lang=${lang}">${icon(logoName)}<strong>${h(c.name)}</strong></a><p>${h(text.footer)}</p><a class="text-link" href="/sectors/index.html?lang=${lang}">${h(text.more)} ↗</a></div></footer>`;
+ if(footer)footer.innerHTML=`<footer class="public-footer"><div class="container"><a class="public-footer-brand" href="/${h(c.homePage)}?lang=${lang}">${icon(logoName)}<strong>${h(c.name)}</strong></a><p>${h(C.brandDescriptor(c,lang))}</p><a class="text-link" href="/sectors/index.html?lang=${lang}">${h(text.more)} ↗</a></div></footer>`;
  const mounted=[];
  box?.querySelectorAll('[data-carousel]').forEach(element=>mounted.push(window.SalonCarousel.mount(element,{playLabel:text.play,pauseLabel:text.pause})));
  window.addEventListener('pagehide',()=>mounted.forEach(item=>item.destroy()),{once:true});
+ window.LocaleBootstrap?.ready();
 })();

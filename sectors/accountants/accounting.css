@@ -15,3 +15,123 @@ h1,h2,h3{font-family:Georgia,Cambria,serif;font-weight:400;letter-spacing:-.04em
 @media(max-width:650px){body{font-size:18px}.header-inner{min-height:98px}.brand{font-size:27px;gap:10px}.brand svg{width:27px;height:35px}.brand small{font-size:16px}.hero-grid{grid-template-columns:1fr;gap:35px;padding-block:43px 42px}.hero h1{font-size:clamp(43px,11.6vw,56px);line-height:1.1}.hero-intro{font-size:18px}.visual{min-height:340px;margin:0 0 0 13px;width:calc(100% - 13px)}.visual>svg{width:95%;max-height:335px}.visual-pill{left:-13px;bottom:59px;padding:13px 18px;max-width:290px}.visual-caption{left:16px;right:12px;bottom:13px;font-size:16px}.principles{gap:18px}.section{padding-block:55px}.section-head>p{font-size:18px}.service-card{grid-template-columns:50px 1fr;gap:18px;padding:28px 0;align-items:start}.service-card h3{grid-column:2;font-size:29px;margin-top:3px}.service-card p{grid-column:2;font-size:18px}.service-card .text-link{grid-column:2;margin-top:5px;font-size:16px}.service-icon{width:46px;height:46px}.service-icon svg{width:27px;height:32px}.visit-grid h2{font-size:39px}.step h3{font-size:25px}.step p{font-size:18px}.map-concept h3{font-size:34px}.map-concept p,.reviews>p{font-size:18px}.reviews h3{font-size:32px}.contact-grid h2{font-size:42px}.contact-box h3{font-size:32px}.footer-inner p,.footer-links{font-size:16px}.button{font-size:16px}dialog h2{font-size:35px}}
 
 .office-visual{display:block;min-height:470px;height:470px}.office-photo{width:100%;height:100%;object-fit:cover;object-position:center;border-radius:8px}.office-visual .visual-caption{bottom:-36px;color:#495646;max-width:100%}@media(max-width:650px){.office-visual{height:350px;min-height:350px;margin-bottom:40px}.office-visual .visual-caption{bottom:-49px;font-size:16px;line-height:1.45}}
+/* Accounting composition: an editorial masthead with a compact office photograph,
+   broad document rows and an asymmetric enquiry area. No decorative figures. */
+body.sector-accounting{--ink:#193145;--teal:#24455f;--primary:#24455f;--soft:#e9eef2;--mint:#c9d9e3;--muted:#576977;--line:#d8e0e5;--paper:#f7f8f8;background:var(--paper);font:18px/1.7 Arial,Helvetica,sans-serif}
+body.sector-accounting h1,body.sector-accounting h2,body.sector-accounting h3{font-family:Georgia,Cambria,serif;font-weight:400;letter-spacing:-.045em}
+body.sector-accounting .container{width:min(calc(100% - 96px),1240px)}
+body.sector-accounting #header{background:#fff;border-bottom:1px solid var(--line)}
+body.sector-accounting .notice{background:#1a3348;color:white}
+body.sector-accounting .header-inner{min-height:108px;gap:28px}
+body.sector-accounting .header-inner .brand{flex:0 1 260px;min-width:0;font:400 28px/1.15 Georgia,Cambria,serif;letter-spacing:-.04em}
+body.sector-accounting .brand svg{width:30px;height:36px;color:var(--teal);flex:none}
+body.sector-accounting .header-inner .brand small{font:16px/1.45 Arial,Helvetica,sans-serif;color:var(--muted);letter-spacing:0;white-space:normal;width:auto;max-width:210px;text-transform:none}
+body.sector-accounting .nav{gap:25px;font-size:16px}
+body.sector-accounting .header-actions{gap:22px}
+body.sector-accounting .header-actions>.button{width:auto;max-width:250px;white-space:normal}
+body.sector-accounting .button{border-radius:2px;background:var(--teal);border-color:var(--teal);font-size:18px;line-height:1.45;min-height:57px;padding:15px 24px;gap:18px}
+body.sector-accounting .button:hover{background:#18374f}
+body.sector-accounting .button.small{font-size:16px;min-height:48px;padding:12px 21px}
+body.sector-accounting .button.outline{background:transparent;color:var(--teal);border-color:#91a7b6}
+body.sector-accounting .button.outline:hover{background:#e7edf1}
+body.sector-accounting #main .hero{background:#f2f5f6;border:0;border-bottom:1px solid var(--line);overflow:visible}
+body.sector-accounting #main .hero-grid{display:grid;grid-template-columns:minmax(0,.63fr) minmax(0,1.37fr);grid-template-areas:'label title' 'image intro' 'image actions';gap:24px 70px;align-items:start;min-height:0;padding-block:62px 70px}
+body.sector-accounting #main .hero-copy{display:contents;min-height:0;max-width:none}
+body.sector-accounting #main .hero-copy .eyebrow{grid-area:label;min-height:0;font:600 16px/1.65 Arial,Helvetica,sans-serif;color:var(--teal);letter-spacing:.1em;margin:7px 0 0;max-width:280px;padding-top:16px;border-top:2px solid #627b90}
+body.sector-accounting #main .hero-copy h1{grid-area:title;font-size:clamp(49px,4.75vw,70px);line-height:1.09;min-height:2.18em;max-width:none;white-space:normal;overflow-wrap:normal;margin:0 0 16px;align-self:start}
+body.sector-accounting #main .hero-copy .hero-intro{grid-area:intro;font-size:20px;line-height:1.75;color:var(--muted);min-height:7em;max-width:600px;margin:0;padding-top:13px;border-top:1px solid #c8d4dd}
+body.sector-accounting #main .hero-copy .actions{grid-area:actions;display:flex;flex-wrap:wrap;gap:12px;max-width:100%;min-width:0;margin:0;align-self:end;padding-bottom:0}
+body.sector-accounting #main .hero-copy .actions .button{width:auto;max-width:100%;white-space:normal}
+body.sector-accounting #main .hero-grid>div.visual{grid-area:image;position:relative;display:block;width:100%;height:310px;min-height:310px;max-width:none;aspect-ratio:auto;align-self:stretch;margin:0;padding:0;border:0;border-radius:2px;background:var(--soft);box-shadow:none}
+body.sector-accounting #main .hero-grid>.visual>img,body.sector-accounting #main .hero-grid .visual .office-photo{display:block;width:100%;height:100%;object-fit:cover;object-position:46% center;border-radius:2px;max-height:none;box-shadow:none}
+body.sector-accounting #main .hero-grid .visual-caption{position:static;padding:12px 0 0;margin:0;font:16px/1.5 Arial,Helvetica,sans-serif;color:var(--muted);max-width:100%}
+body.sector-accounting #main #information{padding-block:75px 65px;background:#fff}
+body.sector-accounting #main #information>.container{display:grid;grid-template-columns:minmax(0,.63fr) minmax(0,1.37fr);gap:70px;align-items:start}
+body.sector-accounting #main #information .section-head{display:block;margin:0;min-width:0}
+body.sector-accounting #main .section-head h2{font-size:clamp(35px,3vw,46px);line-height:1.17}
+body.sector-accounting #main .section-head .eyebrow{font-size:16px;line-height:1.6;letter-spacing:.075em;margin-bottom:20px}
+body.sector-accounting #main .section-head>p{max-width:400px;font-size:18px;line-height:1.75;margin:25px 0 0}
+body.sector-accounting #main .services-compact{display:grid;grid-template-columns:minmax(0,1fr);border:0;border-top:1px solid #8fa4b3;gap:0;min-width:0}
+body.sector-accounting #main .services-compact .service-card{display:grid;grid-template-columns:38px minmax(0,1fr);column-gap:22px;row-gap:13px;padding:29px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;box-shadow:none;align-items:start;min-width:0}
+body.sector-accounting #main .services-compact .service-icon{grid-column:1;grid-row:1/3;width:36px;height:40px;margin:0;padding:0;border:0;border-radius:0;background:transparent}
+body.sector-accounting #main .services-compact .service-icon svg{width:31px;height:35px;fill:none;stroke:var(--teal);stroke-width:1.4}
+body.sector-accounting #main .services-compact .service-copy{grid-column:2;min-width:0}
+body.sector-accounting #main .services-compact .service-card h3{font-size:29px;line-height:1.2;margin:0 0 13px;max-width:none}
+body.sector-accounting #main .services-compact .service-card p{font-size:18px;line-height:1.7;margin:0;max-width:590px}
+body.sector-accounting #main .services-compact .service-card .text-link{grid-column:2;justify-self:start;font-size:18px;line-height:1.5;margin:0;white-space:normal;max-width:100%}
+body.sector-accounting #main #location{padding-block:67px 76px;border-block:1px solid var(--line);background:var(--paper)}
+body.sector-accounting #main #location .section-head{display:flex;align-items:end;gap:50px;margin-bottom:36px}
+body.sector-accounting #main .location-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:35px;align-items:stretch}
+body.sector-accounting #main .location-grid .map{order:2;border:1px solid var(--line);border-radius:2px;box-shadow:none;min-width:0;background:#fff}
+body.sector-accounting #main .location-grid .reviews{order:1;border:0;border-top:2px solid #607d92;border-radius:0;box-shadow:none;padding:30px 0 0;background:transparent;min-width:0}
+body.sector-accounting #main .map iframe{height:340px;min-height:0}
+body.sector-accounting #main .map-caption{padding:24px 28px}
+body.sector-accounting #main .map-caption p,body.sector-accounting #main .map-concept p,body.sector-accounting #main .reviews>p{font-size:18px;line-height:1.7}
+body.sector-accounting #main .reviews h3{font:400 33px/1.2 Georgia,Cambria,serif;margin-bottom:15px}
+body.sector-accounting #main .review-text{font-size:18px;line-height:1.75;margin-top:20px}
+body.sector-accounting #main .public-voice blockquote{font:400 25px/1.55 Georgia,Cambria,serif;letter-spacing:-.02em}
+body.sector-accounting #main .carousel-footer{gap:12px;flex-wrap:wrap}
+body.sector-accounting #main .carousel-arrows{margin-left:auto}
+body.sector-accounting #main .carousel-arrows button{border-radius:2px;color:var(--teal)}
+body.sector-accounting #main .contact-section{background:#1c354a;color:#fff;border-radius:0;padding-block:77px}
+body.sector-accounting #main .contact-grid{grid-template-columns:minmax(0,.72fr) minmax(0,1.28fr);gap:80px;align-items:start;padding:0}
+body.sector-accounting #main .contact-grid h2{font-size:clamp(37px,3.8vw,53px);line-height:1.15;max-width:430px}
+body.sector-accounting #main .contact-grid .eyebrow{color:#cfdee8}
+body.sector-accounting #main .contact-grid>div>p:not(.eyebrow){font-size:18px;line-height:1.7;color:#cfdee8;max-width:385px}
+body.sector-accounting #main .contact-grid .button.light{background:#e7eef3;border-color:#e7eef3;color:#19394f}
+body.sector-accounting #main .contact-grid .hours{font-size:18px;color:#e4edf2}
+body.sector-accounting #main .contact-grid .hours>div{flex-wrap:wrap;gap:5px 15px;border-color:#476074}
+body.sector-accounting #main .contact-widget.contact-widget[data-contact-widget]{--cw-ink:#193145;--cw-muted:#576977;--cw-paper:#fff;--cw-field:#fff;--cw-line:#cbd7df;--cw-tint:#edf2f5;--cw-accent:#24455f;padding:34px;border-radius:2px;box-shadow:none}
+body.sector-accounting #main .contact-widget.contact-widget .cw-title{font:400 32px/1.2 Georgia,Cambria,serif;letter-spacing:-.035em}
+body.sector-accounting #main .contact-widget.contact-widget .cw-submit,body.sector-accounting #main .contact-widget.contact-widget .cw-form :is(input,select,textarea){border-radius:2px}
+body.sector-accounting .text-link{color:var(--teal);font-size:18px;line-height:1.5}
+body.sector-accounting .footer-inner{padding-block:37px;border-top:1px solid var(--line)}
+/* Paper, an understated ledger edge and warm metal details suit the office composition. */
+body.sector-accounting{--office-brass:#9c815c}
+body.sector-accounting #main .hero{background:linear-gradient(90deg,#ecf1f3 0%,#f6f7f6 58%,#f8f9f7 100%)}
+body.sector-accounting #main .hero-copy .eyebrow{border-top-color:var(--office-brass)}
+body.sector-accounting #main .hero-copy .hero-intro{border-top-color:#b3c1cb}
+body.sector-accounting #main .hero-grid>div.visual{isolation:isolate;border:9px solid #fff;box-shadow:0 12px 35px #19314510;border-radius:1px}
+body.sector-accounting #main .hero-grid>.visual::before{content:"";position:absolute;z-index:-1;inset:5px -16px -14px 15px;border:1px solid #c5d0d7;background:repeating-linear-gradient(0deg,#f6f8f7 0 17px,#c9d4db66 17px 18px);transform:rotate(2deg);pointer-events:none}
+body.sector-accounting #main .hero-grid>.visual::after{content:"";position:absolute;right:9px;top:-17px;width:23px;height:42px;border:2px solid #9c815c;border-radius:8px;background:transparent;box-shadow:inset 0 0 0 4px #ffffff80;pointer-events:none}
+body.sector-accounting #main .services-compact{border-top:2px solid #7f96a6}
+body.sector-accounting #main .services-compact .service-card{position:relative;border-bottom-color:#d6dfe4}
+body.sector-accounting #main .services-compact .service-icon{border-left:2px solid #baa98e;padding-left:7px}
+body.sector-accounting #main .services-compact .service-icon svg{width:27px}
+body.sector-accounting #main .contact-widget.contact-widget[data-contact-widget]{border-top:3px solid #baa98e;background:#fff;box-shadow:0 9px 25px #132a3e14}
+body.sector-accounting #main .location-grid .reviews{border-top-color:var(--office-brass)}
+@media(max-width:650px){body.sector-accounting #main .hero-grid>div.visual{border-width:7px;margin-bottom:9px}body.sector-accounting #main .hero-grid>.visual::before{inset:4px -9px -10px 10px;transform:rotate(1.4deg)}body.sector-accounting #main .hero-grid>.visual::after{right:9px;top:-13px;width:20px;height:34px}body.sector-accounting #main .services-compact .service-icon{padding-left:5px}body.sector-accounting #main .services-compact .service-icon svg{width:24px}}
+@media(max-width:1100px){body.sector-accounting .nav{display:none}body.sector-accounting #main .hero-grid,body.sector-accounting #main #information>.container{gap:28px 42px;grid-template-columns:minmax(0,.65fr) minmax(0,1.35fr)}body.sector-accounting #main .hero-copy h1{font-size:53px}body.sector-accounting #main .hero-copy .hero-intro{font-size:18px}body.sector-accounting #main .hero-grid>div.visual{height:285px;min-height:285px}body.sector-accounting #main .contact-grid{gap:45px;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr)}}
+@media(max-width:820px){body.sector-accounting .container{width:calc(100% - 44px)}body.sector-accounting #main .hero-grid{grid-template-columns:minmax(0,.58fr) minmax(0,1.42fr);gap:22px 28px;padding-block:46px 52px}body.sector-accounting #main .hero-copy h1{font-size:43px}body.sector-accounting #main .hero-copy .eyebrow{font-size:16px;letter-spacing:.05em}body.sector-accounting #main .hero-grid>div.visual{height:270px;min-height:270px}body.sector-accounting #main #information>.container{display:block}body.sector-accounting #main #information .section-head{max-width:590px;margin-bottom:33px}body.sector-accounting #main #information .section-head>p{max-width:590px}body.sector-accounting #main .location-grid{gap:28px;grid-template-columns:minmax(0,1fr)}body.sector-accounting #main .location-grid .map{order:2}body.sector-accounting #main .location-grid .reviews{order:1}body.sector-accounting #main .contact-grid{grid-template-columns:minmax(0,1fr);gap:35px}body.sector-accounting #main .contact-grid>div>p:not(.eyebrow){max-width:600px}}
+@media(max-width:650px){body.sector-accounting .container{width:calc(100% - 36px)}body.sector-accounting .header-inner{min-height:98px;gap:12px}body.sector-accounting .header-inner .brand{flex:1 1 auto;min-width:0;max-width:calc(100% - 76px);font-size:24px;gap:9px}body.sector-accounting .brand svg{width:25px;height:32px}body.sector-accounting .header-inner .brand small{font-size:16px;white-space:normal;width:auto;max-width:190px;min-height:0}body.sector-accounting .header-actions{gap:0;flex:none}body.sector-accounting .header-actions>.button{display:none}body.sector-accounting .header-actions .langs{width:66px;gap:8px;font-size:16px}body.sector-accounting .langs>a{width:29px;min-height:44px;display:grid;place-items:center}body.sector-accounting #main .hero-grid{grid-template-columns:minmax(0,1fr);grid-template-areas:'label' 'title' 'intro' 'actions' 'image';gap:22px;min-height:0;padding-block:34px 39px}body.sector-accounting #main .hero-copy .eyebrow{padding-top:14px;max-width:100%;min-height:3.3em;margin:0;line-height:1.65}body.sector-accounting #main .hero-copy h1{font-size:clamp(35px,10.2vw,48px);min-height:2.18em;line-height:1.12;margin:0}body.sector-accounting #main .hero-copy .hero-intro{min-height:8.5em;font-size:18px;line-height:1.7;padding-top:19px;max-width:100%}body.sector-accounting #main .hero-copy .actions{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}body.sector-accounting #main .hero-copy .actions .button{width:100%;min-height:54px;font-size:18px}body.sector-accounting #main .hero-grid>div.visual{height:240px;min-height:240px;max-width:none;width:100%;margin:6px 0 0}body.sector-accounting #main #information,body.sector-accounting #main #location,body.sector-accounting #main .contact-section{padding-block:49px}body.sector-accounting #main .section-head h2,body.sector-accounting #main .contact-grid h2{font-size:37px}body.sector-accounting #main #location .section-head{display:block;margin-bottom:28px}body.sector-accounting #main .services-compact .service-card{grid-template-columns:30px minmax(0,1fr);column-gap:16px;padding-block:26px}body.sector-accounting #main .services-compact .service-icon{width:29px;height:35px}body.sector-accounting #main .services-compact .service-icon svg{width:27px;height:32px}body.sector-accounting #main .services-compact .service-card h3{font-size:27px}body.sector-accounting #main .map iframe{height:290px}body.sector-accounting #main .map-caption{padding:23px}body.sector-accounting #main .reviews{padding-top:25px}body.sector-accounting #main .public-voice blockquote{font-size:23px}body.sector-accounting #main .contact-widget.contact-widget[data-contact-widget]{padding:25px 20px}body.sector-accounting #main .contact-widget.contact-widget .cw-title{font-size:30px}body.sector-accounting .footer-inner{flex-wrap:wrap}body.sector-accounting #main .carousel-autoplay{font-size:16px}}
+
+/* An office dossier: paper, a portrait of the workspace and a ledger of topics. */
+body.sector-accounting #main .hero.hero--ledger{background:#f6f4ed;border:0;padding:47px 0 46px;overflow:visible;background-image:linear-gradient(90deg,#203b5006 1px,transparent 1px);background-size:32px 100%}
+body.sector-accounting #main .hero--ledger .hero-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);grid-template-areas:'copy image' 'topics topics';align-items:start;gap:30px 36px;min-height:0;padding:0}
+body.sector-accounting #main .hero--ledger .hero-copy{grid-area:copy;display:flex;flex-direction:column;align-items:start;min-height:0;max-width:none;width:100%;padding:0;border:0}
+body.sector-accounting #main .hero--ledger .hero-copy>.eyebrow{grid-area:auto;display:flex;align-items:start;max-width:100%;font-size:14px;line-height:1.6;letter-spacing:.085em;min-height:3.2em;margin:0 0 21px;padding-top:14px;border-top:2px solid #203b50;color:#385369}
+body.sector-accounting #main .hero--ledger .hero-copy h1{grid-area:auto;width:100%;max-width:none;font:400 clamp(43px,4.2vw,64px)/1.07 Georgia,Cambria,serif;letter-spacing:-.055em;min-height:3.21em;margin:0 0 20px;padding:0;border:0;color:#203b50}
+body.sector-accounting #main .hero--ledger .hero-copy .hero-intro{grid-area:auto;width:100%;max-width:560px;font-size:19px;line-height:1.65;min-height:6.6em;padding:0;margin:0;border:0;color:#4f6474}
+body.sector-accounting #main .hero--ledger .hero-copy .actions{grid-area:auto;display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;min-height:117px;width:100%;max-width:none;margin:19px 0 0}
+body.sector-accounting #main .hero--ledger .hero-copy .actions .button{width:auto;max-width:100%;min-height:56px;white-space:normal;font-size:17px;padding:15px 21px;background:#24435d;color:#fff;border-color:#24435d;border-radius:0;box-shadow:none}
+body.sector-accounting #main .hero--ledger .hero-copy .actions .button.outline{border:0;border-bottom:1px solid #24435d;background:transparent;color:#24435d;padding:11px 0;min-height:44px}
+body.sector-accounting #main .hero--ledger .hero-grid>.visual{grid-area:image;align-self:stretch;position:relative;width:100%;max-width:none;height:542px;min-height:542px;aspect-ratio:auto;margin:0;padding:0;border:9px solid #fffdf8;border-radius:0;background:#eeeae0;box-shadow:0 8px 27px #263d5012;overflow:hidden}
+body.sector-accounting #main .hero--ledger .hero-grid>.visual>img{width:100%;height:100%;max-height:none;border:0;border-radius:0;object-fit:cover;object-position:center;box-shadow:none}
+body.sector-accounting #main .hero--ledger .ledger-links{grid-area:topics;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;border-top:1px solid #899ba9;margin:0;padding:22px 0 0}
+body.sector-accounting #main .ledger-links>a{display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:69px;border-bottom:1px solid #abb7bf;padding:0 0 13px;font:400 22px/1.25 Georgia,Cambria,serif;color:#203b50}
+body.sector-accounting #main .ledger-links>a>span:last-child{flex:none;font-family:Arial,Helvetica,sans-serif;font-size:23px}
+@media(min-width:1101px){body.sector-accounting #main .container{width:min(1140px,calc(100% - 66px))}body.sector-accounting #main .section-head h2{font-size:43px}body.sector-accounting #main .contact-grid{gap:35px}}
+@media(max-width:1100px){body.sector-accounting #main .hero--ledger .hero-grid{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:30px}body.sector-accounting #main .hero--ledger .hero-copy h1{font-size:52px}body.sector-accounting #main .hero--ledger .hero-grid>.visual{height:525px;min-height:525px}}
+@media(max-width:760px){
+ body.sector-accounting #main .hero.hero--ledger{padding:30px 0 36px}
+ body.sector-accounting #main .hero--ledger .hero-grid{grid-template-columns:minmax(0,1fr);grid-template-areas:'copy' 'image' 'topics';gap:27px}
+ body.sector-accounting #main .hero--ledger .hero-copy>.eyebrow{font-size:13px;min-height:calc(3.2em + 16px);margin-bottom:19px}
+ body.sector-accounting #main .hero--ledger .hero-copy h1{font-size:clamp(35px,9.6vw,48px);min-height:3.3em;line-height:1.1;margin-bottom:16px}
+ body.sector-accounting #main .hero--ledger .hero-copy .hero-intro{font-size:18px;min-height:6.6em;line-height:1.65}
+ body.sector-accounting #main .hero--ledger .hero-copy .actions{margin-top:16px;min-height:122px;gap:12px}
+ body.sector-accounting #main .hero--ledger .hero-copy .actions>.button{width:100%;justify-content:space-between;font-size:17px}
+ body.sector-accounting #main .hero--ledger .hero-copy .actions>.button.outline{width:auto}
+ body.sector-accounting #main .hero--ledger .hero-grid>.visual{height:290px;min-height:290px;width:100%;border-width:7px}
+ body.sector-accounting #main .hero--ledger .ledger-links{grid-template-columns:minmax(0,1fr);gap:12px;padding-top:18px}
+ body.sector-accounting #main .ledger-links>a{min-height:53px;padding-bottom:12px;font-size:23px}
+}

@@ -1,7 +1,7 @@
 (function(){
  'use strict';
  const c=window.DentistConfig,C=window.SiteCore;
- const requested=new URLSearchParams(location.search).get('lang'),lang=c.languages.includes(requested)?requested:c.defaultLanguage;
+ const requested=new URLSearchParams(location.search).get('lang'),lang=C.resolveLanguage(c,requested);
  const rows={illustration:['Conceptillustratie · geen praktijkfoto','Concept illustration · not a practice photograph'],pillTitle:['Met aandacht voor je bezoek','A thoughtful next visit'],pillText:['Een helder eerste contact','A clear first contact']};
  const t=key=>rows[key]?.[lang==='nl'?0:1]||key,h=C.escape;
  const tooth='<path d="M12 3c-4-2-9 0-8 6l2 8c1 4 3 8 5 8 2 0 1-8 4-8s2 8 4 8c2 0 4-4 5-8l2-8c1-6-4-8-8-6-2 1-4 1-6 0Z"/>';

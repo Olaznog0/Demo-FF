@@ -2,8 +2,8 @@
 'use strict';
 const rows={
   "translatedConcept": [
-    "Vertaling voor dit concept",
-    "Translation for this concept",
+    "Vertaling",
+    "Translation",
     "Traducción para este concepto",
     "Traducció per a aquest concepte"
   ],
@@ -26,8 +26,8 @@ const rows={
     "No hi ha hores disponibles aquest dia. Tria una altra data."
   ],
   "calendarPending": [
-    "De agenda van dit bedrijf is nog niet geactiveerd. Bel voor een echte afspraak.",
-    "This business calendar is awaiting activation. Call for a real appointment.",
+    "Neem rechtstreeks contact op voor je afspraak.",
+    "Contact the business directly about your appointment.",
     "La agenda de este negocio está pendiente de activación. Llama para reservar.",
     "L’agenda d’aquest negoci està pendent d’activació. Truca per reservar."
   ],
@@ -194,14 +194,14 @@ const rows={
     "La diferència és als detalls."
   ],
   "conceptShort": [
-    "Editorial conceptbeeld",
-    "Editorial concept visual",
+    "Haar en stijl",
+    "Hair and style",
     "Imagen editorial conceptual",
     "Imatge editorial conceptual"
   ],
   "connectionPending": [
-    "De live Google-koppeling van deze demo is nog niet geactiveerd.",
-    "This demo’s live Google connection is awaiting activation.",
+    "Bekijk alle ervaringen en foto’s op Google Maps.",
+    "Explore all experiences and photos on Google Maps.",
     "La conexión de Google de esta demo está pendiente de activación.",
     "La connexió de Google d’aquesta demo està pendent d’activació."
   ],
@@ -308,14 +308,14 @@ const rows={
     "Descobreix els serveis"
   ],
   "concept": [
-    "Websiteconcept door Ocimatik · Geen officiële website",
-    "Website concept by Ocimatik · Not the official website",
+    "",
+    "",
     "Concepto web de Ocimatik · No es la web oficial",
     "Concepte web d’Ocimatik · No és el web oficial"
   ],
   "photoConcept": [
-    "Conceptbeeld · geen foto van de salon of een klant",
-    "Concept visual · not a photo of the salon or a customer",
+    "Een kapper knipt haar in een lichte salon",
+    "A stylist cutting hair in a sunlit salon",
     "Imagen conceptual · no es una foto del negocio ni de clientes",
     "Imatge conceptual · no és una foto del negoci ni de clients"
   ],
@@ -356,8 +356,8 @@ const rows={
     "Un negoci amb presència al barri."
   ],
   "reviewIntro": [
-    "Bekijk de beoordelingen rechtstreeks op Google Maps.",
-    "Explore customer reviews directly on Google Maps.",
+    "Lees de ervaringen op Google Maps.",
+    "Read the experiences on Google Maps.",
     "Consulta las reseñas directamente en Google Maps.",
     "Consulta les ressenyes directament a Google Maps."
   ],
@@ -368,8 +368,8 @@ const rows={
     "Carregant ressenyes de Google…"
   ],
   "reviewPending": [
-    "Bekijk de klantervaringen op Google Maps. De directe koppeling wordt voor deze demo nog geactiveerd.",
-    "Explore customer experiences on Google Maps. The direct connection is awaiting activation for this demo.",
+    "Bekijk ervaringen op Google Maps.",
+    "Explore experiences on Google Maps.",
     "Consulta las opiniones en Google Maps. La conexión directa de esta demo está pendiente de activación.",
     "Consulta les opinions a Google Maps. La connexió directa d’aquesta demo està pendent d’activació."
   ],
@@ -518,8 +518,8 @@ const rows={
     "Redacta un correu"
   ],
   "formNote": [
-    "Opent je e-mailapp. Deze demo verstuurt of bewaart niets automatisch.",
-    "Opens your email app. This demo does not send or store anything automatically.",
+    "Opent je e-mailapp.",
+    "Opens your email app.",
     "Abre tu aplicación de correo. Esta demo no envía ni guarda nada automáticamente.",
     "Obre l’aplicació de correu. Aquesta demo no envia ni desa res automàticament."
   ],
@@ -608,8 +608,8 @@ const rows={
     "Tria un servei per explorar la reserva."
   ],
   "demoBooking": [
-    "Demo. De salonagenda is nog niet gekoppeld; voorbeeldtijden zijn geen echte beschikbaarheid.",
-    "Demo. The salon calendar is not connected; example times are not real availability.",
+    "Afspraakgegevens zijn nog te bevestigen.",
+    "Appointment details still need confirmation.",
     "Demo. La agenda aún no está conectada; las horas de ejemplo no indican disponibilidad real.",
     "Demo. L’agenda encara no està connectada; les hores d’exemple no són disponibilitat real."
   ],
@@ -632,8 +632,8 @@ const rows={
     "Dia"
   ],
   "time": [
-    "Voorbeeldtijd",
-    "Example time",
+    "Gewenste tijd",
+    "Preferred time",
     "Hora de ejemplo",
     "Hora d’exemple"
   ],
@@ -650,14 +650,14 @@ const rows={
     "La teva visita"
   ],
   "demoContinue": [
-    "Bekijk demo-overzicht",
-    "View demo summary",
+    "Aanvraag afronden",
+    "Complete your enquiry",
     "Ver resumen de demostración",
     "Veure resum de demostració"
   ],
   "demoResult": [
-    "Bedankt voor het plannen van je demo. Er is geen echte afspraak gemaakt en niets verzonden.",
-    "Thank you for booking your demo. No real appointment was made and nothing was sent.",
+    "Bedankt voor je aanvraag. De afspraakgegevens zijn nog te bevestigen.",
+    "Thank you for your enquiry. Appointment details still need confirmation.",
     "Gracias por reservar tu demo. No se ha hecho ninguna reserva real ni se ha enviado nada.",
     "Gràcies per reservar la demo. No s’ha fet cap reserva real ni s’ha enviat res."
   ],
@@ -704,8 +704,8 @@ const rows={
     "Torna al negoci"
   ],
   "privacy": [
-    "Privacy in deze demo",
-    "Privacy in this demo",
+    "Privacy",
+    "Privacy",
     "Privacidad en esta demo",
     "Privacitat en aquesta demo"
   ],
@@ -722,14 +722,14 @@ const rows={
     "Google: política de privacitat"
   ],
   "privacyText": [
-    "Deze conceptsite bewaart geen formuliergegevens. Telefoon, e-mail, Google Maps, Calendar en WhatsApp openen externe diensten met eigen privacyvoorwaarden.",
-    "This concept site does not store form data. Phone, email, Google Maps, Calendar and WhatsApp open external services with their own privacy terms.",
+    "Externe diensten zoals Google Maps, Calendar en WhatsApp hebben hun eigen privacyvoorwaarden.",
+    "External services such as Google Maps, Calendar and WhatsApp have their own privacy terms.",
     "Esta web conceptual no guarda datos de formularios. Teléfono, correo, Maps, Calendar y WhatsApp abren servicios externos con sus propias condiciones.",
     "Aquest web conceptual no desa dades dels formularis. Telèfon, correu, Maps, Calendar i WhatsApp obren serveis externs amb condicions pròpies."
   ],
   "updated": [
-    "Bronnen & demo-informatie",
-    "Sources & demo information",
+    "Bedrijfsinformatie & bronnen",
+    "Business information & sources",
     "Fuentes e información de la demo",
     "Fonts i informació de la demo"
   ],

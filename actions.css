@@ -4,3 +4,247 @@
 
 .hero-grid .hero-copy .actions{grid-template-columns:repeat(2,250px)}.hero-grid .hero-copy .actions .button{width:250px}.image-credit,.hero-credit,.visual-caption,.menu-illustration-note{display:none}@media(max-width:1150px){.hero-grid .hero-copy .actions{grid-template-columns:minmax(0,250px)}}
 .brand-symbol{display:block;flex:none;width:43px;height:43px;color:var(--primary,var(--teal,#285242))}.brand .brand-symbol{width:43px;height:43px}.hero-grid .visual .sector-cover{display:block;width:100%;height:100%;max-width:100%;object-fit:cover;object-position:center;border-radius:23px;box-shadow:0 22px 50px #15372813}.thanks-mark .brand-symbol{width:84px;height:84px;stroke-width:1.5}@media(max-width:650px){.brand .brand-symbol{width:34px;height:34px}.hero-grid .visual .sector-cover{border-radius:17px}.thanks-mark .brand-symbol{width:65px;height:65px}}
+/* A calm business identity and consistent controls, shared by every sector. */
+.header-inner{min-height:110px}.header-inner .brand{gap:11px}.header-inner .brand>span{min-width:0;line-height:1.08}.header-inner .brand-symbol{width:44px;height:44px;padding:7px;border:1px solid color-mix(in srgb,var(--primary,var(--teal)) 17%,transparent);border-radius:14px;background:color-mix(in srgb,var(--primary,var(--teal)) 5%,transparent)}.header-inner .brand small.brand-descriptor,.brand-name small.brand-descriptor{display:block;width:auto;max-width:100%;min-height:2.7em;margin-top:7px;font:400 14px/1.35 Arial,Helvetica,sans-serif;letter-spacing:.01em;text-transform:none;white-space:normal;overflow-wrap:normal;color:var(--muted,#5d6b62)}
+.lang-switch,.langs,.language-switch{display:flex;align-items:center;gap:3px!important;padding:4px;border:1px solid color-mix(in srgb,var(--primary,var(--teal)) 16%,transparent);border-radius:12px;background:color-mix(in srgb,var(--primary,var(--teal)) 4%,transparent)}.header-actions .lang-switch,.header-actions .langs,.header-nav .language-switch{width:78px;flex:0 0 78px}.lang-switch .lang-btn,.langs>a,.language-switch>button{display:grid;align-content:center;justify-items:center;gap:4px;width:32px!important;min-width:0;min-height:44px;height:44px;padding:0;border:0!important;border-radius:8px;font-size:14px;line-height:1;color:inherit;text-decoration:none}.language-flag{display:block;flex:none;width:18px!important;height:12px!important;max-width:none;overflow:hidden;border-radius:2px;box-shadow:0 0 0 1px #172a3318}.language-code{display:block;font:inherit;line-height:1;letter-spacing:0}.lang-switch .lang-btn.is-active,.langs>a.active,.language-switch>button[aria-pressed="true"]{background:var(--primary,var(--teal));color:#fff;box-shadow:0 3px 7px #18372912}.mobile-menu-btn,.menu-toggle{border-radius:11px;background:color-mix(in srgb,var(--primary,var(--teal)) 4%,transparent)}
+.main-nav a,.nav a,.header-nav>a:not(.button){text-underline-offset:7px;transition:color .16s}.main-nav a:hover,.nav a:hover,.header-nav>a:not(.button):hover{color:var(--primary,var(--teal))}.button{border-radius:13px;box-shadow:0 6px 16px #19302112}.button>span[aria-hidden="true"]{background:#ffffff18}.button.light>span[aria-hidden="true"],.button.outline>span[aria-hidden="true"]{background:color-mix(in srgb,var(--primary,var(--teal)) 8%,transparent)}.button:hover{box-shadow:0 10px 22px #1930211c}.carousel-arrows button{border-radius:50%;background:#ffffff80}.carousel-autoplay{padding:9px 12px;border:1px solid var(--line);border-radius:9px;text-decoration:none}.review-avatar,.review-author>img{border:3px solid #fff;box-shadow:0 3px 10px #1b332514}
+@media(max-width:700px){.header-inner{min-height:104px}.header-inner .brand{gap:8px}.header-inner .brand-symbol{width:34px;height:34px;padding:4px;border-radius:10px}.header-inner .brand small.brand-descriptor,.brand-name small.brand-descriptor{font-size:13px;min-height:2.7em}.header-actions{gap:9px}.header-inner .brand>span{font-size:27px}.brand-name small.brand-descriptor{max-width:115px}.carousel-autoplay{font-size:15px;padding:9px 10px}.carousel-footer{gap:12px}.lang-switch,.langs,.language-switch{flex-shrink:0}}
+@media(prefers-reduced-motion:reduce){.main-nav a,.nav a,.header-nav>a:not(.button){transition:none}}
+/* Short sector labels reserve the same line height in either language. */
+body.sector-accounting .header-inner .brand small.brand-descriptor{min-height:1.45em;white-space:nowrap}
+.lang-switch .lang-btn:focus-visible,.langs>a:focus-visible,.language-switch>button:focus-visible{outline:3px solid var(--primary,var(--teal,#285242));outline-offset:3px}
+
+/* Five header identities. The shared 78px language track and 44px targets stay fixed. */
+body.sector-salon .header-inner{border-top:1px solid #394b3e24}
+body.sector-salon .header-inner .brand-symbol{padding:4px;border:0;border-radius:0;background:transparent}
+body.sector-salon .header-inner .brand{font-family:Georgia,Cambria,serif;font-weight:400}
+body.sector-salon :is(.lang-switch,.langs,.language-switch){border-color:transparent;border-radius:0;background:transparent;box-shadow:none}
+body.sector-salon :is(.lang-switch .lang-btn,.langs>a,.language-switch>button){position:relative;border-radius:0;font-family:Georgia,Cambria,serif;color:#394b3e}
+body.sector-salon :is(.lang-switch .lang-btn.is-active,.langs>a.active,.language-switch>button[aria-pressed="true"]){background:transparent;color:#24382b;box-shadow:inset 0 -2px #394b3e}
+body.sector-salon :is(.main-nav,.nav,.header-nav)>a:not(.button){border-bottom:1px solid #394b3e2c;padding-bottom:6px}
+body.sector-salon .header-inner .button{border-radius:0;box-shadow:none}
+
+body.sector-restaurant .header-inner{background:#fbf6ed}
+body.sector-restaurant .header-inner .brand-symbol{border-radius:50%;border-color:#b9795040;background:#f5e9d5;color:#a83923}
+body.sector-restaurant .header-inner .brand{font-family:Georgia,Cambria,serif;font-weight:600}
+body.sector-restaurant :is(.lang-switch,.langs,.language-switch){border-color:#d9bea0;border-radius:28px;background:#f0e2cd;box-shadow:inset 0 1px 2px #55331c08}
+body.sector-restaurant :is(.lang-switch .lang-btn,.langs>a,.language-switch>button){border-radius:22px;font-family:Georgia,Cambria,serif;color:#62361f}
+body.sector-restaurant :is(.lang-switch .lang-btn.is-active,.langs>a.active,.language-switch>button[aria-pressed="true"]){background:#a83923;color:#fffaf1;box-shadow:0 2px 5px #6f301b20}
+body.sector-restaurant :is(.main-nav,.nav,.header-nav)>a:not(.button){text-decoration:underline;text-decoration-color:#b9785044;text-decoration-style:dotted;text-underline-offset:8px}
+body.sector-restaurant .header-inner .button{border-radius:22px;background:#a83923;border-color:#a83923;color:#fffaf1}
+
+body.sector-dental .header-inner .brand-symbol{border-radius:16px;background:#fff;border-color:#c4e3da;color:#14686a;box-shadow:0 3px 8px #175c5610}
+body.sector-dental .header-inner .brand{font-family:Arial,Helvetica,sans-serif;font-weight:600}
+body.sector-dental :is(.lang-switch,.langs,.language-switch){border-radius:15px;border-color:#cee5df;background:#e5f3ee;box-shadow:none}
+body.sector-dental :is(.lang-switch .lang-btn,.langs>a,.language-switch>button){border-radius:11px;color:#14686a}
+body.sector-dental :is(.lang-switch .lang-btn.is-active,.langs>a.active,.language-switch>button[aria-pressed="true"]){background:#fff;color:#10585a;box-shadow:0 2px 6px #185d5718,inset 0 0 0 1px #b4d9cd}
+body.sector-dental .header-inner .button{border-radius:28px;background:#14686a;border-color:#14686a;color:#fff}
+
+body.sector-accounting .header-inner{border-bottom:1px solid #bdcbd5}
+body.sector-accounting .header-inner .brand-symbol{border-radius:1px;background:#24435d;border-color:#24435d;color:#fff;padding:7px;box-shadow:3px 3px #d8dfe4}
+body.sector-accounting .header-inner .brand{font-family:Georgia,Cambria,serif;font-weight:400}
+body.sector-accounting :is(.lang-switch,.langs,.language-switch){border-radius:2px;border-color:#24435d;background:#f4f7f9;box-shadow:2px 2px #c7d3dc}
+body.sector-accounting :is(.lang-switch .lang-btn,.langs>a,.language-switch>button){border-radius:0;color:#24435d;font-weight:600}
+body.sector-accounting :is(.lang-switch .lang-btn.is-active,.langs>a.active,.language-switch>button[aria-pressed="true"]){background:#24435d;color:#fff;box-shadow:none}
+body.sector-accounting .header-inner .button{border-radius:2px;background:#24435d;border-color:#24435d;color:#fff;box-shadow:none}
+
+body.sector-moving #header,body.sector-moving #siteHeader .site-header{background:#173849;border-bottom-color:#e8af65}
+body.sector-moving .header-inner{border-bottom:2px solid #e8af65}
+body.sector-moving .header-inner .brand,body.sector-moving :is(.main-nav,.nav)>a{color:#fff8ec}
+body.sector-moving .header-inner .brand small.brand-descriptor{color:#d0e0e3}
+body.sector-moving .header-inner .brand-symbol{border-radius:5px;border-color:#e8af65;background:#e8af65;color:#173849;padding:6px;box-shadow:none}
+body.sector-moving :is(.lang-switch,.langs,.language-switch){border-radius:5px;border-color:#6e8691;border-top-color:#e8af65;background:#112c3b;box-shadow:none}
+body.sector-moving :is(.lang-switch .lang-btn,.langs>a,.language-switch>button){border-radius:2px;color:#edf5f5;font-weight:600}
+body.sector-moving :is(.lang-switch .lang-btn.is-active,.langs>a.active,.language-switch>button[aria-pressed="true"]){background:#e8af65;color:#173849;box-shadow:none}
+body.sector-moving .header-inner .button{border-radius:5px;background:#e8af65;border-color:#e8af65;color:#173849;box-shadow:none}
+body.sector-moving .header-inner :is(.mobile-menu-btn,.menu-toggle){background:#e8af65;color:#173849;border-color:#e8af65}
+body.sector-moving .header-inner :is(a,button):focus-visible{outline-color:#f5cf93}
+body.sector-salon .header-inner :is(a,button):focus-visible{outline-color:#394b3e}
+body.sector-restaurant .header-inner :is(a,button):focus-visible{outline-color:#a83923}
+body.sector-dental .header-inner :is(a,button):focus-visible{outline-color:#14686a}
+body.sector-accounting .header-inner :is(a,button):focus-visible{outline-color:#24435d}
+
+@media(min-width:1101px){
+ body.sector-salon .header-inner :is(.main-nav,.nav){gap:33px;align-self:flex-end;margin-bottom:27px}
+ body.sector-restaurant .header-inner :is(.main-nav,.nav){gap:27px;font-family:Georgia,Cambria,serif}
+ body.sector-dental .header-inner :is(.main-nav,.nav){padding:12px 21px;border:1px solid #d6e9e2;border-radius:30px;background:#fff;gap:23px;box-shadow:0 4px 14px #14686a05}
+ body.sector-accounting .header-inner :is(.main-nav,.nav){gap:24px;border-top:1px solid #9eb0bd;padding-top:12px;align-self:center}
+ body.sector-moving .header-inner :is(.main-nav,.nav){gap:0;align-self:center}
+ body.sector-moving .header-inner :is(.main-nav,.nav)>a{padding-inline:20px;border-left:1px solid #87a1ab66}
+}
+
+/* The right-hand controls occupy the same track after a language switch. */
+@media(min-width:1101px){
+ body:is(.sector-salon,.sector-restaurant,.sector-dental,.sector-accounting,.sector-moving) .header-inner .header-actions{flex:0 0 auto;margin-left:auto}
+ body:is(.sector-salon,.sector-restaurant,.sector-dental,.sector-accounting,.sector-moving) .header-inner .header-actions>.button{flex:0 0 235px;width:235px;max-width:235px;white-space:nowrap}
+ body:is(.sector-salon,.sector-restaurant,.sector-dental,.sector-accounting,.sector-moving) .header-inner :is(.nav,.main-nav){flex:1 1 auto;justify-content:center;min-width:0}
+ body.sector-dental #main .hero-copy .actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));min-height:82px;align-items:stretch}
+ body.sector-dental #main .hero-copy .actions>.button{width:100%;min-height:82px;white-space:normal}
+ body.sector-dental #main .hero-copy>:is(.eyebrow,.hero-intro,.actions){flex-shrink:0}
+ body.sector-moving #main .hero-copy .hero-intro{min-height:6.4em}
+ body.sector-moving #main .hero-copy .actions{min-height:110px;align-content:start}
+}
+@media(max-width:760px){
+ body.sector-moving #main .hero .hero-copy{align-content:start}
+ body.sector-moving #main .hero .hero-copy h1{min-height:3.24em;align-self:start}
+ body.sector-moving #main .hero .hero-copy .hero-intro{min-height:8em}
+}
+/* The restaurant keeps its language controls within reach while the menu is closed. */
+body.sector-restaurant #top .header-inner>.language-switch{width:78px;flex:0 0 78px}
+body.sector-restaurant #top .header-nav{margin-left:auto}
+@media(max-width:850px){
+ body.sector-restaurant #top .header-inner{gap:8px}
+ body.sector-restaurant #top .header-inner>.brand{flex:1 1 auto;min-width:0}
+ body.sector-restaurant #top .header-inner>.menu-toggle{flex:0 0 44px;width:44px;height:44px}
+ body.sector-restaurant #top .header-nav{margin-left:0}
+}
+@media(max-width:650px){
+ body.sector-restaurant #top .header-inner>.brand>span{font-size:22px;white-space:nowrap}
+ body.sector-restaurant #top .header-inner>.brand .brand-descriptor{font-size:12px;max-width:100%;white-space:normal;min-height:2.7em}
+}
+
+.sector-faq{background:var(--paper,var(--bg,#f8fbff));color:var(--ink,#173455);border-top:1px solid var(--line,#d7e5e4)}
+.sector-faq .faq-layout{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:70px;align-items:start}
+.sector-faq .faq-heading h2{font-size:clamp(34px,3.5vw,49px);line-height:1.15;overflow-wrap:normal}
+.sector-faq .faq-list{min-width:0;border-top:1px solid var(--line,#d7e5e4)}
+.sector-faq .faq-list details{border-bottom:1px solid var(--line,#d7e5e4);padding:0}
+.sector-faq .faq-list summary{display:flex;align-items:center;justify-content:space-between;gap:22px;padding:23px 0;font:600 20px/1.45 Arial,Helvetica,sans-serif;cursor:pointer;list-style:none}
+.sector-faq .faq-list summary::-webkit-details-marker{display:none}
+.sector-faq .faq-list summary>span{display:grid;place-items:center;flex:0 0 34px;width:34px;height:34px;border:1px solid var(--line,#d7e5e4);border-radius:50%;font:400 24px/1 Arial,Helvetica,sans-serif;color:var(--primary,var(--teal,#173455))}
+.sector-faq .faq-list details[open] summary>span{transform:rotate(45deg)}
+.sector-faq .faq-list details>p{margin:0;padding:0 56px 25px 0;font:400 18px/1.7 Arial,Helvetica,sans-serif;color:var(--muted,#536b70);max-width:760px}
+.sector-faq .faq-list summary:focus-visible{outline:3px solid var(--primary,var(--teal,#173455));outline-offset:4px}
+.header-inner [data-faq-link]{white-space:nowrap}
+@media(max-width:1200px){.header-inner [data-faq-link]{display:none}.header-nav.open [data-faq-link]{display:block}}
+@media(max-width:760px){.sector-faq .faq-layout{grid-template-columns:minmax(0,1fr);gap:27px}.sector-faq .faq-heading h2{font-size:35px}.sector-faq .faq-list summary{font-size:19px;gap:15px;padding:21px 0}.sector-faq .faq-list details>p{padding-right:0;font-size:18px}}
+
+/* Rating glyphs remain readable on every sector review surface. */
+body .review-stars,body .review-stars>span{color:#78551e}
+
+/* The five navigation compositions are part of the sector, not a shared skin. */
+body.sector-salon .button,body.sector-salon .cw-submit{border-radius:0;box-shadow:none;font-family:Georgia,Cambria,serif;font-weight:400;border-width:1px}
+body.sector-salon .button>span{background:transparent;border-radius:0}
+body.sector-salon :is(.lang-switch,.langs){width:116px!important;flex-basis:116px!important;padding:0;border:0;gap:4px!important}
+body.sector-salon :is(.lang-btn,.langs>a){display:flex;width:54px!important;min-height:44px;gap:7px;justify-content:center}
+body.sector-salon .header-inner .brand-symbol{width:32px;height:40px;background:transparent;border:0;padding:0}
+body.sector-salon .header-inner .brand-descriptor{min-height:1.35em;white-space:nowrap}
+body.sector-salon .header-inner .header-actions>.button{width:185px;max-width:185px;flex-basis:185px;background:transparent;color:#394b3e;border:0;border-bottom:1px solid #394b3e;border-radius:0;padding-inline:0}
+body.sector-restaurant .button,body.sector-restaurant .cw-submit{font-family:Georgia,Cambria,serif;font-weight:400;border-radius:999px;box-shadow:none}
+body.sector-restaurant .button>span{background:transparent;border-radius:0}
+body.sector-restaurant :is(.lang-switch,.langs,.language-switch){width:112px!important;flex-basis:112px!important;border:0;border-radius:0;background:transparent;padding:0;gap:8px!important}
+body.sector-restaurant :is(.lang-btn,.langs>a,.language-switch>button){display:flex;justify-content:center;gap:7px;width:48px!important;border-radius:50%;background:transparent;font-family:Georgia,Cambria,serif}
+body.sector-restaurant :is(.lang-btn.is-active,.langs>a.active,.language-switch>button[aria-pressed=true]){background:#f0dbc0;color:#61311c;box-shadow:0 0 0 1px #b9855c}
+body.sector-restaurant .header-inner .brand-symbol{padding:0;width:30px;height:44px;border:0;background:transparent;color:#a83923;border-radius:0;box-shadow:none}
+body.sector-dental .button,body.sector-dental .cw-submit{border-radius:28px;box-shadow:none;font-family:Arial,Helvetica,sans-serif;font-weight:600}
+body.sector-dental .button.outline{border:0;background:transparent;text-decoration:underline;text-underline-offset:6px;color:#176d70}
+body.sector-dental :is(.lang-switch,.langs){width:108px!important;flex-basis:108px!important;background:white;border:1px solid #b7d7d0;padding:3px;border-radius:5px;gap:0!important}
+body.sector-dental :is(.lang-btn,.langs>a){display:flex;justify-content:center;gap:6px;width:49px!important;border-radius:2px;color:#176d70}
+body.sector-dental :is(.lang-btn.is-active,.langs>a.active){background:#176d70;color:#fff;box-shadow:none}
+body.sector-dental .header-inner .brand-symbol{background:transparent;border:0;box-shadow:none;width:43px;height:55px;padding:0}
+body.sector-accounting .button,body.sector-accounting .cw-submit{border-radius:0;box-shadow:none;font-weight:600;background:#24435d;border-color:#24435d}
+body.sector-accounting .button>span{border-radius:0;background:transparent}
+body.sector-accounting .button.outline{color:#24435d;background:transparent;border:0;border-bottom:1px solid #24435d;padding-inline:0;justify-content:start}
+body.sector-accounting :is(.lang-switch,.langs){background:transparent;box-shadow:none;border:1px solid #24435d;border-radius:0;width:112px!important;flex-basis:112px!important;padding:0;gap:0!important}
+body.sector-accounting :is(.lang-btn,.langs>a){display:flex;justify-content:center;gap:7px;width:54px!important;border-radius:0;box-shadow:none}
+body.sector-moving .button,body.sector-moving .cw-submit{border-radius:3px 15px 3px 3px;font-weight:700;box-shadow:none}
+body.sector-moving .button>span{border-radius:0;background:transparent}
+body.sector-moving :is(.lang-switch,.langs){display:flex;flex-direction:column;width:62px!important;flex-basis:62px!important;border:1px solid #e8af65;padding:0;background:#112c3b;border-radius:0;gap:0!important}
+body.sector-moving :is(.lang-btn,.langs>a){display:flex;justify-content:center;gap:7px;width:60px!important;height:44px;min-height:44px;border-radius:0}
+body.sector-moving :is(.lang-btn.is-active,.langs>a.active){background:#e8af65;color:#173849;box-shadow:none}
+@media(min-width:1101px){
+ body.sector-salon .header-inner{display:grid;grid-template-columns:minmax(0,1fr) 235px minmax(0,1fr);gap:20px;min-height:142px;border-top:0;border-bottom:1px solid #b8bba87a}
+ body.sector-salon .header-inner>.brand{grid-column:2;grid-row:1;justify-self:center;flex-direction:column;gap:2px;max-width:235px;text-align:center}
+ body.sector-salon .header-inner>.brand>span{font-size:36px}
+ body.sector-salon .header-inner>.brand .brand-symbol{height:31px;width:31px}
+ body.sector-salon .header-inner .main-nav{grid-column:1;grid-row:1;justify-content:start;align-self:center;gap:19px;margin:0;font-size:15px}
+ body.sector-salon .header-inner .header-actions{grid-column:3;grid-row:1;justify-self:end;gap:13px;margin:0}
+ body.sector-salon .header-inner .main-nav>a{padding-bottom:8px;min-height:44px}
+ body.sector-restaurant .header-inner{display:grid;position:relative;grid-template-columns:minmax(0,1fr) 270px minmax(0,1fr);grid-template-areas:'reserve brand language' 'nav nav nav';gap:7px 25px;min-height:153px;height:auto;padding-block:14px 10px;border-bottom:1px solid #d8baa0}
+ body.sector-restaurant .header-inner>.brand{grid-area:brand;justify-self:center;flex:none;width:auto;max-width:270px;font-size:33px}
+ body.sector-restaurant .header-inner .brand-descriptor{min-height:1.35em;text-align:center;letter-spacing:.1em;font-size:12px}
+ body.sector-restaurant .header-inner :is(.nav,.main-nav,.header-nav){grid-area:nav;display:flex;justify-content:center;align-items:center;gap:35px;border:0;margin:0;padding:0;background:transparent;font:400 17px/1.4 Georgia,Cambria,serif;box-shadow:none;min-height:44px}
+ body.sector-restaurant .header-inner .header-actions{display:contents}
+ body.sector-restaurant .header-inner :is(.langs,.lang-switch,.language-switch){grid-area:language;justify-self:end}
+ body.sector-restaurant .header-inner .header-actions>.button{grid-area:reserve;justify-self:start;max-width:225px;width:225px;flex:none;border:0;border-bottom:1px solid #a83923;border-radius:0;background:transparent;color:#873521;padding-inline:0;justify-content:start;font-size:17px}
+ body.sector-restaurant #top .header-nav>.button{position:absolute;left:0;top:24px;width:225px;max-width:225px;border:0;border-bottom:1px solid #a83923;border-radius:0;background:transparent;color:#873521;justify-content:start;padding-inline:0;font-size:17px}
+ body.sector-restaurant #top .menu-toggle{display:none}
+ body.sector-dental .header-inner{display:grid;grid-template-columns:minmax(220px,1fr) minmax(0,2fr);grid-template-areas:'brand action' 'brand nav';gap:0 40px;min-height:132px;padding-block:16px;border:0}
+ body.sector-dental .header-inner>.brand{grid-area:brand;justify-self:start;width:auto;max-width:300px;flex:none;font-size:29px;gap:15px}
+ body.sector-dental .header-inner .brand-descriptor{min-height:1.35em;margin-top:5px;font-size:14px}
+ body.sector-dental .header-inner .header-actions{grid-area:action;justify-self:end;margin:0;gap:16px}
+ body.sector-dental .header-inner .header-actions>.button{width:215px;max-width:215px;flex-basis:215px;min-height:49px;font-size:16px}
+ body.sector-dental .header-inner :is(.nav,.main-nav){grid-area:nav;justify-content:end;justify-self:end;padding:0;border:0;border-radius:0;box-shadow:none;gap:25px;background:transparent;font-size:16px;min-height:44px}
+ html[data-page=home] body.sector-accounting #header{position:fixed;inset:0 auto 0 0;width:235px;height:100dvh;background:#203b50;color:#fff;z-index:30;border-right:1px solid #172d3e}
+ html[data-page=home] body.sector-accounting #header .header-inner{display:flex;flex-direction:column;align-items:stretch;justify-content:start;gap:0;width:auto;margin:0;padding:34px 25px;min-height:100%;border:0}
+ html[data-page=home] body.sector-accounting #header .brand{flex:none;display:flex;flex-direction:column;align-items:start;gap:17px;color:#fff;width:100%;max-width:none;margin:0}
+ html[data-page=home] body.sector-accounting #header .brand>span{font-size:31px;line-height:1.14;max-width:100%;font-weight:400}
+ html[data-page=home] body.sector-accounting #header .brand-symbol{color:#fff;border-color:#acc0cd;background:transparent;width:38px;height:44px;box-shadow:none;padding:2px}
+ html[data-page=home] body.sector-accounting #header .brand-descriptor{color:#d1dde5;font-size:14px;min-height:1.45em;white-space:nowrap}
+ html[data-page=home] body.sector-accounting #header .nav{display:flex;flex-direction:column;align-items:stretch;justify-content:start;flex:none;min-height:243px;gap:11px;padding:30px 0 24px;border:0;font-size:17px}
+ html[data-page=home] body.sector-accounting #header .nav>a{display:flex;align-items:center;min-height:44px;border-bottom:1px solid #7190a360;padding-bottom:8px;color:#fff}
+ html[data-page=home] body.sector-accounting #header .header-actions{display:flex;flex-direction:column;align-items:stretch;justify-content:start;gap:29px;margin:0;width:100%;flex:none}
+ html[data-page=home] body.sector-accounting #header .langs{border:1px solid #afc1cd;width:100%!important;flex:none;background:transparent}
+ html[data-page=home] body.sector-accounting #header .langs>a{width:50%!important;color:#fff;min-height:49px}
+ html[data-page=home] body.sector-accounting #header .langs>a.active{background:#fff8ed;color:#203b50}
+ html[data-page=home] body.sector-accounting #header .header-actions>.button{white-space:normal;max-width:none;width:100%;flex:none;min-height:77px;background:#fff8ed;border:1px solid #fff8ed;color:#203b50;font-size:17px;line-height:1.4;padding:15px 17px}
+ html[data-page=home] body.sector-accounting #header :is(a,button):focus-visible{outline-color:#e0b887}
+ html[data-page=home] body.sector-accounting #main,html[data-page=home] body.sector-accounting #footer{margin-left:235px}
+ body.sector-moving .header-inner{min-height:126px;gap:23px;border-bottom:0}
+ body.sector-moving .header-inner>.brand{flex:0 0 240px;gap:15px}
+ body.sector-moving .header-inner>.brand>span{font-size:32px;font-weight:750}
+ body.sector-moving .header-inner .brand-descriptor{min-height:1.4em;font-size:14px}
+ body.sector-moving .header-inner :is(.nav,.main-nav){justify-content:start;gap:23px;font-size:17px;min-height:44px}
+ body.sector-moving .header-inner :is(.nav,.main-nav)>a{padding:8px 0;border:0;border-bottom:1px solid #99b2bd50;min-height:44px}
+ body.sector-moving .header-inner .header-actions{gap:24px;margin:0}
+ body.sector-moving .header-inner .header-actions>.button{flex:0 0 220px;width:220px;max-width:220px;background:#e8af65;border-color:#e8af65;min-height:57px}
+}
+@media(max-width:1100px){
+ body.sector-salon .header-inner{min-height:116px;border-top:0;border-bottom:1px solid #c1c0b0}
+ body.sector-salon .header-inner>.brand>span{font-size:29px}
+ body.sector-salon .header-inner .brand-descriptor{font-size:13px;min-height:1.35em}
+ body.sector-salon .header-inner .header-actions{gap:10px}
+ body.sector-salon .header-inner .desktop-cta{display:none}
+ body.sector-restaurant .header-inner{min-height:106px;height:auto;gap:12px;padding-block:14px;border-bottom:1px solid #d8baa0}
+ body.sector-restaurant .header-inner .header-actions>.button{display:none}
+ body.sector-restaurant .header-inner :is(.main-nav,.nav){display:none}
+ body.sector-restaurant #top .header-nav{margin-left:0}
+ body.sector-dental .header-inner{min-height:114px;gap:12px}
+ body.sector-dental .header-inner .header-actions>.button{display:none}
+ body.sector-dental .header-inner .brand-descriptor{min-height:2.7em}
+ body.sector-accounting .header-inner{min-height:112px;border-bottom:3px double #8a9aa7}
+ body.sector-accounting .header-inner .header-actions>.button{display:none}
+ body.sector-accounting .header-inner .brand-symbol{width:30px;height:38px}
+ body.sector-accounting .header-inner .brand-descriptor{font-size:13px;min-height:1.45em}
+ body.sector-moving .header-inner{min-height:117px}
+ body.sector-moving .header-inner .header-actions>.button{display:none}
+ body.sector-moving .header-inner .brand-descriptor{min-height:2.7em}
+}
+@media(max-width:650px){
+ body:is(.sector-salon,.sector-dental,.sector-accounting,.sector-moving) .header-inner{gap:10px}
+ body:is(.sector-salon,.sector-dental,.sector-accounting,.sector-moving) .header-inner>.brand{min-width:0;flex:1 1 auto;max-width:none}
+ body.sector-salon :is(.lang-switch,.langs){width:96px!important;flex-basis:96px!important;gap:0!important}
+ body.sector-salon :is(.lang-btn,.langs>a){width:48px!important;font-size:13px;gap:5px}
+ body.sector-salon .header-inner .brand-symbol{width:27px;height:34px}
+ body.sector-salon .header-inner>.brand>span{font-size:24px}
+ body.sector-salon .header-inner .mobile-menu-btn{width:44px;height:44px;border:0;border-left:1px solid #c1c0b0;border-radius:0;font-size:21px}
+ body.sector-restaurant .header-inner{flex-wrap:nowrap;gap:8px;min-height:108px}
+ body.sector-restaurant .header-inner>.brand{flex:1 1 auto;min-width:0;max-width:none}
+ body.sector-restaurant .header-inner .brand>span{font-size:23px;white-space:normal!important;line-height:1.1}
+ body.sector-restaurant .header-inner .brand-descriptor{font-size:12px;min-height:1.35em;white-space:nowrap!important}
+ body.sector-restaurant :is(.lang-switch,.langs,.language-switch){width:96px!important;flex-basis:96px!important;gap:0!important}
+ body.sector-restaurant :is(.lang-btn,.langs>a,.language-switch>button){width:46px!important;font-size:13px;gap:5px}
+ body.sector-restaurant #top .menu-toggle{width:44px!important;flex-basis:44px!important;border:0;background:transparent;padding:0;font-size:23px}
+ body.sector-restaurant .header-inner .brand-symbol{width:24px!important;height:35px!important}
+ body.sector-dental .header-inner>.brand>span{font-size:23px}
+ body.sector-dental .header-inner .brand-symbol{width:28px!important;height:40px!important}
+ body.sector-dental .header-inner .brand-descriptor{font-size:12px;min-height:2.7em}
+ body.sector-dental :is(.lang-switch,.langs){width:100px!important;flex-basis:100px!important}
+ body.sector-dental :is(.lang-btn,.langs>a){width:46px!important;font-size:13px;gap:5px}
+ body.sector-accounting .header-inner>.brand>span{font-size:23px}
+ body.sector-accounting :is(.lang-switch,.langs){width:98px!important;flex-basis:98px!important}
+ body.sector-accounting :is(.lang-btn,.langs>a){width:47px!important;font-size:13px;gap:5px}
+ body.sector-moving .header-inner>.brand>span{font-size:27px}
+ body.sector-moving .header-inner .brand-symbol{width:36px!important;height:38px!important;border-radius:2px;padding:5px}
+ body.sector-moving :is(.lang-switch,.langs){width:56px!important;flex-basis:56px!important}
+ body.sector-moving :is(.lang-btn,.langs>a){width:54px!important;font-size:13px;gap:5px}
+}

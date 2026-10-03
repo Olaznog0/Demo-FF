@@ -222,6 +222,8 @@ const config={
     },
     {
       "id": "question",
+      "bookingEligible": false,
+      "contactGeneral": true,
       "title": {
         "nl": "Een algemene vraag",
         "en": "A general enquiry"

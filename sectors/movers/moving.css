@@ -1,2 +1,171 @@
 @import url('../dentists/dental.css');
-:root{--ink:#183542;--teal:#173849;--primary:#173849;--soft:#ece6d8;--mint:#e9b387;--muted:#52626a;--line:#d8d5cb;--paper:#f7f4ec}.hero{background:linear-gradient(135deg,#f6f2e8,#ebe7da);border-color:#ded7c8}.hero-copy .eyebrow{color:#94572f}.button:hover{background:#285367}.button.outline{color:#173849;border-color:#758890}.button.outline:hover{background:#e2ddd0}.service-icon{background:#e7dfcd}.service-icon svg{stroke:#965d39}.contact-section{background:#173849}.contact-grid>div>p:not(.eyebrow){color:#d3dee1}.contact-box{border-color:#567280}.notice{background:#173849}.map{background:#ece9dd}.visual-pill{border-color:#d9d4c5}.visual-pill>span{color:#99592e}.visual-caption{color:#54626a}.brand svg{width:42px}.reviews{background:#fff}.text-link{color:#173849}.contact-widget{--cw-accent:#173849}.langs .active{color:#94572f}.hero-grid .hero-copy h1{font-weight:600;letter-spacing:-.055em}.hero-grid .visual{isolation:isolate}.footer-inner .brand{font-weight:700}
+
+/* A practical moving journey: panorama, action band, connected route cards. */
+body.sector-moving{--ink:#183745;--teal:#173849;--primary:#173849;--soft:#eaf0ee;--mint:#edbd8d;--muted:#546a70;--line:#cedad9;--paper:#faf8f3;background:var(--paper);color:var(--ink);font:18px/1.6 Arial,Helvetica,sans-serif}
+body.sector-moving .container{width:min(1240px,calc(100% - 80px))}
+body.sector-moving h1,body.sector-moving h2,body.sector-moving h3{font-family:Arial,Helvetica,sans-serif;letter-spacing:-.045em}
+body.sector-moving .eyebrow{font-size:14px;line-height:1.6;letter-spacing:.08em}
+body.sector-moving #header{background:#fff;border-bottom:1px solid var(--line)}
+body.sector-moving .notice{background:var(--primary);color:#fff}
+body.sector-moving .header-inner .brand{font-weight:750}
+body.sector-moving .header-inner .brand-symbol{border-radius:5px;background:#edf3f1;color:var(--primary)}
+body.sector-moving .header-actions>.button{background:var(--primary);border-color:var(--primary);border-radius:6px}
+
+/* The image is a panorama rather than a side illustration. */
+body.sector-moving .hero{background:var(--paper);border:0;padding:26px 0 54px;overflow:visible}
+body.sector-moving .hero .hero-grid{display:flex;flex-direction:column;align-items:stretch;gap:0;min-height:0;padding:0;position:relative}
+body.sector-moving .hero .hero-grid>.visual{order:0;position:relative;display:block;align-self:stretch;width:100%;max-width:none;height:370px;min-height:0;aspect-ratio:auto;padding:0;margin:0;background:#e6ece9;border:0;border-radius:6px 6px 0 0;overflow:hidden;box-shadow:none}
+body.sector-moving .hero .hero-grid>.visual>img{display:block;width:100%;height:100%;max-width:none;max-height:none;object-fit:cover;object-position:50% 57%;border:0;border-radius:0;box-shadow:none}
+body.sector-moving .hero .hero-copy{order:1;position:relative;z-index:1;display:grid;align-content:center;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);grid-template-areas:'label label' 'title intro' 'title actions';gap:15px 54px;min-height:292px;width:calc(100% - 72px);max-width:none;margin:-52px 36px 0;padding:30px 38px 34px;background:var(--primary);color:#fff;border:1px solid #d9edf522;border-left:6px solid var(--mint);border-radius:3px;box-shadow:0 14px 30px #17384913}
+body.sector-moving .hero .hero-copy>.eyebrow{grid-area:label;min-height:1.6em;margin:0;color:#b9d8df}
+body.sector-moving .hero .hero-copy h1{grid-area:title;align-self:center;font-size:clamp(42px,4.3vw,61px);font-weight:750;line-height:1.08;min-height:2.16em;max-width:100%;margin:0;white-space:normal;overflow-wrap:normal;color:#fff}
+body.sector-moving .hero .hero-copy .hero-intro{grid-area:intro;font-size:18px;line-height:1.6;min-height:4.8em;max-width:100%;width:100%;margin:0;color:#d9e7eb}
+body.sector-moving .hero .hero-copy .actions{grid-area:actions;display:flex;flex-wrap:wrap;align-items:center;gap:10px 21px;max-width:100%;min-width:0;margin:0}
+body.sector-moving .hero .hero-copy .actions .button{display:inline-flex;justify-content:space-between;gap:12px;white-space:normal;min-height:56px;max-width:100%;width:250px;padding:15px 20px;border:1px solid var(--mint);border-radius:5px;background:var(--mint);color:#173849;font-size:16px;font-weight:700;box-shadow:none}
+body.sector-moving .hero .hero-copy .actions .button:hover{background:#f6d3af;border-color:#f6d3af}
+body.sector-moving .hero .hero-copy .actions .button.outline{width:auto;min-height:44px;padding:6px 0;border:0;border-radius:0;background:transparent;color:#e3eef0;box-shadow:none;font-weight:500;text-decoration:underline;text-underline-offset:6px}
+
+/* The three choices sit along one connected route, without step numbers. */
+body.sector-moving #information{padding:54px 0 78px;background:#edf2ef;border-block:1px solid #dce5de}
+body.sector-moving #information .section-head{align-items:start;gap:50px;margin-bottom:34px}
+body.sector-moving #information .section-head h2{font-size:clamp(35px,3.5vw,48px);line-height:1.1;max-width:600px}
+body.sector-moving #information .section-head>p{max-width:380px;font-size:18px;line-height:1.6}
+body.sector-moving #information .services-compact{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:28px;border:0}
+body.sector-moving #information .services-compact::before{content:'';position:absolute;top:64px;left:12%;right:12%;border-top:2px dashed #b3c7bf;pointer-events:none}
+body.sector-moving #information .services-compact .service-card{position:relative;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr auto;align-items:start;gap:23px;min-width:0;padding:30px;background:var(--paper);border:1px solid #cbd8d0;border-radius:3px 24px 3px 3px;box-shadow:0 7px 20px #18374504}
+body.sector-moving #information .services-compact .service-icon{position:relative;z-index:1;width:64px;height:56px;margin:0;border:1px solid #b8ccc5;border-radius:4px;background:#e8efea;color:var(--primary)}
+body.sector-moving #information .service-icon svg{width:33px;height:33px;stroke:var(--primary)}
+body.sector-moving #information .service-copy{min-width:0}
+body.sector-moving #information .service-copy h3{font-size:25px;line-height:1.2;margin:0 0 14px}
+body.sector-moving #information .service-copy p{font-size:18px;line-height:1.6;max-width:none;margin:0;color:var(--muted)}
+body.sector-moving #information .services-compact .text-link{grid-column:1;justify-self:start;align-self:end;margin:0;white-space:normal;font-size:16px;line-height:1.5;color:var(--primary)}
+
+/* Practical information and a generous enquiry workspace. */
+body.sector-moving #location{padding:72px 0;background:var(--paper)}
+body.sector-moving #location .section-head{margin-bottom:30px}
+body.sector-moving #location h2{font-size:clamp(35px,3.3vw,46px);line-height:1.1}
+body.sector-moving .location-grid{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:28px;align-items:stretch}
+body.sector-moving .location-grid>.map,body.sector-moving .location-grid>.reviews{min-width:0;border:1px solid var(--line);border-radius:6px;box-shadow:none}
+body.sector-moving .location-grid>.map{background:#edf2ef}
+body.sector-moving .location-grid>.reviews{padding:32px;background:#fff}
+body.sector-moving .location-grid .map iframe{height:365px}
+body.sector-moving .map-caption{padding:22px 26px}
+body.sector-moving .reviews p,body.sector-moving .review-text{font-size:18px;line-height:1.65}
+body.sector-moving .public-voice blockquote{font-size:21px;line-height:1.6}
+body.sector-moving .carousel-arrows button{min-height:44px;min-width:44px;border-radius:5px}
+body.sector-moving #contact{background:#eaf0ee;color:var(--ink);border-top:1px solid var(--line);border-radius:0;padding:72px 0}
+body.sector-moving #contact .contact-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.25fr);align-items:start;gap:64px;padding-block:0}
+body.sector-moving #contact .contact-grid>div:first-child{position:sticky;top:30px;min-width:0}
+body.sector-moving #contact h2{font-size:clamp(37px,3.6vw,50px);line-height:1.12}
+body.sector-moving #contact .contact-grid>div>p:not(.eyebrow){font-size:18px;line-height:1.6;color:var(--muted);max-width:420px}
+body.sector-moving #contact .actions{gap:12px;flex-wrap:wrap;margin-top:25px}
+body.sector-moving #contact .actions .button{border-radius:5px;min-height:54px;background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:none}
+body.sector-moving #contact .hours{font-size:16px;color:var(--muted)}
+body.sector-moving #contact .hours>div{border-color:#cbd8d0}
+body.sector-moving #contact .contact-widget.contact-widget[data-contact-widget]{--cw-ink:#183745;--cw-muted:#546a70;--cw-paper:#fff;--cw-field:#fbfcfa;--cw-line:#cad9d2;--cw-tint:#eef4ef;--cw-accent:#173849;padding:35px;border-radius:6px;box-shadow:0 10px 35px #18374508}
+body.sector-moving #contact .contact-widget .cw-submit{border-radius:5px;font-weight:700}
+body.sector-moving #contact .contact-widget input,body.sector-moving #contact .contact-widget textarea,body.sector-moving #contact .contact-widget select{font-size:18px}
+body.sector-moving .footer-inner,body.sector-moving .public-footer>.container{padding-block:30px}
+body.sector-moving .public-footer{background:#fff;border-top:1px solid var(--line)}
+
+@media(max-width:1100px){
+ body.sector-moving .container{width:calc(100% - 48px)}
+ body.sector-moving .hero .hero-grid>.visual{height:350px}
+ body.sector-moving .hero .hero-copy{width:calc(100% - 48px);margin-inline:24px;padding:28px;gap:13px 32px}
+ body.sector-moving .hero .hero-copy h1{font-size:46px}
+ body.sector-moving #information .services-compact{gap:20px}
+ body.sector-moving #information .services-compact .service-card{padding:25px 23px}
+ body.sector-moving #information .service-copy h3{font-size:23px}
+ body.sector-moving #contact .contact-grid{gap:38px}
+}
+@media(max-width:760px){
+ body.sector-moving .container{width:calc(100% - 40px)}
+ body.sector-moving .hero{padding:16px 0 40px}
+ body.sector-moving .hero .hero-grid>.visual{height:270px;border-radius:5px 5px 0 0}
+ body.sector-moving .hero .hero-copy{width:100%;margin:-33px 0 0;padding:25px 25px 28px;grid-template-columns:minmax(0,1fr);grid-template-areas:'label' 'title' 'intro' 'actions';gap:17px;min-height:447px;border-left-width:4px}
+ body.sector-moving .hero .hero-copy>.eyebrow{min-height:3.2em;font-size:13px;line-height:1.6}
+ body.sector-moving .hero .hero-copy h1{font-size:clamp(31px,9vw,46px);line-height:1.08;min-height:2.16em}
+ body.sector-moving .hero .hero-copy .hero-intro{font-size:18px;line-height:1.6;min-height:6.4em}
+ body.sector-moving .hero .hero-copy .actions{gap:7px 17px}
+ body.sector-moving .hero .hero-copy .actions .button{width:100%;min-height:56px;justify-content:space-between;font-size:16px}
+ body.sector-moving .hero .hero-copy .actions .button.outline{width:auto;min-height:44px}
+ body.sector-moving #information{padding:45px 0 52px}
+ body.sector-moving #information .section-head{display:block;margin-bottom:30px}
+ body.sector-moving #information .section-head>p{margin-top:22px;max-width:100%;font-size:18px}
+ body.sector-moving #information .services-compact{grid-template-columns:minmax(0,1fr);gap:16px}
+ body.sector-moving #information .services-compact::before{top:0;bottom:0;left:47px;right:auto;border-top:0;border-left:2px dashed #b3c7bf}
+ body.sector-moving #information .services-compact .service-card{grid-template-columns:54px minmax(0,1fr);grid-template-rows:auto auto;gap:18px 18px;padding:25px 23px;border-radius:3px 20px 3px 3px}
+ body.sector-moving #information .services-compact .service-icon{width:50px;height:48px}
+ body.sector-moving #information .service-icon svg{width:28px;height:28px}
+ body.sector-moving #information .service-copy h3{font-size:24px;margin-bottom:11px}
+ body.sector-moving #information .services-compact .text-link{grid-column:2}
+ body.sector-moving #location{padding:48px 0}
+ body.sector-moving .location-grid{grid-template-columns:minmax(0,1fr);gap:22px}
+ body.sector-moving .location-grid .map iframe{height:300px}
+ body.sector-moving .location-grid>.reviews{padding:28px 23px}
+ body.sector-moving .map-caption{padding:21px 23px}
+ body.sector-moving #contact{padding:49px 0}
+ body.sector-moving #contact .contact-grid{grid-template-columns:minmax(0,1fr);gap:33px}
+ body.sector-moving #contact .contact-grid>div:first-child{position:static}
+ body.sector-moving #contact .contact-widget.contact-widget[data-contact-widget]{padding:27px 23px}
+ body.sector-moving #contact .contact-grid>div>p:not(.eyebrow){max-width:100%}
+}
+@media(max-width:380px){
+ body.sector-moving .container{width:calc(100% - 32px)}
+ body.sector-moving .hero .hero-grid>.visual{height:235px}
+ body.sector-moving .hero .hero-copy{width:100%;margin-inline:0;padding:22px 18px 25px;min-height:480px}
+ body.sector-moving .hero .hero-copy h1{font-size:31px}
+ body.sector-moving #information .services-compact .service-card{grid-template-columns:42px minmax(0,1fr);gap:15px;padding:23px 18px}
+ body.sector-moving #information .services-compact .service-icon{width:40px;height:42px}
+ body.sector-moving #information .service-icon svg{width:26px;height:26px}
+ body.sector-moving #information .service-copy h3{font-size:22px}
+ body.sector-moving #contact .contact-widget.contact-widget[data-contact-widget]{padding:25px 20px}
+}
+@media(prefers-reduced-motion:reduce){body.sector-moving .button{transition:none}}
+
+/* A route home: understated parcel details and a clear destination for every action. */
+body.sector-moving .hero .hero-grid>.visual{position:relative;isolation:isolate;overflow:hidden}body.sector-moving .hero .hero-grid>.visual::after{content:"";position:absolute;inset:17px;border:1px solid #ffffff8c;pointer-events:none;border-radius:3px;background:linear-gradient(90deg,#ffffff 0 27px,transparent 27px) left bottom/45px 2px no-repeat,linear-gradient(#ffffff 0 27px,transparent 27px) left bottom/2px 45px no-repeat}body.sector-moving .hero .hero-copy{box-shadow:0 17px 32px #0d253c1c;border-left-color:#e8af65}body.sector-moving .hero .hero-copy .actions .button{background:#e8af65;border-color:#e8af65;color:#142f3e;box-shadow:0 6px 14px #091c261e}body.sector-moving .hero .hero-copy .actions .button.outline{background:transparent;border-color:#c2d5dd70;color:white;box-shadow:none}
+body.sector-moving #information .services-compact{isolation:isolate}body.sector-moving #information .services-compact .service-card{position:relative;background:#fffdf6;border-color:#dcd5c7;box-shadow:0 8px 20px #2f422906;transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}body.sector-moving #information .services-compact .service-card::after{content:"";position:absolute;right:0;top:0;width:33px;height:33px;background:linear-gradient(45deg,transparent 49%,#e8dbc35c 50%,#e8dbc3 52%,#f7f4ec 53%);border-radius:0 19px 0 0;pointer-events:none}body.sector-moving #information .service-icon{position:relative;background:#f0e2c5;border:1px solid #d6bb8e;border-radius:5px;box-shadow:inset 0 0 0 4px #fbf6ec;color:#755a2d}body.sector-moving #information .service-icon svg{stroke:#6b542b}body.sector-moving #information .services-compact .text-link{gap:15px;border-bottom-color:#b3925d}body.sector-moving #location{background:#f3f5ef}body.sector-moving .location-grid>.map,body.sector-moving .location-grid>.reviews{border-color:#d2dacc;border-radius:12px;box-shadow:0 7px 23px #20382d07}body.sector-moving .map-caption{background:#fffdf6}body.sector-moving #contact{background:linear-gradient(110deg,#e5eddf,#f2f4ec)}body.sector-moving #contact .contact-grid>div:first-child{padding-top:6px}body.sector-moving #contact .contact-widget.contact-widget[data-contact-widget]{border:1px solid #b9cabb;border-top:4px solid #173849;border-radius:9px;box-shadow:0 18px 33px #193c2910}body.sector-moving #contact .cw-moving{background:#f4eedf;border-color:#e3d5ba}body.sector-moving #contact .contact-widget .cw-submit{background:#173849;border-color:#173849;border-radius:7px;box-shadow:0 7px 14px #15384916}
+@media(hover:hover){body.sector-moving #information .service-card:hover{transform:translateY(-4px);border-color:#b49b6c;box-shadow:0 16px 26px #2f422910}body.sector-moving .hero .actions .button:hover{background:#f2c27d;color:#142f3e}body.sector-moving .hero .actions .button.outline:hover{background:#ffffff12;color:white}}
+@media(max-width:760px){body.sector-moving .hero .hero-grid>.visual::after{inset:13px}body.sector-moving #information .services-compact .service-card::after{width:27px;height:27px}body.sector-moving #information .services-compact::before{left:47px;border-left-color:#bca378}body.sector-moving #contact .contact-grid>div:first-child{padding-top:0}}
+@media(prefers-reduced-motion:reduce){body.sector-moving #information .services-compact .service-card{transition:none}body.sector-moving #information .service-card:hover{transform:none}}
+
+/* A move begins with a route. This starter feeds the existing contact form. */
+body.sector-moving #main .hero.hero--route{padding:22px 0 50px;background:#f5f3eb}
+body.sector-moving #main .hero--route .hero-grid{gap:0}
+body.sector-moving #main .hero--route .hero-grid>.visual{height:332px;border-radius:3px 28px 0 0}
+body.sector-moving #main .hero--route .hero-copy{width:100%;margin:0;padding:28px 34px 30px;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);grid-template-areas:'label label' 'title intro' 'title actions';gap:11px 45px;min-height:264px;border:0;border-left:5px solid #e8af65;box-shadow:none;border-radius:0}
+body.sector-moving #main .hero--route .hero-copy>.eyebrow{min-height:1.6em;font-size:13px;margin:0;color:#c6dbe1}
+body.sector-moving #main .hero--route .hero-copy h1{font-size:clamp(39px,4vw,56px);line-height:1.08;min-height:3.24em;align-self:start;color:#fff;letter-spacing:-.045em}
+body.sector-moving #main .hero--route .hero-copy .hero-intro{font-size:18px;line-height:1.6;min-height:6.4em;margin:0}
+body.sector-moving #main .hero--route .hero-copy .actions{min-height:66px;align-content:start;gap:13px;display:flex;margin:0}
+body.sector-moving #main .hero--route .hero-copy .actions>.button{width:235px;min-height:55px;border-radius:3px 14px 3px 3px}
+body.sector-moving #main .hero--route .hero-copy .actions>.button.outline{display:none}
+body.sector-moving .route-starter{order:2;min-width:0;background:#fffdf8;border:1px solid #d9d3c4;border-top:0;padding:25px 30px 29px;border-radius:0 0 5px 5px;box-shadow:0 12px 28px #1837450b}
+body.sector-moving .route-starter h2{font:700 21px/1.35 Arial,Helvetica,sans-serif;letter-spacing:-.025em;min-height:1.35em;margin:0 0 18px;color:#183745}
+body.sector-moving .route-starter-fields{display:grid;grid-template-columns:minmax(0,1fr) 25px minmax(0,1fr) minmax(0,1.05fr) minmax(190px,1.1fr);align-items:end;gap:13px}
+body.sector-moving .route-starter-fields>div{min-width:0}
+body.sector-moving .route-starter label{display:block;font:400 15px/1.4 Arial,Helvetica,sans-serif;min-height:2.8em;color:#425c65;margin-bottom:7px}
+body.sector-moving .route-starter input{width:100%;min-width:0;max-width:100%;min-height:52px;border:1px solid #b5c6c8;background:#fafcf9;border-radius:3px;padding:10px 11px;font:400 17px/1.4 Arial,Helvetica,sans-serif;color:#183745}
+body.sector-moving .route-starter .route-connector{align-self:end;display:grid;place-items:center;height:52px;color:#657d80;font-size:24px}
+body.sector-moving .route-starter .button{width:100%;min-height:54px;background:#173849;color:#fff;border-color:#173849;font-size:16px;padding:11px 14px;gap:8px;line-height:1.4;justify-content:space-between}
+body.sector-moving .route-starter input:focus-visible{outline:3px solid #173849;outline-offset:3px}
+@media(max-width:1000px){body.sector-moving .route-starter-fields{grid-template-columns:minmax(0,1fr) 22px minmax(0,1fr)}body.sector-moving .route-starter-fields>div:nth-of-type(3){grid-column:1}body.sector-moving .route-starter .button{grid-column:3}body.sector-moving .route-starter label{min-height:1.4em}}
+@media(max-width:760px){
+ body.sector-moving #main .hero.hero--route{padding:14px 0 35px}
+ body.sector-moving #main .hero--route .hero-grid>.visual{height:235px;border-radius:3px 25px 0 0}
+ body.sector-moving #main .hero--route .hero-copy{padding:23px 23px 25px;grid-template-columns:minmax(0,1fr);grid-template-areas:'label' 'title' 'intro' 'actions';gap:15px;min-height:0;border-left-width:4px}
+ body.sector-moving #main .hero--route .hero-copy>.eyebrow{min-height:3.2em;line-height:1.6;font-size:13px}
+ body.sector-moving #main .hero--route .hero-copy h1{font-size:clamp(31px,9vw,43px);min-height:3.24em;line-height:1.08}
+ body.sector-moving #main .hero--route .hero-copy .hero-intro{min-height:8em;line-height:1.6;font-size:18px}
+ body.sector-moving #main .hero--route .hero-copy .actions{min-height:56px}
+ body.sector-moving #main .hero--route .hero-copy .actions>.button{width:100%;justify-content:space-between;font-size:17px}
+ body.sector-moving .route-starter{padding:22px 20px 24px}
+ body.sector-moving .route-starter h2{font-size:20px;min-height:2.7em;margin-bottom:14px}
+ body.sector-moving .route-starter-fields{grid-template-columns:minmax(0,1fr);gap:14px}
+ body.sector-moving .route-starter-fields>div:nth-of-type(3),body.sector-moving .route-starter .button{grid-column:auto}
+ body.sector-moving .route-starter .route-connector{display:none}
+ body.sector-moving .route-starter label{font-size:16px;min-height:1.4em}
+ body.sector-moving .route-starter input{font-size:18px;min-height:53px}
+ body.sector-moving .route-starter .button{min-height:55px;font-size:17px;margin-top:3px}
+}
