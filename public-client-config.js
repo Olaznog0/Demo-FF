@@ -5,7 +5,7 @@ const service=(id,nl,en,descriptionNl,descriptionEn,icon='calendar',image)=>({id
 const calendar={mode:'demo',bookingUrl:'/booking.html',workingDays:[1,2,3,4,5,6],exampleSlots:['10:00','11:30','14:00','16:00'],durationsConfirmed:false};
 function client({id,folder,name,sector,theme,hero,address,copy,services,book}){
  return {
-  id,name,shortName:name,sector,market:'nl',languages:['nl','en'],defaultLanguage:'nl',timeZone:'Europe/Amsterdam',
+  id,name,shortName:name,sector,market:'nl',languages:['nl','en'],defaultLanguage:'en',timeZone:'Europe/Amsterdam',
   theme:{font:'Arial, Helvetica, sans-serif',bodyFont:'Arial, Helvetica, sans-serif',...theme},
   homePage:`concepts/${folder}/index.html`,navAnchors:{services:'information',reviews:'location',gallery:'location',contact:'contact',process:'information'},sections:['services','reviews','contact'],
   business:{address,city:'Concept Quarter',locationLabel:'Concept Quarter · NL',phone:'',phoneDisplay:'',email:'',website:'',mapsUrl:'',coordinates:null},
@@ -39,7 +39,8 @@ const voices={
  brightmove:[bi('Van de eerste doos tot de laatste sleutel liep het soepel.','It went smoothly from the first box to the last key.'),bi('Een helder plan voor een grote dag.','A clear plan for a big day.'),bi('Zo begon ons nieuwe hoofdstuk met een rustig gevoel.','Our new chapter started with peace of mind.')]
 };
 const registry={defaultClient:'bloom',clients:{bloom,brasa,lumen,northline,brightmove}};
-for(const c of Object.values(registry.clients))c.feedback.forEach((person,index)=>person.text=voices[c.id][index]);
+const voiceRatings={bloom:[5,4,5],brasa:[5,5,4],lumen:[5,5,5],northline:[4,5,4],brightmove:[5,4,4]};
+for(const c of Object.values(registry.clients))c.feedback.forEach((person,index)=>{person.text=voices[c.id][index];person.rating=voiceRatings[c.id][index];person.avatarSeed=c.id+':'+person.author;person.kind='fictional-concept';});
 for(const [id,label] of Object.entries({bloom:bi('Haar & stijl','Hair & style'),brasa:bi('Samen aan tafel','Good food & company'),lumen:bi('Tandzorg met aandacht','Thoughtful dental care'),northline:bi('Heldere cijfers','Clear numbers'),brightmove:bi('Een frisse start','A fresh start')}))registry.clients[id].ui.brandLabel=label;
 lumen.copy.heroTitle=bi('Jouw glimlach.\nOnze aandacht.','Your smile.\nOur attention.');
 northline.copy.heroTitle=bi('Heldere cijfers.\nRuimte voor groei.','Clear numbers.\nRoom to grow.');

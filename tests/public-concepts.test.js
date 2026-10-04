@@ -39,11 +39,12 @@ for(const [id,folder] of Object.entries(folders))test(`${id} keeps public data, 
   assert.deepEqual(Object.keys(value).sort(),['en','nl']);
  }
  for(const lang of c.languages)assert.equal(C.resolve(registry,`?client=${id}&lang=${lang}`).lang,lang);
- assert.equal(C.resolve(registry,`?client=${id}&lang=es`).lang,'nl');
+ assert.equal(c.defaultLanguage,'en');
+ assert.equal(C.resolve(registry,`?client=${id}&lang=es`).lang,'en');
  assert(c.feedback.length>=3);
  for(const person of c.feedback){
   assert(person.initials);assert(person.text.nl);assert(person.text.en);
-  assert.equal(person.rating,undefined);assert.equal(person.googleMapsUri,undefined);assert.equal(person.profilePhotoUrl,undefined);
+  assert(Number.isInteger(person.rating)&&person.rating>=1&&person.rating<=5);assert.equal(person.kind,'fictional-concept');assert(person.avatarSeed);assert.equal(person.googleMapsUri,undefined);assert.equal(person.profilePhotoUrl,undefined);
  }
 });
 

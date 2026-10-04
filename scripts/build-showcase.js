@@ -1,9 +1,10 @@
 'use strict';
 const fs=require('node:fs/promises'),path=require('node:path');
 const root=path.resolve(__dirname,'..');
-const shared=['locale-bootstrap.js','style.css','appointment.css','actions.css','core.js','i18n.js','site-shell.js','script.js','appointment.js','carousel.js','contact-widget.js','contact-widget.css','sector-site.js','sector-compact.css','confirmation-state.js','confirmation.js','confirmation.css','public-client-config.js','sectors/index.html','sectors/gallery.css','sectors/gallery.js','concepts/public-site.js','concepts/public-core.js','concepts/public.css','sectors/dentists/dental.css','sectors/accountants/accounting.css','sectors/movers/moving.css'];
+const SEO=require('../concepts/seo.js'),registry=require('../public-client-config.js');
+const shared=['locale-bootstrap.js','style.css','appointment.css','actions.css','core.js','i18n.js','site-shell.js','script.js','appointment.js','carousel.js','contact-widget.js','contact-widget.css','sector-site.js','sector-compact.css','confirmation-state.js','confirmation.js','confirmation.css','public-client-config.js','sectors/index.html','sectors/nl.html','sectors/es.html','sectors/gallery.css','sectors/gallery.js','concepts/public-site.js','concepts/public-core.js','concepts/public.css','concepts/seo.js','sectors/dentists/dental.css','sectors/accountants/accounting.css','sectors/movers/moving.css'];
 const assets=['ocimatik-logo.svg','google-maps.svg','salon-scene.webp','hair-inspiration.webp','accounting-office-concept.webp','dental-office-cover.webp','moving-cover.webp','restaurant-cover.webp','menu-chicken.svg','menu-beef.svg','menu-plantain.svg','pica-pollo-photo.webp','rabo-de-vaca-photo.webp','tostones-photo.webp'];
-const concepts=['salon','restaurants','dentists','accountants','movers'].flatMap(name=>['index.html','config.js'].map(file=>`concepts/${name}/${file}`));
+const concepts=['salon','restaurants','dentists','accountants','movers'].flatMap(name=>['index.html','nl.html','config.js'].map(file=>`concepts/${name}/${file}`));
 const pages=['index.html','booking.html','confirmation.html'];
 const manifest=Object.freeze([...shared,...assets.map(file=>'assets/'+file),...concepts,...pages]);
 const allowedFiles=new Set(manifest),allowedDirectories=new Set();
@@ -30,15 +31,25 @@ async function build({sourceRoot=root,targetDirectory=path.join(sourceRoot,'dist
  await preflight(targetDirectory);
  async function copy(file){await fs.mkdir(path.dirname(path.join(targetDirectory,file)),{recursive:true});await fs.copyFile(path.join(sourceRoot,file),path.join(targetDirectory,file));}
  await fs.mkdir(targetDirectory,{recursive:true});
- for(const file of [...shared,...concepts,...assets.map(file=>'assets/'+file)])await copy(file);
+ for(const file of [...shared,...concepts,...assets.map(file=>'assets/'+file)]){
+  const client=Object.values(registry.clients).find(client=>client.homePage===file||client.homePage.replace('index.html','nl.html')===file);
+  if(client||/^sectors\/(?:index|nl|es)\.html$/.test(file)){
+   const language=file.endsWith('/nl.html')?'nl':file.endsWith('/es.html')?'es':'en';
+   const html=await fs.readFile(path.join(sourceRoot,file),'utf8'),meta=client?SEO.concept(client,language):SEO.gallery(['northline','brasa','brightmove','bloom','lumen'].map(id=>registry.clients[id]),language);
+   await fs.mkdir(path.dirname(path.join(targetDirectory,file)),{recursive:true});
+   await fs.writeFile(path.join(targetDirectory,file),SEO.staticHTML(html,meta,client?'conceptSchema':'gallerySchema'));
+  }else await copy(file);
+ }
  for(const file of ['booking.html','confirmation.html']){
   let html=await fs.readFile(path.join(sourceRoot,file),'utf8');
   html=html.replace(/<title>[\s\S]*?<\/title>/i,'<title>Business Websites · Ocimatik</title>');
   html=html.replace(/(<meta name="description" content=")[^"]*/i,'$1Your next visit, at a glance.');
+  html=html.replace(/<meta name="robots"[^>]*>/gi,'');
+  html=html.replace('</head>','<meta name="robots" content="noindex,nofollow"><link rel="icon" href="https://ocimatik.com/favicon.svg" type="image/svg+xml"><link rel="icon" href="https://ocimatik.com/favicon.ico" sizes="any"></head>');
   for(const src of privateScripts)html=html.replace(new RegExp(`<script\\s+defer\\s+src="${src.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}"[^>]*><\\/script>`,'g'),'');
   await fs.writeFile(path.join(targetDirectory,file),html);
  }
- await fs.writeFile(path.join(targetDirectory,'index.html'),'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="0;url=sectors/index.html"><title>Business Websites · Ocimatik</title></head><body><a href="sectors/index.html">Explore our business websites</a></body></html>');
+ await fs.writeFile(path.join(targetDirectory,'index.html'),'<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="0;url=sectors/index.html"><link rel="canonical" href="https://ocimatik.com/demos/sectors/index.html"><meta name="robots" content="noindex,follow"><title>Website concepts | Ocimatik</title><link rel="icon" href="https://ocimatik.com/favicon.svg" type="image/svg+xml"><link rel="icon" href="https://ocimatik.com/favicon.ico" sizes="any"></head><body><a href="sectors/index.html">Explore Ocimatik’s website concepts</a></body></html>');
  console.log('Public fictitious business concepts ready in dist; real pitch configurations excluded.');
 }
 module.exports={build,preflight,manifest};

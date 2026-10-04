@@ -1,6 +1,6 @@
 # Public business concepts
 
-The five public websites are fictional portfolio businesses. Their names, addresses and guest voices are invented; the feedback has no Google attribution, ratings, public profiles or verification claims. The original business configurations remain separate for private local pitches.
+The five public websites are fictional portfolio businesses. Their names, addresses and guest voices are invented. Sample scores are averaged from those voices; portraits are original deterministic SVG illustrations. The feedback has no Google attribution, real public profiles, review schema or verification claims. The original business configurations remain separate for private local pitches.
 
 | ID | Business | Page |
 | --- | --- | --- |

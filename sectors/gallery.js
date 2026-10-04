@@ -4,16 +4,13 @@ const translations={en:{eyebrow:'WEBSITES FOR LOCAL BUSINESSES',title:'Great bus
 Object.assign(translations.en,{skip:'Skip to content',navHome:'Home',navServices:'Services',navConcepts:'Concepts',navContact:'Contact',footerStatement:'Websites built around your business.',footerSpecialists:'Web · AI · Salesforce',backTop:'Back to top ↑',note:'Explore our designs. Imagine what we could create for your business.',open:'Explore the website ↗'});
 Object.assign(translations.es,{skip:'Ir al contenido',navHome:'Inicio',navServices:'Servicios',navConcepts:'Diseños',navContact:'Contacto',footerStatement:'Sitios web pensados para tu negocio.',footerSpecialists:'Web · IA · Salesforce',backTop:'Volver arriba ↑',note:'Explora nuestros diseños. Imagina lo que podemos crear para tu negocio.',open:'Explorar el sitio ↗'});
 translations.nl={eyebrow:'WEBSITES VOOR LOKALE BEDRIJVEN',title:'Sterke bedrijven.\nEen betere plek online.',intro:'Vijf sectoren. Vijf eigen ontwerpen. Ontdek de website die bij jouw bedrijf past.',salonTag:'Haar & beauty',restaurantTag:'Restaurant',dentalTag:'Tandarts',accountingTag:'Administratie',movingTag:'Verhuizen',salon:'Een warm welkom en een duidelijke route naar je volgende afspraak.',restaurant:'Latijnse smaken, de menukaart en eenvoudig een tafel reserveren.',dental:'Een geruststellend eerste bezoek, met praktische informatie binnen handbereik.',accounting:'Goed advies begint met een helder eerste gesprek.',moving:'Jouw datum, jouw route en een eenvoudige verhuisaanvraag.',open:'Bekijk de website ↗',note:'Ontdek onze ontwerpen. Stel je voor wat we voor jouw bedrijf kunnen maken.',meet:'Laten we jouw website bouwen ↗',skip:'Naar inhoud',navHome:'Home',navServices:'Diensten',navConcepts:'Ontwerpen',navContact:'Contact',footerStatement:'Websites die passen bij jouw bedrijf.',footerSpecialists:'Web · AI · Salesforce',backTop:'Terug naar boven ↑'};
-const requested=new URLSearchParams(location.search).get('lang');
+const requested=new URLSearchParams(location.search).get('lang')||String(location.pathname).match(/\/(nl|es)\.html$/)?.[1]||null;
+const SEO=window.PublicConceptSEO,clients=['northline','brasa','brightmove','bloom','lumen'].map(id=>window.PublicClientRegistry.clients[id]);
 let lang=window.LocaleBootstrap?.resolve(['en','nl','es'],'en',requested)||(Object.hasOwn(translations,requested)?requested:'en');
 function localize(language){
 lang=language;const copy=translations[lang];
 document.documentElement.lang=lang;
-document.title={en:'Website designs for local businesses · Ocimatik',es:'Diseños web para negocios locales · Ocimatik',nl:'Websiteontwerpen voor lokale bedrijven · Ocimatik'}[lang];
-const description={en:'Explore five website designs for accountants, restaurants, movers, salons and dental practices. Clear appointments, contact and mobile browsing.',es:'Explora cinco diseños de sitios web para contabilidad, restaurantes, mudanzas, peluquerías y clínicas dentales. Citas claras, contacto y navegación móvil.',nl:'Ontdek vijf websiteontwerpen voor administratiekantoren, restaurants, verhuisbedrijven, salons en tandartspraktijken. Duidelijke afspraken, contact en mobiel gebruik.'}[lang];
-document.querySelector('meta[name="description"]').content=description;
-document.querySelector('meta[property="og:title"]').content=document.title;
-document.querySelector('meta[property="og:description"]').content=description;
+SEO.apply(document,SEO.gallery(clients,lang),'gallerySchema');
 document.querySelectorAll('[data-copy]').forEach(element=>{if(copy[element.dataset.copy])element.textContent=copy[element.dataset.copy];});
 const alts={nl:{accountants:'Licht kantoor met houten bureaus',restaurants:'Kip, rijst en goudgele bakbanaan op een rustiek bord',movers:'Verhuisdozen en een open bestelwagen voor een woning',salon:'Een kapper knipt haar in een zonnige salon',dentists:'Lichte tandartsreceptie met een uitnodigende wachtruimte'},en:{accountants:'A bright office with wooden desks',restaurants:'Chicken, rice and golden plantain on a rustic plate',movers:'Moving boxes and an open van outside a home',salon:'A stylist cutting hair in a sunlit salon',dentists:'A bright dental reception with a welcoming waiting area'},es:{accountants:'Oficina luminosa con escritorios de madera',restaurants:'Pollo, arroz y plátano dorado en un plato rústico',movers:'Cajas de mudanza y una furgoneta abierta frente a una casa',salon:'Un peluquero corta el cabello en un salón luminoso',dentists:'Recepción dental luminosa con una acogedora sala de espera'}};
 document.querySelectorAll('[data-alt]').forEach(image=>image.alt=alts[lang][image.dataset.alt]);
@@ -27,10 +24,7 @@ nav.setAttribute('aria-label',{en:'Main navigation',es:'Navegación principal',n
 toggle.setAttribute('aria-label',menuLabel(toggle.getAttribute('aria-expanded')==='true'));
 document.querySelector('.footer-bottom nav').setAttribute('aria-label',{en:'Footer navigation',es:'Navegación del pie',nl:'Voettekstnavigatie'}[lang]);
 const cards=Array.from(document.querySelectorAll('.grid>.card'));
-for(const card of cards){const target=new URL(card.getAttribute('href'),location.href);target.searchParams.set('lang',lang==='nl'?'nl':'en');card.href=target.pathname+target.search;}
-for(const alternate of document.querySelectorAll('link[rel=alternate][hreflang]')){const target=new URL(location.href);target.searchParams.set('lang',alternate.hreflang);target.hash='';alternate.href=target.href;}
-const schema={'@context':'https://schema.org','@type':'CollectionPage',name:document.title,description,inLanguage:lang,mainEntity:{'@type':'ItemList',itemListElement:cards.map((card,index)=>({'@type':'ListItem',position:index+1,name:card.querySelector('h2').textContent,url:new URL(card.getAttribute('href'),location.href).href}))}};
-document.getElementById('gallerySchema').textContent=JSON.stringify(schema);
+for(const card of cards){const target=new URL(card.getAttribute('href'),location.href);target.searchParams.set('lang',lang==='nl'?'nl':'en');target.pathname=target.pathname.replace(/\/(?:index|nl)\.html$/,lang==='nl'?'/nl.html':'/index.html');card.href=target.pathname+target.search;}
 }
 const nav=document.getElementById('navigation'),toggle=document.querySelector('.menu-toggle');
 const menuLabel=open=>({en:open?'Close menu':'Open menu',es:open?'Cerrar menú':'Abrir menú',nl:open?'Menu sluiten':'Menu openen'}[lang]);
@@ -43,6 +37,7 @@ document.querySelectorAll('[data-language]').forEach(element=>element.addEventLi
  const language=element.dataset.language;if(!Object.hasOwn(translations,language))return;
  event.preventDefault();if(language===lang)return;
  const target=new URL(location.href);target.searchParams.set('lang',language);
+ target.pathname=target.pathname.replace(/\/(?:index|nl|es)\.html$/,language==='en'?'/index.html':'/'+language+'.html');
  window.history.replaceState({},'',target.pathname+target.search+target.hash);
  window.LocaleBootstrap?.remember(language);localize(language);
 }));
