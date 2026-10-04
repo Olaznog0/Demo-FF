@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "asset": "de-happertjes-kibbeling-concept",
+  "createdDate": "2026-10-04",
+  "generator": "Built-in image_gen tool",
+  "generationCallCount": 1,
+  "useCase": "photorealistic-natural",
+  "purpose": "Hero photograph for a private concept website pitch for De Happertjes snackbar",
+  "synthetic": true,
+  "notActualBusinessPhotography": true,
+  "noBusinessEndorsementClaim": true,
+  "prompt": "Use case: photorealistic-natural\nAsset type: editorial food photograph for a private concept website hero, not a photograph of an actual business.\nPrimary request: appetizing, realistic Dutch kibbeling with crisp French fries, a lemon wedge and a small portion of creamy dipping sauce, served together in one simple unbranded takeaway tray.\nScene/backdrop: a plain seaside counter with a softly blurred coastal background suggesting Scheveningen on the Dutch North Sea. Natural daylight with a gentle coastal feel.\nSubject and textures: irregular bite-size pieces of battered white fish with finely detailed golden crisp crust, properly cooked tender white fish where naturally visible; fresh golden fries with crisp edges, fresh lemon, sauce in one small plain cup. Realistic portions and small natural imperfections, professional editorial food texture.\nComposition/framing: horizontal landscape approximately 3:2, ideally 1536 by 1024 pixels. Close three-quarter view; keep the complete tray and the food clearly visible, with restrained breathing room. Food remains the sharp focal point; background stays unobtrusive.\nStyle: photorealistic professional food photography, honest natural colors, softly directional daylight, realistic shadows, no artificial glossy rendering.\nConstraints: exactly one finished photograph. No text, lettering, logos, branding, watermark, people or hands. No Latin American food scene, tacos, tortillas, burgers, unrelated food or extra decorative props.",
+  "defaultGeneratedSource": "C:/Users/Gonza/.codex/generated_images/01a10687-eb14-7152-9755-0371355c73f4/exec-f60e8ba8-bfd4-432a-8ac2-322ca56b56eb.png",
+  "workspaceSource": "Demo-FF/assets/de-happertjes-kibbeling-concept-source.png",
+  "optimizedAsset": "Demo-FF/assets/de-happertjes-kibbeling-concept.webp",
+  "conversion": "Only proportional resizing and WebP encoding; no cropping, compositing or visual edits",
+  "visualInspection": {
+    "realisticDutchKibbeling": true,
+    "friesLemonSauce": true,
+    "horizontalThreeByTwo": true,
+    "noTextLogosPeople": true,
+    "coastalNaturalLight": true
+  },
+  "sourceDimensions": [
+    1536,
+    1024
+  ],
+  "sourceBytes": 2379282,
+  "sourceSha256": "857a169cd381d8b1385f8696129fd7e8e2e6a47a447d75b7aea76790a2dc6f14",
+  "webpDimensions": [
+    1200,
+    800
+  ],
+  "webpQuality": 88,
+  "webpBytes": 150758,
+  "webpSha256": "e41b37b9c77a40888531b3adfb32f2e60ca3652f60f5f27bb9523f4c9a018530",
+  "temporaryFilesCreated": 0
+}

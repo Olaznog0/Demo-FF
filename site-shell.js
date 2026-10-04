@@ -3,6 +3,7 @@
 const C=window.SiteCore,I=window.SiteI18n;
 window.ClientRegistry||={defaultClient:window.PublicClientRegistry?.defaultClient||'ayden',clients:{}};
 if(window.PublicClientRegistry?.clients)for(const [id,config]of Object.entries(window.PublicClientRegistry.clients))window.ClientRegistry.clients[id]=config;
+if(window.PitchClientRegistry?.clients)for(const [id,config]of Object.entries(window.PitchClientRegistry.clients))window.ClientRegistry.clients[id]=config;
 for(const config of [window.DentistConfig,window.AccountantConfig,window.MovingConfig,window.RestaurantConfig])if(config?.id)window.ClientRegistry.clients[config.id]=config;
 let resolved;try{resolved=C.resolve(window.ClientRegistry,location.search);}catch{document.getElementById('main').innerHTML='<div class="container error-page"><h1>'+I.translate('configError','en')+'</h1><a href="index.html">Home</a></div>';window.LocaleBootstrap?.ready();return;}
 const {config:c,lang}=resolved;
@@ -11,6 +12,7 @@ const S=window.Site={config:c,lang,t:key=>I.localize(c.ui?.[key],lang)||I.transl
 const {t,h,link}=S;
 document.documentElement.lang=lang;document.documentElement.dataset.layout=c.theme.layout;
 document.body?.classList?.add('sector-'+c.theme.layout);
+if(c.pitch)document.body?.classList?.add('pitch-flow','pitch--'+c.pitch.slot);
 for(const [key,value] of Object.entries(c.theme)){const names={primary:'--primary',accent:'--accent',background:'--bg',font:'--heading-font',bodyFont:'--body-font'};if(names[key])document.documentElement.style.setProperty(names[key],value);}
 const page=document.documentElement.dataset.page||'home';
 function languageLink(code){const target=new URL(location.href||((location.origin||'http://local')+location.pathname+location.search+location.hash));target.searchParams.set('client',c.id);target.searchParams.set('lang',code);return target.pathname+target.search+target.hash;}

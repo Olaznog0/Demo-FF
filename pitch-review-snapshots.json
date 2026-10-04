@@ -1,0 +1,251 @@
+{
+  "trend-hairstyling": {
+    "clientId": "trend-hairstyling",
+    "checked": "2026-10-04",
+    "rating": 4.8,
+    "total": 82,
+    "url": "https://www.google.com/search?q=Trend+Hairstyling+Beautycenter+Burgwal+35+Delft+reviews&hl=nl",
+    "source": "Google Maps",
+    "reviews": [
+      {
+        "authorName": "jack van der linden",
+        "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjW8VilTYEk0Uo6ymQNQR8hXNFFSgtZsN7wq01spVzyj_1XTReEm=s64-c-rp-mo-ba12-br100",
+        "rating": 5,
+        "text": "Ben er goed geknipt.",
+        "originalText": "Ben er goed geknipt.",
+        "originalLanguage": "nl",
+        "language": "nl",
+        "translations": {
+          "en": "I had a good haircut here."
+        },
+        "relativeTime": "5 maanden geleden",
+        "relativeTimes": {
+          "nl": "5 maanden geleden",
+          "en": "5 months ago"
+        },
+        "googleMapsUri": "https://www.google.com/search?q=Trend+Hairstyling+Beautycenter+Burgwal+35+Delft+reviews&hl=nl",
+        "excerpt": true
+      },
+      {
+        "authorName": "leon aalbregt",
+        "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjVHoIrOFhSNY6JfjTUpjzw_vVuI2hEhxGW_c4u3girHgVSZmhGN=s64-c-rp-mo-ba12-br100",
+        "rating": 5,
+        "text": "Je kan snel terecht, goede kapper",
+        "originalText": "Je kan snel terecht, goede kapper",
+        "originalLanguage": "nl",
+        "language": "nl",
+        "translations": {
+          "en": "You can get an appointment quickly; a good hairdresser."
+        },
+        "relativeTime": "4 maanden geleden",
+        "relativeTimes": {
+          "nl": "4 maanden geleden",
+          "en": "4 months ago"
+        },
+        "googleMapsUri": "https://www.google.com/search?q=Trend+Hairstyling+Beautycenter+Burgwal+35+Delft+reviews&hl=nl",
+        "excerpt": true
+      },
+      {
+        "authorName": "Eline Potter",
+        "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjU_GtX2mHrTmmWtVC5z79I8yzNjVcfyWuElp9EC7V3cVSPsX0Q=s64-c-rp-mo-br100",
+        "rating": 5,
+        "text": "Ik ben heel blij met deze kapper.",
+        "originalText": "Ik ben heel blij met deze kapper.",
+        "originalLanguage": "nl",
+        "language": "nl",
+        "translations": {
+          "en": "I am very happy with this hairdresser."
+        },
+        "relativeTime": "een jaar geleden",
+        "relativeTimes": {
+          "nl": "een jaar geleden",
+          "en": "1 year ago"
+        },
+        "googleMapsUri": "https://www.google.com/search?q=Trend+Hairstyling+Beautycenter+Burgwal+35+Delft+reviews&hl=nl",
+        "excerpt": true
+      }
+    ]
+  },
+  "las-banderas": {
+    "clientId": "las-banderas",
+    "checked": "2026-10-04",
+    "rating": 4.7,
+    "total": 77,
+    "url": "https://www.google.com/search?q=Las+Banderas+Kapsalon+Damlaan+28+Leidschendam+reviews&hl=nl",
+    "source": "Google Maps",
+    "reviews": [
+      {
+        "authorName": "Martin Van Orsouw",
+        "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocIia_9nsFe3JuoOWzbrScJkt294cQQc5DhkYDkaXbAFwm1wdg=s64-c-rp-mo-br100",
+        "rating": 5,
+        "text": "Al 3 jaar vaste klant en altijd zeer tevreden.",
+        "originalText": "Al 3 jaar vaste klant en altijd zeer tevreden.",
+        "originalLanguage": "nl",
+        "language": "nl",
+        "translations": {
+          "en": "A regular customer for three years and always very happy."
+        },
+        "relativeTime": "7 maanden geleden",
+        "relativeTimes": {
+          "nl": "7 maanden geleden",
+          "en": "7 months ago"
+        },
+        "googleMapsUri": "https://www.google.com/search?q=Las+Banderas+Kapsalon+Damlaan+28+Leidschendam+reviews&hl=nl",
+        "excerpt": true
+      },
+      {
+        "authorName": "Farhat Jalal",
+        "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjWcC1pPvEjcN3yXCqjLi5SrWm-5KHXUtfoTls9TNW-Vt0YqAh12=s64-c-rp-mo-br100",
+        "rating": 5,
+        "text": "Top kapper! Erg vriendelijk personeel",
+        "originalText": "Top kapper! Erg vriendelijk personeel",
+        "originalLanguage": "nl",
+        "language": "nl",
+        "translations": {
+          "en": "A great hairdresser! Very friendly staff."
+        },
+        "relativeTime": "4 maanden geleden",
+        "relativeTimes": {
+          "nl": "4 maanden geleden",
+          "en": "4 months ago"
+        },
+        "googleMapsUri": "https://www.google.com/search?q=Las+Banderas+Kapsalon+Damlaan+28+Leidschendam+reviews&hl=nl",
+        "excerpt": true
+      }
+    ]
+  },
+  "de-oude-mol": {
+    "clientId": "de-oude-mol",
+    "checked": "2026-10-04",
+    "rating": 4.7,
+    "total": 363,
+    "url": "https://www.google.com/search?q=Caf%C3%A9+De+Oude+Mol+Den+Haag+reviews",
+    "source": "Google Maps",
+    "reviews": [
+      {
+        "authorName": "Koos Luijten",
+        "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjV4jmePdGnb7HhGikEdUpl9iBwDcB84LRJhdXcmLIgR3s3k3LA=s64-c-rp-mo-ba12-br100",
+        "rating": 5,
+        "text": "Erg gezellig, mooi aanbod van speciaalbieren en wijn.",
+        "originalText": "Erg gezellig, mooi aanbod van speciaalbieren en wijn.",
+        "originalLanguage": "nl",
+        "language": "nl",
+        "translations": {
+          "en": "Very cosy, with a lovely selection of craft beers and wine."
+        },
+        "relativeTime": "2 maanden geleden",
+        "relativeTimes": {
+          "nl": "2 maanden geleden",
+          "en": "2 months ago"
+        },
+        "googleMapsUri": "https://www.google.com/search?q=Caf%C3%A9+De+Oude+Mol+Den+Haag+reviews",
+        "excerpt": true
+      },
+      {
+        "authorName": "Sven Evers",
+        "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocLeMPm0ZJEEgfVpqYE4nZFAOF7Zu7gxlm4f47Iab0ni2bCv5w=s64-c-rp-mo-ba12-br100",
+        "rating": 5,
+        "text": "Een verborgen pareltje!",
+        "originalText": "Een verborgen pareltje!",
+        "originalLanguage": "nl",
+        "language": "nl",
+        "translations": {
+          "en": "A hidden gem!"
+        },
+        "relativeTime": "4 maanden geleden",
+        "relativeTimes": {
+          "nl": "4 maanden geleden",
+          "en": "4 months ago"
+        },
+        "googleMapsUri": "https://www.google.com/search?q=Caf%C3%A9+De+Oude+Mol+Den+Haag+reviews",
+        "excerpt": true
+      },
+      {
+        "authorName": "Ivo van der meer",
+        "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocLkOMzrRge76tRnq2MVzDMYCT92nv6cqqKwg0ALhkEtXMTbhA=s64-c-rp-mo-br100",
+        "rating": 5,
+        "text": "Een hele fijne plek om even een biertje te doen.",
+        "originalText": "Een hele fijne plek om even een biertje te doen.",
+        "originalLanguage": "nl",
+        "language": "nl",
+        "translations": {
+          "en": "A lovely place to stop for a beer."
+        },
+        "relativeTime": "3 maanden geleden",
+        "relativeTimes": {
+          "nl": "3 maanden geleden",
+          "en": "3 months ago"
+        },
+        "googleMapsUri": "https://www.google.com/search?q=Caf%C3%A9+De+Oude+Mol+Den+Haag+reviews",
+        "excerpt": true
+      }
+    ]
+  },
+  "de-happertjes": {
+    "clientId": "de-happertjes",
+    "checked": "2026-10-04",
+    "rating": 3.6,
+    "total": 69,
+    "url": "https://www.google.com/search?q=De+Happertjes+Strandweg+174+reviews",
+    "source": "Google Maps",
+    "reviews": [
+      {
+        "authorName": "bien2012",
+        "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocL7pErku4UTDFQdmN8pW68-T89OgQmQumvNKU42lRTYVHrepg=s64-c-rp-mo-br100",
+        "rating": 5,
+        "text": "Je wordt hier altijd vriendelijk geholpen",
+        "originalText": "Je wordt hier altijd vriendelijk geholpen",
+        "originalLanguage": "nl",
+        "language": "nl",
+        "translations": {
+          "en": "You always receive friendly service here."
+        },
+        "relativeTime": "3 maanden geleden",
+        "relativeTimes": {
+          "nl": "3 maanden geleden",
+          "en": "3 months ago"
+        },
+        "googleMapsUri": "https://www.google.com/search?q=De+Happertjes+Strandweg+174+reviews",
+        "excerpt": true
+      },
+      {
+        "authorName": "Anne Bosman",
+        "profilePhotoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjU0Ax72N-yEzCV9pHgZEnrHBeSszbkEfTFJeferkWVblV2Qiv8=s64-c-rp-mo-br100",
+        "rating": 5,
+        "text": "De kibbeling en frietjes waren erg lekker",
+        "originalText": "De kibbeling en frietjes waren erg lekker",
+        "originalLanguage": "nl",
+        "language": "nl",
+        "translations": {
+          "en": "The fried fish and chips were very tasty."
+        },
+        "relativeTime": "een jaar geleden",
+        "relativeTimes": {
+          "nl": "een jaar geleden",
+          "en": "1 year ago"
+        },
+        "googleMapsUri": "https://www.google.com/search?q=De+Happertjes+Strandweg+174+reviews",
+        "excerpt": true
+      },
+      {
+        "authorName": "Martin Simonis",
+        "profilePhotoUrl": "https://lh3.googleusercontent.com/a/ACg8ocLC3suj6CpP1433LfWtmM-x1Gaz4UVOLa0GzPpbMOPI-jT4UA=s64-c-rp-mo-ba12-br100",
+        "rating": 5,
+        "text": "Heerlijke kibbeling! Lekker vers en krokant gebakken.",
+        "originalText": "Heerlijke kibbeling! Lekker vers en krokant gebakken.",
+        "originalLanguage": "nl",
+        "language": "nl",
+        "translations": {
+          "en": "Delicious fried fish! Lovely, fresh and crispy."
+        },
+        "relativeTime": "4 jaar geleden",
+        "relativeTimes": {
+          "nl": "4 jaar geleden",
+          "en": "4 years ago"
+        },
+        "googleMapsUri": "https://www.google.com/search?q=De+Happertjes+Strandweg+174+reviews",
+        "excerpt": true
+      }
+    ]
+  }
+}

@@ -8,7 +8,7 @@ const pages=['index.html','booking.html','confirmation.html'];
 const manifest=Object.freeze([...shared,...assets.map(file=>'assets/'+file),...concepts,...pages]);
 const allowedFiles=new Set(manifest),allowedDirectories=new Set();
 for(const file of manifest){let folder=path.posix.dirname(file);while(folder!=='.'){allowedDirectories.add(folder);folder=path.posix.dirname(folder);}}
-const privateScripts=['client-config.js','sectors/dentists/config.js','sectors/accountants/config.js','sectors/movers/config.js','sectors/restaurants/el-fogon-latino/config.js'];
+const privateScripts=['client-config.js','pitch-businesses.js','pitch-client-config.js','sectors/dentists/config.js','sectors/accountants/config.js','sectors/movers/config.js','sectors/restaurants/el-fogon-latino/config.js'];
 
 async function preflight(target){
  async function inspect(absolute,relative=''){
