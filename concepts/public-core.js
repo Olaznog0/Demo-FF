@@ -53,7 +53,7 @@
  const card=(person,lang)=>{
   if(person.kind!=='fictional-concept'||!validRating(person.rating))throw new TypeError('Sample feedback must be explicitly fictional with its own rating');
   const content=person.text?.[language(lang)]||person.text?.en||'';
-  return `<article class="public-voice"><div class="public-voice-author"><span class="public-avatar">${avatar(person,lang)}</span><strong>${h(person.author)}</strong></div><div class="public-voice-score">${stars(person.rating,lang)}<span class="public-voice-score-value" aria-hidden="true">${h(format(person.rating,lang))} / 5</span></div><blockquote lang="${language(lang)}">${h(content)}</blockquote></article>`;
+  return `<article class="public-voice" data-review-card="sample"><div class="public-voice-author"><span class="public-avatar">${avatar(person,lang)}</span><strong>${h(person.author)}</strong></div><div class="public-voice-score">${stars(person.rating,lang)}<span class="public-voice-score-value" aria-hidden="true">${h(format(person.rating,lang))} / 5</span></div><blockquote lang="${language(lang)}">${h(content)}</blockquote></article>`;
  };
  C.publicFeedback=Object.freeze({aggregate,stars,avatar,summary,card});
 })();

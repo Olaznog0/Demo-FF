@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs/promises'),path=require('node:path');
 const root=path.resolve(__dirname,'..');
-const shared=['locale-bootstrap.js','index.html','booking.html','confirmation.html','confirmation.js','confirmation.css','confirmation-state.js','actions.css','faq.html','style.css','appointment.css','client-config.js','core.js','i18n.js','site-shell.js','script.js','appointment.js','carousel.js','contact-widget.js','contact-widget.css','sector-site.js','sector-compact.css','pitch-businesses.js','pitch-client-config.js','pitches/index.html','pitches/site.js','pitches/styles.css','pitch-library/index.html','pitch-library/gallery.css','pitch-library/gallery.js'];
+const shared=['locale-bootstrap.js','index.html','booking.html','confirmation.html','confirmation.js','confirmation.css','confirmation-state.js','actions.css','faq.html','style.css','reviews.css','appointment.css','client-config.js','core.js','i18n.js','site-shell.js','script.js','appointment.js','carousel.js','contact-widget.js','contact-widget.css','sector-site.js','sector-compact.css','pitch-businesses.js','pitch-client-config.js','pitches/index.html','pitches/site.js','pitches/styles.css','pitch-library/index.html','pitch-library/gallery.css','pitch-library/gallery.js'];
 const sectors=[['sectors/restaurants/el-fogon-latino','restaurant'],['sectors/dentists','dental'],['sectors/accountants','accounting'],['sectors/movers','moving']];
 async function copyAssets(source,target){
  await fs.cp(source,target,{recursive:true,dereference:false,filter:async file=>{

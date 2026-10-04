@@ -26,6 +26,21 @@ const words = {
 let model, context, bindings = [], toolbarBindings = [], thankYouData = null, calendarMount = null, reviewsMount = null;
 function translated(node, getter) { bindings.push(() => node.textContent = getter(words[context.lang], context.lead)); return node; }
 function linked(label, href, className) { const link = make('a', className, label); link.href = href; return link; }
+function businessBrand(lead) {
+  const brand = linked('', themeUrl('home').href, 'site-brand'); brand.dataset.home = 'true';
+  if (lead.name.length > 34) brand.classList.add('brand-long-name');
+  const mark = make('span', 'brand-mark'); mark.setAttribute('aria-hidden', 'true');
+  const logo = lead.brandLogo;
+  if (logo?.verified === true && typeof logo.asset === 'string' && /^[a-z0-9][a-z0-9._-]*\.(?:webp|png|svg)$/i.test(logo.asset) && safeUrl(logo.sourceUrl)) {
+    const image = make('img', 'brand-logo'); image.src = '/demos/assets/' + logo.asset; image.alt = ''; image.width = 72; image.height = 72; image.decoding = 'async';
+    mark.classList.add('brand-mark-logo'); mark.append(image);
+  } else {
+    const significant = lead.name.split(/\s+/).filter(part => !/^(?:café|cafe|kapsalon|de|het|the|salon|barbershop|beauty|en|and|&)$/i.test(part));
+    mark.textContent = (significant.length ? significant : lead.name.split(/\s+/)).slice(0, 2).map(part => Array.from(part)[0]).join('').toLocaleUpperCase('nl-NL');
+  }
+  const identity = make('span', 'brand-identity'); identity.append(make('strong', 'brand-wordmark', lead.name), make('span', 'brand-place', lead.locality));
+  brand.append(mark, identity); return brand;
+}
 function themeUrl(view = context.view) { return contextUrl(location.href, context, view); }
 function updateUrl() { history.replaceState(null, '', themeUrl()); }
 function dispatchContext() { window.dispatchEvent(new CustomEvent('campaign20:context', { detail: { leadId: context.lead.id, cid: context.lead.google.cid, theme: context.theme, lang: context.lang, returnUrl: themeUrl('home').href } })); }
@@ -75,7 +90,7 @@ function bodyText(d, lead) {
 function renderHome() {
   const lead = context.lead; bindings = [];
   const site = make('article', 'site theme-' + context.theme); site.dataset.leadId = lead.id; site.dataset.googleCid = lead.google.cid;
-  const header = make('header', 'site-header'), brand = linked(lead.name, themeUrl('home').href, 'site-brand'); brand.dataset.home = 'true'; header.append(brand);
+  const header = make('header', 'site-header'); header.append(businessBrand(lead));
   const nav = make('nav', 'site-nav'); bindings.push(() => nav.setAttribute('aria-label', words[context.lang].navigation));
   for (const [key, href] of [['discover', '#discover'], ['reviews', '#reviews-module'], ['contact', '#calendar-module']]) nav.append(translated(linked('', href), d => d[key]));
   header.append(nav); site.append(header);
@@ -125,7 +140,7 @@ function renderThanks() {
   calendarMount?.controller?.destroy?.(); calendarMount = null;
   reviewsMount?.controller?.destroy?.(); reviewsMount = null;
   bindings = []; const lead = context.lead, site = make('article', 'site thanks-site theme-' + context.theme); site.dataset.leadId = lead.id; site.dataset.googleCid = lead.google.cid;
-  const header = make('header', 'site-header'); header.append(linked(lead.name, themeUrl('home').href, 'site-brand')); site.append(header);
+  const header = make('header', 'site-header'); header.append(businessBrand(lead)); site.append(header);
   const main = make('section', 'thanks-content');
   const icon = make('div', 'thanks-symbol'); icon.setAttribute('aria-hidden', 'true'); icon.textContent = '✓';
   const copy = make('div', 'thanks-copy'); copy.append(translated(make('p', 'site-kicker'), d => d.thanksKicker), translated(make('h1', 'site-title'), d => d.thanksTitle), translated(make('p', 'site-body'), d => lead.family === 'salon' ? d.thanksBeauty : d.thanksFood), translated(make('p', 'thanks-demo'), d => d.thanksDemo));

@@ -3,8 +3,8 @@
   'use strict';
   const instances = new WeakMap();
   const text = {
-    en: { heading: 'What people say.', region: 'Google customer reviews', previous: 'Previous review', next: 'Next review', pause: 'Pause automatic reviews', play: 'Play reviews automatically', translated: 'Translated from Dutch', original: 'Show original', back: 'Show translation', google: 'Read all reviews on Google', rating: 'out of 5', reviewCount: 'Google reviews', of: 'of', unavailable: 'Read customer reviews on Google', profile: 'Google reviewer profile photo', observed: 'Google information observed on' },
-    nl: { heading: 'Wat klanten vertellen.', region: 'Klantbeoordelingen op Google', previous: 'Vorige beoordeling', next: 'Volgende beoordeling', pause: 'Automatisch afspelen pauzeren', play: 'Beoordelingen automatisch afspelen', translated: 'Vertaald uit het Nederlands', original: 'Origineel tonen', back: 'Vertaling tonen', google: 'Lees alle beoordelingen op Google', rating: 'van 5', reviewCount: 'Google-beoordelingen', of: 'van', unavailable: 'Lees klantbeoordelingen op Google', profile: 'Profielfoto van de Google-beoordelaar', observed: 'Google-informatie waargenomen op' }
+    en: { heading: 'What people say.', region: 'Google customer reviews', previous: 'Previous review', next: 'Next review', pause: 'Pause automatic reviews', play: 'Play reviews automatically', translated: 'Translated from Dutch', original: 'Show original', originalCopy: 'Original review', back: 'Show translation', google: 'Read all reviews on Google', rating: 'out of 5', reviewCount: 'reviews', of: 'of', unavailable: 'Read customer reviews on Google', profile: 'Google reviewer profile photo', observed: 'Google information observed on' },
+    nl: { heading: 'Wat klanten vertellen.', region: 'Klantbeoordelingen op Google', previous: 'Vorige beoordeling', next: 'Volgende beoordeling', pause: 'Automatisch afspelen pauzeren', play: 'Beoordelingen automatisch afspelen', translated: 'Vertaald uit het Nederlands', original: 'Origineel tonen', originalCopy: 'Originele beoordeling', back: 'Vertaling tonen', google: 'Lees alle beoordelingen op Google', rating: 'van 5', reviewCount: 'beoordelingen', of: 'van', unavailable: 'Lees klantbeoordelingen op Google', profile: 'Profielfoto van de Google-beoordelaar', observed: 'Google-informatie waargenomen op' }
   };
   const element = (tag, className, value) => { const node = document.createElement(tag); node.className = className || ''; if (value !== undefined) node.textContent = value; return node; };
   const language = value => value === 'nl' ? 'nl' : 'en';
@@ -16,24 +16,25 @@
     if (document.getElementById('campaign-reviews-style')) return;
     const style = element('style'); style.id = 'campaign-reviews-style';
     style.textContent = `
-      .campaign-reviews{color:var(--ink,#162e41);font-family:inherit;max-width:1100px;margin-inline:auto;min-width:0}
-      .cr-heading-row{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-block-end:25px;flex-wrap:wrap}
-      .cr-heading{font:inherit;font-size:clamp(27px,3.2vw,42px);font-weight:700;line-height:1.15;letter-spacing:-.035em;margin:0;min-height:1.2em}
-      .cr-aggregate{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:17px;line-height:1.6;color:inherit;text-decoration:none}
-      .cr-aggregate:hover{text-decoration:underline;text-underline-offset:4px}.cr-aggregate strong{font-size:22px}
-      .cr-aggregate-count{color:var(--muted,#45596b)}.cr-google-letter{font-weight:800;font-size:24px;color:var(--ink,#162e41)}
-      .cr-carousel{display:grid;min-height:20rem;min-width:0;border:1px solid var(--line,#d5dce1);border-radius:20px;background:var(--paper,#fff);overflow:hidden}
-      .cr-card{grid-area:1/1;padding:clamp(22px,4vw,42px);min-width:0;box-sizing:border-box;visibility:hidden;pointer-events:none}
-      .cr-card.is-active{visibility:visible;pointer-events:auto}.cr-author-row{display:flex;align-items:center;gap:15px;min-height:62px}
-      .cr-avatar{display:grid;place-items:center;flex:0 0 58px;width:58px;height:58px;border-radius:50%;overflow:hidden;background:var(--ink,#162e41);color:var(--paper,#fff);font-size:19px;font-weight:700}
-      .cr-avatar img{width:100%;height:100%;object-fit:cover;display:block}.cr-author-details{min-width:0}.cr-author{font-size:18px;font-weight:700;line-height:1.35;color:inherit;text-decoration:none;overflow-wrap:anywhere}.cr-author[href]:hover{text-decoration:underline;text-underline-offset:3px}
-      .cr-date{display:block;font-size:15px;color:var(--muted,#45596b);line-height:1.5;margin-top:3px}.cr-stars{color:var(--ink,#162e41);font-size:20px;letter-spacing:4px;line-height:1;margin-block-start:18px}
-      .cr-quote{font-size:clamp(19px,2vw,24px);font-weight:400;line-height:1.6;letter-spacing:-.01em;margin:18px 0 15px;min-block-size:3.2em;overflow-wrap:break-word}
-      .cr-translation{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-height:30px;font-size:14px;color:var(--muted,#45596b)}.cr-original{font:inherit;color:var(--ink,#162e41);background:none;border:0;border-bottom:1px solid var(--line,#d5dce1);padding:4px 0;cursor:pointer;text-underline-offset:3px;min-height:30px}
-      .cr-controls{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-top:18px}.cr-control-group{display:flex;align-items:center;gap:9px}.cr-button{display:inline-grid;place-items:center;width:46px;height:46px;border:1px solid var(--line,#d5dce1);border-radius:50%;background:var(--paper,#fff);color:var(--ink,#162e41);font:inherit;font-size:20px;cursor:pointer;transition:transform .18s ease}.cr-button:hover{transform:translateY(-2px)}.cr-button[hidden],.cr-control-group[hidden]{display:none}
-      .cr-position{font-size:15px;color:var(--muted,#45596b);min-width:60px;text-align:center}.cr-all{font-size:16px;line-height:1.5;color:inherit;text-decoration:underline;text-underline-offset:4px}.campaign-reviews :focus-visible{outline:3px solid var(--accent,#2563eb);outline-offset:4px}
+      .campaign-reviews{--cr-paper:#fff;--cr-ink:#24342e;--cr-muted:#53635c;--cr-line:#d9e1dc;--cr-gold:#966500;--cr-empty:#748078;--cr-radius:18px;--cr-shadow:0 10px 32px #142a2010;color:var(--ink,#162e41);font-family:inherit;max-width:1040px;margin-inline:auto;min-width:0}
+      .cr-heading-row{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-block-end:24px;flex-wrap:wrap}
+      .cr-heading{font:inherit;font-size:clamp(30px,3.2vw,42px);font-weight:700;line-height:1.18;letter-spacing:-.035em;margin:0;max-width:17ch}
+      .cr-aggregate{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;padding:13px 18px;border:1px solid var(--cr-line);border-radius:12px;background:var(--cr-paper);color:var(--cr-ink);font:16px/1.45 Arial,Helvetica,sans-serif;text-decoration:none;box-shadow:0 3px 14px #142a2006}
+      .cr-aggregate:hover{border-color:var(--cr-ink)}.cr-aggregate strong{grid-row:1/3;font-size:30px;font-weight:700;line-height:1.25;align-self:center;letter-spacing:-.04em;white-space:nowrap}.cr-aggregate-meta{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.cr-aggregate-source{font-weight:700;font-size:15px}.cr-aggregate-count{grid-column:2;color:var(--cr-muted);font-size:14px}
+      .cr-aggregate-stars{display:inline-block;position:relative;font-size:17px;line-height:1;letter-spacing:1px;color:var(--cr-empty);white-space:nowrap}.cr-aggregate-star-fill{position:absolute;inset:0 auto 0 0;overflow:hidden;color:var(--cr-gold);white-space:nowrap}
+      .cr-carousel{display:grid;min-width:0;border:1px solid var(--cr-line);border-radius:var(--cr-radius);background:var(--cr-paper);color:var(--cr-ink);box-shadow:var(--cr-shadow);overflow:hidden}
+      .cr-card{display:grid;grid-template-rows:auto auto 1fr auto;gap:18px;grid-area:1/1;padding:clamp(24px,3.3vw,36px);min-width:0;box-sizing:border-box;visibility:hidden;pointer-events:none}
+      .cr-card.is-active{visibility:visible;pointer-events:auto}.cr-author-row{display:flex;align-items:center;gap:14px;min-height:56px;flex-wrap:wrap}.cr-avatar{display:grid;place-items:center;flex:0 0 56px;width:56px;height:56px;border-radius:50%;overflow:hidden;background:#e8eeea;color:var(--cr-ink);font:700 18px/1 Arial,Helvetica,sans-serif;box-shadow:0 0 0 3px var(--cr-paper),0 0 0 4px var(--cr-line)}
+      .cr-avatar img{width:100%;height:100%;object-fit:cover;display:block}.cr-author-details{min-width:0;flex:1 1 150px}.cr-author{font:700 18px/1.4 Arial,Helvetica,sans-serif;color:var(--cr-ink);text-decoration:none;overflow-wrap:anywhere}.cr-author[href]:hover{text-decoration:underline;text-underline-offset:3px}.cr-date{display:block;font:15px/1.5 Arial,Helvetica,sans-serif;color:var(--cr-muted);margin-top:2px}
+      .cr-source{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;border:1px solid var(--cr-line);border-radius:999px;color:var(--cr-muted);font:600 13px/1.3 Arial,Helvetica,sans-serif;text-decoration:none;white-space:nowrap}.cr-source:hover{color:var(--cr-ink);border-color:var(--cr-ink)}.cr-source-arrow{font-size:17px;line-height:1}
+      .cr-rating-row{display:flex;align-items:center;gap:11px}.cr-stars{color:var(--cr-gold);font:21px/1 Arial,Helvetica,sans-serif;letter-spacing:3px;white-space:nowrap}.cr-score{color:var(--cr-muted);font:600 14px/1.4 Arial,Helvetica,sans-serif;white-space:nowrap}
+      .cr-quote{max-width:55ch;font-family:var(--cr-quote-font,inherit);font-size:clamp(21px,2vw,25px);font-weight:400;line-height:1.58;letter-spacing:-.012em;color:var(--cr-ink);margin:0;min-block-size:3.16em;overflow-wrap:anywhere}
+      .cr-translation{display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap;border-top:1px solid var(--cr-line);padding-top:14px;min-height:45px;font:14px/1.5 Arial,Helvetica,sans-serif;color:var(--cr-muted)}.cr-original{font:inherit;color:var(--cr-ink);background:none;border:0;padding:5px 0;cursor:pointer;text-decoration:underline;text-underline-offset:4px;min-height:34px}.cr-original[hidden]{display:none}.cr-original:hover{text-decoration-thickness:2px}
+      .cr-controls{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:20px}.cr-control-group{display:flex;align-items:center;gap:8px}.cr-button{display:inline-grid;place-items:center;width:46px;height:46px;border:1px solid var(--cr-line);border-radius:50%;background:var(--cr-paper);color:var(--cr-ink);font:20px/1 Arial,Helvetica,sans-serif;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease}.cr-button:hover{transform:translateY(-2px);box-shadow:0 4px 12px #142a2014}.cr-button[hidden],.cr-control-group[hidden]{display:none}
+      .cr-position{font:15px/1.5 Arial,Helvetica,sans-serif;color:var(--muted,#45596b);min-width:58px;text-align:center}.cr-all{font:16px/1.5 Arial,Helvetica,sans-serif;color:inherit;text-decoration:underline!important;text-underline-offset:4px;padding-block:8px}.cr-all:hover{text-decoration-thickness:2px}.campaign-reviews :focus-visible{outline:3px solid currentColor;outline-offset:4px}
       .cr-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-      @media(max-width:600px){.cr-heading-row{display:block}.cr-heading{min-height:2.3em;font-size:32px}.cr-aggregate{margin-top:10px;font-size:16px}.cr-card{padding:23px}.cr-quote{font-size:20px;line-height:1.55;min-block-size:6.2em}.cr-carousel{min-height:21rem}.cr-controls{gap:18px}.cr-author{font-size:17px}.cr-all{font-size:15px}}
+      @media(max-width:600px){.cr-heading-row{align-items:flex-start;gap:16px}.cr-heading{font-size:32px;max-width:none}.cr-aggregate{padding:11px 14px}.cr-card{padding:24px;gap:17px}.cr-author{font-size:17px}.cr-source{margin-left:70px;margin-top:-7px;padding:5px 9px}.cr-quote{font-size:21px;line-height:1.6;min-block-size:3.2em}.cr-controls{gap:14px}.cr-all{font-size:15px}.cr-aggregate strong{font-size:27px}}
+      @container preview (max-width:740px){.cr-heading-row{gap:17px}.cr-heading{font-size:32px}.cr-card{padding:24px}.cr-quote{font-size:21px}.cr-source{font-size:12px}}
       @media(prefers-reduced-motion:reduce){.cr-button{transition:none}.cr-button:hover{transform:none}}
     `;
     document.head.append(style);
@@ -64,9 +65,11 @@
     wrapper.setAttribute('aria-labelledby', heading.id);
     const mapsUrl = 'https://www.google.com/maps/?cid=' + cid;
     const aggregate = element('a', 'cr-aggregate'); aggregate.href = mapsUrl; aggregate.target = '_blank'; aggregate.rel = 'noopener noreferrer';
-    const googleLetter = element('span', 'cr-google-letter', 'G'); googleLetter.setAttribute('aria-hidden', 'true');
     const aggregateRating = element('strong'); const aggregateCount = element('span', 'cr-aggregate-count');
-    aggregate.append(googleLetter, aggregateRating, aggregateCount); row.append(heading, aggregate); wrapper.append(row);
+    const aggregateMeta = element('span', 'cr-aggregate-meta'); const aggregateSource = element('span', 'cr-aggregate-source', 'Google Maps');
+    const aggregateStars = element('span', 'cr-aggregate-stars', '★★★★★'); aggregateStars.setAttribute('aria-hidden', 'true');
+    const aggregateStarFill = element('span', 'cr-aggregate-star-fill', '★★★★★'); aggregateStarFill.style.width = Math.max(0, Math.min(100, business.rating * 20)) + '%'; aggregateStars.append(aggregateStarFill);
+    aggregateMeta.append(aggregateSource, aggregateStars); aggregate.append(aggregateRating, aggregateMeta, aggregateCount); row.append(heading, aggregate); wrapper.append(row);
     const carousel = element('div', 'cr-carousel'); carousel.setAttribute('aria-live', 'off');
     const cards = reviews.map(review => {
       const card = element('article', 'cr-card'); card.setAttribute('role', 'group'); card.setAttribute('aria-roledescription', 'slide');
@@ -77,9 +80,12 @@
       else { avatar.textContent = initialText; avatar.setAttribute('aria-hidden', 'true'); }
       const authorDetails = element('div', 'cr-author-details'); const authorUrl = safeAuthor(review.authorUrl); const author = element(authorUrl ? 'a' : 'span', 'cr-author', review.authorName);
       if (authorUrl) { author.href = authorUrl; author.target = '_blank'; author.rel = 'noopener noreferrer'; }
-      const date = element('span', 'cr-date'); authorDetails.append(author, date); authorRow.append(avatar, authorDetails);
+      const date = element('span', 'cr-date'); authorDetails.append(author, date);
+      const source = element('a', 'cr-source', 'Google Maps'); source.href = mapsUrl; source.target = '_blank'; source.rel = 'noopener noreferrer';
+      const sourceArrow = element('span', 'cr-source-arrow', '↗'); sourceArrow.setAttribute('aria-hidden', 'true'); source.append(sourceArrow); authorRow.append(avatar, authorDetails, source);
       const stars = element('div', 'cr-stars', '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating));
       stars.setAttribute('role', 'img');
+      const ratingRow = element('div', 'cr-rating-row'); const score = element('span', 'cr-score', review.rating + ' / 5'); score.setAttribute('aria-hidden', 'true'); ratingRow.append(stars, score);
       const quote = element('blockquote', 'cr-quote'); const translation = element('div', 'cr-translation'); const translatedLabel = element('span'); const original = element('button', 'cr-original'); original.type = 'button';
       let originalShown = false;
       const refresh = () => {
@@ -89,12 +95,12 @@
         date.textContent = review.publishedLabels?.[lang] || review.publishedLabel || '';
         stars.setAttribute('aria-label', review.rating + ' ' + copy.rating);
         if (image) image.alt = review.authorName + ' — ' + copy.profile;
-        translatedLabel.textContent = hasTranslation ? copy.translated : 'Google';
+        translatedLabel.textContent = hasTranslation ? copy.translated : copy.originalCopy;
         original.hidden = !hasTranslation; original.textContent = originalShown ? copy.back : copy.original;
         original.setAttribute('aria-pressed', String(originalShown));
       };
       listen(original, 'click', () => { originalShown = !originalShown; refresh(); });
-      translation.append(translatedLabel, original); card.append(authorRow, stars, quote, translation); carousel.append(card);
+      translation.append(translatedLabel, original); card.append(authorRow, ratingRow, quote, translation); carousel.append(card);
       return { node: card, refresh, resetOriginal: () => { originalShown = false; } };
     });
     wrapper.append(carousel);
@@ -127,7 +133,7 @@
       if (change?.leadId && String(change.leadId) !== leadId || change?.cid && String(change.cid) !== cid) { controller.destroy(); throw new RangeError('Cannot reuse reviews for a different business'); }
       lang = language(change?.lang || lang); wrapper.lang = lang; heading.textContent = text[lang].heading;
       const ratingLabel = new Intl.NumberFormat(lang, { maximumFractionDigits: 1, minimumFractionDigits: 1 }).format(business.rating);
-      aggregateRating.textContent = ratingLabel + ' / 5'; aggregateCount.textContent = '· ' + business.reviewCount + ' ' + text[lang].reviewCount;
+      aggregateRating.textContent = ratingLabel; aggregateCount.textContent = business.reviewCount + ' ' + text[lang].reviewCount;
       aggregate.setAttribute('aria-label', ratingLabel + ' ' + text[lang].rating + ', ' + business.reviewCount + ' ' + text[lang].reviewCount + '. ' + text[lang].google);
       aggregate.title = text[lang].observed + ' ' + String(business.observedAt).slice(0, 10);
       previous.setAttribute('aria-label', text[lang].previous); next.setAttribute('aria-label', text[lang].next); all.textContent = text[lang].google + ' ↗';

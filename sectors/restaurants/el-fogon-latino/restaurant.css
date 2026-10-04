@@ -114,3 +114,16 @@ body.sector-restaurant #main .hero-copy h1{width:100%;max-width:660px}
 /* The standalone restaurant mount keeps the same title measure in both locales. */
 #restaurant #main .hero-copy{width:min(880px,100%);flex-shrink:0}
 #restaurant #main .hero-copy h1{width:660px;max-width:100%}
+
+/* Switch the standalone restaurant header before its desktop links stop fitting. */
+@media(max-width:1100px){
+ #restaurant #top .header-inner{position:relative;display:flex;min-width:0;gap:16px;}
+ #restaurant #top .header-inner>.brand{flex:1 1 auto;min-width:0;max-width:none;white-space:normal;}
+ #restaurant #top .header-inner>.language-switch{flex-shrink:0;}
+ #restaurant #top .menu-toggle{display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;padding:0;}
+ #restaurant #top .header-nav{display:none;position:absolute;left:0;right:0;top:100%;width:auto;margin:0;padding:18px 22px;flex-direction:column;align-items:stretch;gap:8px;background:var(--bg);border-bottom:1px solid var(--line);z-index:30;}
+ #restaurant #top .header-nav.open{display:flex;}
+ #restaurant #top .header-nav>a[href]{width:auto;max-width:100%;white-space:normal;}
+ #restaurant #top .header-nav>.button{position:static;width:100%;max-width:100%;}
+}
+@media(max-width:420px){#restaurant #top .header-inner{gap:8px;}}
