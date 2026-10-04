@@ -1,0 +1,10 @@
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+const here = path.dirname(fileURLToPath(import.meta.url));
+const css = await fs.readFile(path.resolve(here, '../../deliverables/leads/campaign-pitches-20-2026-10-04/visual-review/styles.css'), 'utf8');
+const start = css.indexOf('/* Shared primitives only:');
+if (start < 0) throw new Error('The approved theme primitives are missing.');
+const common = await fs.readFile(path.join(here, 'shell.css'), 'utf8');
+await fs.writeFile(path.join(here, 'styles.css'), common + '\n' + css.slice(start) + '\n' + await fs.readFile(path.join(here, 'components.css'), 'utf8'));
+console.log('Theme stylesheet reuses the ten approved directions; no image assets copied.');

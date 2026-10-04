@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow"><title>Ocimatik · Campaign preview launcher</title>
+  <link rel="stylesheet" href="./styles.css"><script type="module" src="./launcher.js"></script>
+</head>
+<body class="launcher-page">
+  <main class="launcher-main">
+    <a class="launcher-brand" href="https://ocimatik.com/">Ocimatik</a>
+    <h1>Twenty businesses.<br>Five styles each.</h1>
+    <p>Select a business to open its personalized preview. Names, Google identity, reviews and appointment requests stay with that business when the style changes.</p>
+    <div class="launcher-filters"><label for="family">Business type</label><select id="family"><option value="all">All twenty businesses</option><option value="restaurants">Restaurants, cafés & food</option><option value="salon">Hair & Beauty</option></select><label for="language">Preview language</label><select id="language"><option value="nl">Nederlands</option><option value="en">English</option></select></div>
+    <div id="launcher-businesses" class="launcher-businesses"></div>
+    <p id="launcher-error" hidden role="alert"></p>
+  </main>
+</body></html>

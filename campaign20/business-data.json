@@ -1,0 +1,616 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-04",
+  "manifestSha256": "88cc20d244545a075357b4c437ee124827d743c4dfb964904998fb3dc69d0c27",
+  "reviewSnapshotSha256": "6c9e7f8ef6dd5b2bb8b96dbd9d4aa331c1ef1c04d10dbde42481f4d60c9ff70f",
+  "businesses": [
+    {
+      "id": "NLEZ2-029",
+      "name": "Café Happy End",
+      "address": "Prinsestraat 124, 2513 CH Den Haag",
+      "locality": "Den Haag",
+      "family": "restaurants",
+      "defaultTheme": "R1",
+      "groupId": "restaurants",
+      "actualSector": "Café y bar",
+      "actualSubtype": "Cafés, bares y eventos",
+      "confirmedServices": [],
+      "tableReservationEnabled": false,
+      "phone": "+31703460220",
+      "google": {
+        "cid": "8958345490343161767",
+        "featureId": "0x47c5b72e36b69ad1:0x7c526fc297206fa7",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=8958345490343161767",
+        "rating": 4.6,
+        "reviewCount": 320,
+        "observedAt": "2026-10-04T20:43:14.179Z",
+        "identitySourceUrl": "https://www.google.com/search?q=Caf%C3%A9+Happy+End+Prinsestraat+124+Den+Haag+reviews",
+        "summarySourceUrl": "https://www.google.com/search?q=Cafe+Happy+End+Den+Haag+reviews&hl=nl"
+      },
+      "media": {
+        "asset": "restaurant-cover.webp",
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    },
+    {
+      "id": "NLEZ1-389",
+      "name": "Kapsalon De Nieuwe Roos Delft",
+      "address": "Papsouwselaan 458, 2624 EP Delft",
+      "locality": "Delft",
+      "family": "salon",
+      "defaultTheme": "B1",
+      "groupId": "salon",
+      "actualSector": "Peluquería",
+      "actualSubtype": "Peluquerías y barberías",
+      "confirmedServices": [],
+      "tableReservationEnabled": false,
+      "phone": "0153617680",
+      "google": {
+        "cid": "3388725439076351115",
+        "featureId": "0x47c5b5bc057ba09d:0x2f072bd52579bc8b",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=3388725439076351115",
+        "rating": 4.1,
+        "reviewCount": 130,
+        "observedAt": "2026-10-04T20:45:14.336Z",
+        "identitySourceUrl": "https://www.google.com/search?q=Kapsalon+De+Nieuwe+Roos+Papsouwselaan+458+Delft+reviews&hl=nl",
+        "summarySourceUrl": "https://www.google.com/search?q=Kapsalon+De+Nieuwe+Roos+Papsouwselaan+458+Delft+reviews&hl=nl#sv=CAESzQEKuQEStgEKd0FKaVQ0dEljdWVoVjVDRUNXek9qY1J2MGVEY2VDU1VsZ3ViTC1LdHNZSHBjWWtBVnlyeFEtWXM3bWEzeGJfYlBPMl9KTTFOU1dVck9jRjl3M25ZcTJBQkR5REFuanNnZUZpYm9aYWlfTmRXWm5hX2Z3cnBhNVRnEhdjcnJDYXNLLUxQdnJpLWdQdTRfSXdBdxoiQURzcjlmVFBUUVV3SXRDaExvNjZzOVJod1VraHZWV2NUQRIEODA1MRoBMyoAMAA4AUAAGAAgy4Tysw1KAhAB"
+      },
+      "media": {
+        "asset": "hair-inspiration.webp",
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    },
+    {
+      "id": "NLE100S-096",
+      "name": "Café aan Zet",
+      "address": "Schiedamseweg1,3026AA Rotterdam",
+      "locality": "Rotterdam",
+      "family": "restaurants",
+      "defaultTheme": "R2",
+      "groupId": "restaurants",
+      "actualSector": "Café",
+      "actualSubtype": "Cafés, bares y eventos",
+      "confirmedServices": [],
+      "tableReservationEnabled": false,
+      "phone": null,
+      "google": {
+        "cid": "11812416250633715829",
+        "featureId": "0x47c434ecbfa51b99:0xa3ee21febe130075",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=11812416250633715829",
+        "rating": 4.3,
+        "reviewCount": 319,
+        "observedAt": "2026-10-04T20:46:27.350Z",
+        "summarySourceUrl": "https://www.google.com/search?q=Cafe+Aan+Zet+Schiedamseweg+1+Rotterdam+reviews"
+      },
+      "media": {
+        "asset": "restaurant-cover.webp",
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    },
+    {
+      "id": "NLEX100N-119",
+      "name": "Barbershop Oranje",
+      "address": "Havenstraat84,2211EJ Noordwijkerhout",
+      "locality": "Noordwijkerhout",
+      "family": "salon",
+      "defaultTheme": "B3",
+      "groupId": "salon",
+      "actualSector": "Hair salon",
+      "actualSubtype": "Peluquerías y barberías",
+      "confirmedServices": [],
+      "tableReservationEnabled": false,
+      "phone": "0646889898",
+      "google": {
+        "cid": "275854533013029089",
+        "featureId": "0x47c5c1c430af6c17:0x3d4083c79ec40e1",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=275854533013029089",
+        "rating": 4.9,
+        "reviewCount": 105,
+        "observedAt": "2026-10-04T20:45:41.803Z",
+        "identitySourceUrl": "https://www.google.com/search?sca_esv=0cd649e0c0701ff8&sxsrf=APpeQntD99JJm0HtPPE_2oCVbA9e2rb3Bg:1791105381701&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rMeKKsw4ANOHcSC9u8FZviJTOukuht8ZJh1fstUOtvIJPoiZcoAOpdczu6EIMfCPCB8ybDupkjW0_95sAmskZi18LVyVpQIi9j2i1qm6V5TnpXLTfmQ_i5c_RCMmVTCjadLTiDtcMOG6ZX8EpTZv-PP6-SC7YaKqpI6HimSg9QmHdAYN5&q=Barbershop+oranje+Reviews&si=APenkKm7iecQ4G6P-TsbSMFKIQtv3EFIqRAFw-i8uEbk55Z-_64V06GyGBZLx_90tfz-n5OaDrzvn_uf5B-gZbIKgTxdnigoBGRkW2GcQddFj_G8KDJi4jOeRZkwr8ZY5Eb7PJ2t-CR_75mvkg4F1ujTRs8Ckr6p9Q%3D%3D&hl=nl-NL&sa=X&ved=2ahUKEwjs8p_Ag6CXAxUi9LsIHfXyKcYQ_4MLegQIKxAQ&biw=1280&bih=720&dpr=2.25",
+        "summarySourceUrl": "https://www.google.com/search?sca_esv=0cd649e0c0701ff8&sxsrf=APpeQntD99JJm0HtPPE_2oCVbA9e2rb3Bg:1791105381701&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rMeKKsw4ANOHcSC9u8FZviJTOukuht8ZJh1fstUOtvIJPoiZcoAOpdczu6EIMfCPCB8ybDupkjW0_95sAmskZi18LVyVpQIi9j2i1qm6V5TnpXLTfmQ_i5c_RCMmVTCjadLTiDtcMOG6ZX8EpTZv-PP6-SC7YaKqpI6HimSg9QmHdAYN5&q=Barbershop+oranje+Reviews&si=APenkKm7iecQ4G6P-TsbSMFKIQtv3EFIqRAFw-i8uEbk55Z-_64V06GyGBZLx_90tfz-n5OaDrzvn_uf5B-gZbIKgTxdnigoBGRkW2GcQddFj_G8KDJi4jOeRZkwr8ZY5Eb7PJ2t-CR_75mvkg4F1ujTRs8Ckr6p9Q%3D%3D&hl=nl-NL&sa=X&ved=2ahUKEwjs8p_Ag6CXAxUi9LsIHfXyKcYQ_4MLegQIKxAQ&biw=1280&bih=720&dpr=2.25"
+      },
+      "media": {
+        "asset": "salon-scene.webp",
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    },
+    {
+      "id": "NLEZ1-547",
+      "name": "Madame Marie",
+      "address": "Kloksteeg 2, 2311 SL Leiden",
+      "locality": "Leiden",
+      "family": "restaurants",
+      "defaultTheme": "R2",
+      "groupId": "restaurants",
+      "actualSector": "Café",
+      "actualSubtype": "Cafés, bares y eventos",
+      "confirmedServices": [],
+      "tableReservationEnabled": false,
+      "phone": "0638619568",
+      "google": {
+        "cid": "18279197005685254344",
+        "featureId": "0x47c5c753f68382f5:0xfdacc0d44f40e8c8",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=18279197005685254344",
+        "rating": 4.8,
+        "reviewCount": 315,
+        "observedAt": "2026-10-04T20:45:48.826Z",
+        "identitySourceUrl": "https://www.google.com/maps/search/?api=1&query=Madame%20Marie%20Kloksteeg%202%2C%202311%20SL%20Leiden",
+        "summarySourceUrl": "https://www.google.com/search?q=Madame%20Marie%20Kloksteeg%202%2C%202311%20SL%20Leiden%20reviews&hl=nl"
+      },
+      "media": {
+        "asset": "restaurant-cover.webp",
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    },
+    {
+      "id": "NLEZ1-349",
+      "name": "Kiymet's Beauty Salon",
+      "address": "Betje Wolffstraat 224, 2533 HW Den Haag",
+      "locality": "Den Haag",
+      "family": "salon",
+      "defaultTheme": "B3",
+      "groupId": "salon",
+      "actualSector": "Belleza",
+      "actualSubtype": "Belleza y cuidado personal",
+      "confirmedServices": [],
+      "tableReservationEnabled": false,
+      "phone": "0708882541",
+      "google": {
+        "cid": "10313970476605680183",
+        "featureId": "0x47c5b6b5096dc4f9:0x8f229580b1f2aa37",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=10313970476605680183",
+        "rating": 4.8,
+        "reviewCount": 100,
+        "observedAt": "2026-10-04T20:45:53.680Z",
+        "identitySourceUrl": "https://www.google.com/maps/search/?api=1&query=Kiymet%27s%20Beauty%20Salon%20Betje%20Wolffstraat%20224%2C%202533%20HW%20Den%20Haag",
+        "summarySourceUrl": "https://www.google.com/search?q=Kiymet%27s%20Beauty%20Salon%20Betje%20Wolffstraat%20224%2C%202533%20HW%20Den%20Haag%20reviews&hl=nl"
+      },
+      "media": {
+        "asset": "hair-inspiration.webp",
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    },
+    {
+      "id": "NLEX100N-156",
+      "name": "Balk Visch aan 't Spaarne",
+      "address": "Friese Varkenmarkt 13, 2011 KT Haarlem",
+      "locality": "Haarlem",
+      "family": "restaurants",
+      "defaultTheme": "R3",
+      "groupId": "restaurants",
+      "actualSector": "Fish retail and takeaway",
+      "actualSubtype": "Comida para llevar",
+      "confirmedServices": [
+        {
+          "value": "Fish kiosk/takeaway; herring, mackerel and cod kibbeling",
+          "sourceUrl": "https://www.google.com/search?q=Balk+Visch+aan+t+Spaarne+Friese+Varkenmarkt+13+Haarlem+reviews&hl=nl",
+          "observedAt": "2026-10-04"
+        }
+      ],
+      "tableReservationEnabled": false,
+      "phone": "0650643483",
+      "google": {
+        "cid": "8334010792281678591",
+        "featureId": "0x47c5ef6f9927de4b:0x73a85aa8fc38a2ff",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=8334010792281678591",
+        "rating": 4.8,
+        "reviewCount": 309,
+        "observedAt": "2026-10-04T20:46:34.886Z",
+        "summarySourceUrl": "https://www.google.com/search?q=Balk+Visch+aan+t+Spaarne+Friese+Varkenmarkt+13+Haarlem+reviews&hl=nl"
+      },
+      "media": {
+        "asset": "de-happertjes-kibbeling-concept.webp",
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    },
+    {
+      "id": "NLEP7-018",
+      "name": "Trend Hairstyling & Beautycenter",
+      "address": "Burgwal 35, 2611 GG Delft",
+      "locality": "Delft",
+      "family": "salon",
+      "defaultTheme": "B2",
+      "groupId": "salon",
+      "actualSector": "Peluquería y belleza",
+      "actualSubtype": "Peluquerías y barberías",
+      "confirmedServices": [],
+      "tableReservationEnabled": false,
+      "phone": "+31152131815",
+      "google": {
+        "cid": "17881539087396065355",
+        "featureId": "0x47c5b5c20d3821db:0xf827fd0f3d81504b",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=17881539087396065355",
+        "rating": 4.8,
+        "reviewCount": 82,
+        "observedAt": "2026-10-04T20:47:32.632Z",
+        "summarySourceUrl": "https://www.google.com/search?q=Trend+Hairstyling+Beautycenter+Burgwal+35+Delft+reviews"
+      },
+      "media": {
+        "asset": "hair-inspiration.webp",
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    },
+    {
+      "id": "NLE100S-043",
+      "name": "Café Patricia",
+      "address": "Nieuwe Binnenweg 218-A, 3021 GM Rotterdam",
+      "locality": "Rotterdam",
+      "family": "restaurants",
+      "defaultTheme": "R4",
+      "groupId": "restaurants",
+      "actualSector": "Restaurante",
+      "actualSubtype": "Restaurantes",
+      "confirmedServices": [],
+      "tableReservationEnabled": false,
+      "phone": null,
+      "google": {
+        "cid": "15992599905878830161",
+        "featureId": "0x47c43497a056631d:0xddf120e1c8da6c51",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=15992599905878830161",
+        "rating": 4.5,
+        "reviewCount": 268,
+        "observedAt": "2026-10-04T20:46:39.411Z",
+        "summarySourceUrl": "https://www.google.com/search?q=Cafe+Patricia+Nieuwe+Binnenweg+218-A+Rotterdam+reviews"
+      },
+      "media": {
+        "asset": "restaurant-cover.webp",
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    },
+    {
+      "id": "NLEX100N-043",
+      "name": "Las Banderas Kapsalon",
+      "address": "Damlaan 28, 2265 AN Leidschendam",
+      "locality": "Leidschendam",
+      "family": "salon",
+      "defaultTheme": "B1",
+      "groupId": "salon",
+      "actualSector": "Peluquería",
+      "actualSubtype": "Peluquerías y barberías",
+      "confirmedServices": [],
+      "tableReservationEnabled": false,
+      "phone": null,
+      "google": {
+        "cid": "1692689211978876458",
+        "featureId": "0x47c5b7d8dc6e3be7:0x177da3debb23062a",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=1692689211978876458",
+        "rating": 4.7,
+        "reviewCount": 77,
+        "observedAt": "2026-10-04T20:47:38.981Z",
+        "summarySourceUrl": "https://www.google.com/search?q=Las+Banderas+Kapsalon+Damlaan+28+Leidschendam+reviews"
+      },
+      "media": {
+        "asset": "hair-inspiration.webp",
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    },
+    {
+      "id": "NLE100S-058",
+      "name": "Café The Library",
+      "address": "Mathenesserplein32,3022LM Rotterdam",
+      "locality": "Rotterdam",
+      "family": "restaurants",
+      "defaultTheme": "R3",
+      "groupId": "restaurants",
+      "actualSector": "Café",
+      "actualSubtype": "Cafés, bares y eventos",
+      "confirmedServices": [
+        {
+          "value": "Eetcafé and bar; weekend live music and cultural events",
+          "sourceUrl": "https://www.google.com/search?sca_esv=0cd649e0c0701ff8&sxsrf=APpeQnsymJZoK_fnmaiD9wT5DlICzTIvGA:1791104567863&uds=AJ5uw1_a2D0D09lxm8gpKKOTUn4rKcok5DfJ0McLo4pNazFuA05oFwxAqK0vsoVqIIcRzK9DBFhVL0ZFtKCEv4szqPDRS9IiMQ5Bgd7-9abwxgmcc1ZPc9ZMxeS41UO9aOIUhP4TGmF4RWGzH9wF5KqiYbQ9SrgUBhlvWe6Z7kArxm9Lda02L2Y3RlwUqBloGCKfJEYDNhUQ&q=Caf%C3%A9+The+Library+Reviews&si=APenkKnzv9m99ToiohAuzpadUwbOz34nZJ3j2Ukmo5XOUYWApm0iBiM7Kr5eV5CG65pW-Oo15tCWCEsaID0_1RtPOOqOp0vq9Gye1Mz_UTIHMTZg_mfsW17gSj1PErFOInIMHSp_E3jkLxRh0Vr98uQOWNKX9l_peg%3D%3D&hl=nl-NL&sa=X&ved=2ahUKEwjtmpe8gKCXAxVN5AIHHVolN04Q_4MLegQIQxAO&biw=1280&bih=720&dpr=2.25",
+          "observedAt": "2026-10-04"
+        }
+      ],
+      "tableReservationEnabled": false,
+      "phone": "+31641804024",
+      "google": {
+        "cid": "11918802997364392234",
+        "featureId": "0x47c434c1ec630335:0xa568182d75c4012a",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=11918802997364392234",
+        "rating": 4.5,
+        "reviewCount": 91,
+        "observedAt": "2026-10-04T20:47:52.609Z",
+        "summarySourceUrl": "https://www.google.com/search?q=Cafe+The+Library+Mathenesserplein+32+Rotterdam+reviews&hl=nl"
+      },
+      "media": {
+        "asset": "restaurant-cover.webp",
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    },
+    {
+      "id": "NLEZ1-358",
+      "name": "Platina Hairdesign",
+      "address": "De Savornin Lohmanplein 41, 2566 AE Den Haag",
+      "locality": "Den Haag",
+      "family": "salon",
+      "defaultTheme": "B5",
+      "groupId": "salon",
+      "actualSector": "Peluquería",
+      "actualSubtype": "Peluquerías y barberías",
+      "confirmedServices": [],
+      "tableReservationEnabled": false,
+      "phone": "0703235730",
+      "google": {
+        "cid": "6758914886742029372",
+        "featureId": "0x47c5b106caf176c1:0x5dcc7d477b5bb43c",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=6758914886742029372",
+        "rating": 3.9,
+        "reviewCount": 67,
+        "observedAt": "2026-10-04T20:49:16.505Z",
+        "identitySourceUrl": "https://www.google.com/maps/search/?api=1&query=Platina%20Hairdesign%20De%20Savornin%20Lohmanplein%2041%2C%202566%20AE%20Den%20Haag",
+        "summarySourceUrl": "https://www.google.com/search?q=Platina%20Hairdesign%20De%20Savornin%20Lohmanplein%2041%2C%202566%20AE%20Den%20Haag%20reviews&hl=nl#sv=CAESzQEKuQEStgEKd0FKaVQ0dEt2MDdaZkkwSktnT1BTWTJlVnN1SnRBczRUODZnU3ZhOGpiQ2R0MUN1SzJYazhaTWdkeUZGQllfaVVJWkVzVnFBS2N4NUVUdzBrM0stbVotZlEydWZGLUFYTVdvcG5XeUlfZHdCaHFTTHVTTENrQXZjEhdoYnZDYXFlbEtZYXVpLWdQbU5lQnNBZxoiQURzcjlmVGpKNE5UNFp2WE9WTHNCOFdGeTgwZGtySTg2QRIEODA1MRoBMyoAMAA4AUAAGAAg_fO4nwRKAhAB"
+      },
+      "media": {
+        "asset": "hair-inspiration.webp",
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    },
+    {
+      "id": "NLE100S-115",
+      "name": "Bos' Snacks",
+      "address": "Heemraadsplein23,3023BD Rotterdam",
+      "locality": "Rotterdam",
+      "family": "restaurants",
+      "defaultTheme": "R5",
+      "groupId": "restaurants",
+      "actualSector": "Restauración y comida para llevar",
+      "actualSubtype": "Comida para llevar",
+      "confirmedServices": [],
+      "tableReservationEnabled": false,
+      "phone": null,
+      "google": {
+        "cid": "13176802969155653604",
+        "featureId": "0x47c434944279b0df:0xb6dd687c9bd5cfe4",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=13176802969155653604",
+        "rating": 4.7,
+        "reviewCount": 119,
+        "observedAt": "2026-10-04T20:47:14.667Z",
+        "summarySourceUrl": "https://www.google.com/search?q=Bos+Snacks+Heemraadsplein+23+Rotterdam+reviews&hl=nl"
+      },
+      "media": {
+        "asset": "de-happertjes-kibbeling-concept.webp",
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    },
+    {
+      "id": "NLEZ1-544",
+      "name": "Lana Hairstyling",
+      "address": "Lange Mare 102, 2312 GV Leiden",
+      "locality": "Leiden",
+      "family": "salon",
+      "defaultTheme": "B4",
+      "groupId": "salon",
+      "actualSector": "Peluquería",
+      "actualSubtype": "Peluquerías y barberías",
+      "confirmedServices": [],
+      "tableReservationEnabled": false,
+      "phone": "0618640486",
+      "google": {
+        "cid": "11493941908394015326",
+        "featureId": "0x416551f0c85898ff:0x9f82af44a6ccfa5e",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=11493941908394015326",
+        "rating": 4.6,
+        "reviewCount": 59,
+        "observedAt": "2026-10-04T20:46:04.363Z",
+        "identitySourceUrl": "https://www.google.com/maps/place/Lana+Hairstyling+%E2%9C%82/@52.1608089,4.4911759,17z/data=!3m1!4b1!4m6!3m5!1s0x416551f0c85898ff:0x9f82af44a6ccfa5e!8m2!3d52.1608089!4d4.4911759!16s%2Fg%2F11bby3yhky?entry=ttu",
+        "summarySourceUrl": "https://www.google.com/search?q=Lana%20Hairstyling%20Lange%20Mare%20102%2C%202312%20GV%20Leiden%20reviews&hl=nl"
+      },
+      "media": {
+        "asset": "hair-inspiration.webp",
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    },
+    {
+      "id": "NLEZ1-359",
+      "name": "De Happertjes",
+      "address": "Strandweg 174, 2586 JW Den Haag",
+      "locality": "Den Haag",
+      "family": "restaurants",
+      "defaultTheme": "R5",
+      "groupId": "restaurants",
+      "actualSector": "Restauración y comida para llevar",
+      "actualSubtype": "Comida para llevar",
+      "confirmedServices": [],
+      "tableReservationEnabled": false,
+      "phone": "0624341468",
+      "google": {
+        "cid": "16381170587216836414",
+        "featureId": "0x47c5ba08ed488a6f:0xe3559bdba022f73e",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=16381170587216836414",
+        "rating": 3.6,
+        "reviewCount": 69,
+        "observedAt": "2026-10-04T20:47:46.277Z",
+        "summarySourceUrl": "https://www.google.com/search?q=De+Happertjes+Strandweg+174+reviews"
+      },
+      "media": {
+        "asset": "de-happertjes-kibbeling-concept.webp",
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    },
+    {
+      "id": "NLEP7-168",
+      "name": "Kapsalon Mesker",
+      "address": "Simonsstraat 64, 2628 TJ Delft",
+      "locality": "Delft",
+      "family": "salon",
+      "defaultTheme": "B5",
+      "groupId": "salon",
+      "actualSector": "Peluqueria",
+      "actualSubtype": "Peluquerías y barberías",
+      "confirmedServices": [],
+      "tableReservationEnabled": false,
+      "phone": "+31152146828",
+      "google": {
+        "cid": "2157843724302777454",
+        "featureId": "0x47c5b5edee0f86c3:0x1df2336f3bdf7c6e",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=2157843724302777454",
+        "rating": 4.7,
+        "reviewCount": 43,
+        "observedAt": "2026-10-04T20:46:10.304Z",
+        "identitySourceUrl": "https://www.google.com/search?q=Kapsalon+Mesker+Simonsstraat+64+Delft+reviews",
+        "summarySourceUrl": "https://www.google.com/search?q=Kapsalon+Mesker+Simonsstraat+64+Delft+reviews"
+      },
+      "media": {
+        "asset": "hair-inspiration.webp",
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    },
+    {
+      "id": "NLE100S-014",
+      "name": "Gie Gelato",
+      "address": "Stadhoudersweg 91D, 3039 EB Rotterdam",
+      "locality": "Rotterdam",
+      "family": "restaurants",
+      "defaultTheme": "R1",
+      "groupId": "ice-cream",
+      "actualSector": "Heladería",
+      "actualSubtype": "Heladerías",
+      "confirmedServices": [],
+      "tableReservationEnabled": false,
+      "phone": null,
+      "google": {
+        "cid": "8476476065867110441",
+        "featureId": "0x47c434b14fd07953:0x75a27e12551c1829",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=8476476065867110441",
+        "rating": 4.6,
+        "reviewCount": 280,
+        "observedAt": "2026-10-04T20:47:21.601Z",
+        "summarySourceUrl": "https://www.google.com/search?q=Gie+Gelato+Stadhoudersweg+91+Rotterdam+reviews"
+      },
+      "media": {
+        "asset": null,
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    },
+    {
+      "id": "NLEX100N-065",
+      "name": "Glamour Kapsalon Katwijk",
+      "address": "Prins Hendrikkade64,2225NJ Katwijk aan Zee",
+      "locality": "Katwijk aan Zee",
+      "family": "salon",
+      "defaultTheme": "B2",
+      "groupId": "salon",
+      "actualSector": "Hair salon",
+      "actualSubtype": "Peluquerías y barberías",
+      "confirmedServices": [],
+      "tableReservationEnabled": false,
+      "phone": "0624143356",
+      "google": {
+        "cid": "4152848026378680167",
+        "featureId": "0x47c5bf4f674420f7:0x39a1e146fa7bb767",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=4152848026378680167",
+        "rating": 4.8,
+        "reviewCount": 37,
+        "observedAt": "2026-10-04T20:47:27.452Z",
+        "summarySourceUrl": "https://www.google.com/search?q=Glamour+Kapsalon+Prins+Hendrikkade+64+Katwijk+reviews"
+      },
+      "media": {
+        "asset": "hair-inspiration.webp",
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    },
+    {
+      "id": "NLEZ2-201",
+      "name": "De Wateringse Oliebollenkraam / Wateringse IJssalon",
+      "address": "Plein 15, 2291 CA Wateringen",
+      "locality": "Wateringen",
+      "family": "restaurants",
+      "defaultTheme": "R4",
+      "groupId": "ice-cream",
+      "actualSector": "Heladería y alimentación estacional",
+      "actualSubtype": "Heladerías",
+      "confirmedServices": [
+        {
+          "value": "Oliebollen stall October to January; operates as Wateringse IJssalon in other months",
+          "sourceUrl": "https://www.google.com/search?q=De+Wateringse+Oliebollenkraam+Plein+15+reviews",
+          "observedAt": "2026-10-04"
+        }
+      ],
+      "tableReservationEnabled": false,
+      "phone": null,
+      "google": {
+        "cid": "2684083363594556612",
+        "featureId": "0x47c5b3fcc85e278b:0x253fc7992a96d4c4",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=2684083363594556612",
+        "rating": 4.4,
+        "reviewCount": 36,
+        "observedAt": "2026-10-04T20:46:15.868Z",
+        "identitySourceUrl": "https://www.google.com/search?q=De+Wateringse+Oliebollenkraam+Plein+15+reviews",
+        "summarySourceUrl": "https://www.google.com/search?q=De+Wateringse+Oliebollenkraam+Plein+15+reviews"
+      },
+      "media": {
+        "asset": null,
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    },
+    {
+      "id": "NLEZ1-351",
+      "name": "Yakamoz Kapsalon",
+      "address": "Betje Wolffstraat 181, 2533 HM Den Haag",
+      "locality": "Den Haag",
+      "family": "salon",
+      "defaultTheme": "B4",
+      "groupId": "salon",
+      "actualSector": "Peluquería",
+      "actualSubtype": "Peluquerías y barberías",
+      "confirmedServices": [],
+      "tableReservationEnabled": false,
+      "phone": "0615381707",
+      "google": {
+        "cid": "11740849008240532476",
+        "featureId": "0x47c5b7367ec6612b:0xa2efdff7a1ac9bfc",
+        "placeId": null,
+        "mapsUrl": "https://www.google.com/maps/?cid=11740849008240532476",
+        "rating": 4.6,
+        "reviewCount": 34,
+        "observedAt": "2026-10-04T20:46:21.812Z",
+        "identitySourceUrl": "https://www.google.com/maps/search/?api=1&query=Yakamoz%20Kapsalon%20Betje%20Wolffstraat%20181%2C%202533%20HM%20Den%20Haag",
+        "summarySourceUrl": "https://www.google.com/search?q=Yakamoz%20Kapsalon%20Betje%20Wolffstraat%20181%2C%202533%20HM%20Den%20Haag%20reviews&hl=nl"
+      },
+      "media": {
+        "asset": "hair-inspiration.webp",
+        "attribution": "design-reference",
+        "verifiedBusinessPhoto": false
+      }
+    }
+  ]
+}
