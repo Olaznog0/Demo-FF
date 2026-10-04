@@ -2,7 +2,7 @@
 const fs=require('node:fs/promises'),path=require('node:path');
 const root=path.resolve(__dirname,'..');
 const shared=['locale-bootstrap.js','style.css','appointment.css','actions.css','core.js','i18n.js','site-shell.js','script.js','appointment.js','carousel.js','contact-widget.js','contact-widget.css','sector-site.js','sector-compact.css','confirmation-state.js','confirmation.js','confirmation.css','public-client-config.js','sectors/index.html','sectors/gallery.css','sectors/gallery.js','concepts/public-site.js','concepts/public-core.js','concepts/public.css','sectors/dentists/dental.css','sectors/accountants/accounting.css','sectors/movers/moving.css'];
-const assets=['ocimatik-logo.svg','google-maps.svg','salon-scene.webp','hair-inspiration.webp','accounting-office-concept.webp','dental-office-cover.webp','moving-cover.webp','restaurant-cover.webp','menu-chicken.svg','menu-beef.svg','menu-plantain.svg'];
+const assets=['ocimatik-logo.svg','google-maps.svg','salon-scene.webp','hair-inspiration.webp','accounting-office-concept.webp','dental-office-cover.webp','moving-cover.webp','restaurant-cover.webp','menu-chicken.svg','menu-beef.svg','menu-plantain.svg','pica-pollo-photo.webp','rabo-de-vaca-photo.webp','tostones-photo.webp'];
 const concepts=['salon','restaurants','dentists','accountants','movers'].flatMap(name=>['index.html','config.js'].map(file=>`concepts/${name}/${file}`));
 const pages=['index.html','booking.html','confirmation.html'];
 const manifest=Object.freeze([...shared,...assets.map(file=>'assets/'+file),...concepts,...pages]);

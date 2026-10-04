@@ -53,6 +53,19 @@ test('a dated review snapshot remains scoped and uses the original language with
  const en=core.snapshotData(c,'en');assert.equal(core.reviewCopy(en.reviews[0],'en').text,'Good visit');assert.equal(core.reviewCopy(en.reviews[0],'en').translated,false);
  c.id='another-business';assert.equal(core.snapshotData(c,'en'),null);
 });
+test('sector photo feeds show unique static photos with credits while reviews retain carousel controls',()=>{
+ for(const sector of sectors){
+  const config=structuredClone(require(`../sectors/${sector.folder}/config.js`));config.google.enabled=false;
+  config.google.snapshot={clientId:config.id,checked:'2026-10-03',reviews:[{authorName:'Guest',text:'Good visit',language:'en',rating:5}],photos:[{url:'https://example.com/place-one.jpg',authorAttributions:[{displayName:'Photographer',uri:'https://example.com/author'}]},{url:'https://example.com/place-one.jpg#duplicate'},{url:'https://example.com/place-two.jpg'},{url:'javascript:alert(1)'}]};
+  const nodes=new Map();for(const id of ['skip','header','main','footer','reviews','photos'])nodes.set(id,{innerHTML:'',textContent:'',dataset:{}});
+  const document={documentElement:{dataset:{}},getElementById:id=>nodes.get(id),querySelectorAll:()=>[]};
+  const window={SiteCore:core,addEventListener(){},SalonCarousel:{mount(){return {destroy(){}}}}};
+  vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../sector-site.js'),'utf8'),{window,document,location:{origin:'https://example.com',href:'https://example.com/index.html'},URL,URLSearchParams,Intl,Date});
+  window.SectorSite.render({client:config,lang:'en'});
+  const markup=nodes.get('photos').innerHTML;
+  assert.equal(nodes.get('photos').hidden,false);assert(markup.includes('data-photo-count="2"'));assert.equal((markup.match(/class="photo-slide"/g)||[]).length,2);assert(markup.includes('Photographer'));assert(!markup.includes('data-carousel'));assert(!markup.includes('javascript:'));assert(nodes.get('reviews').innerHTML.includes('data-carousel-toggle'));
+ }
+});
 test('the moving route starter transfers bounded preferences to the existing contact form without sending',()=>{
  const config=structuredClone(require('../sectors/movers/config.js'));config.google.enabled=false;
  const handlers=new Map(),scrolled=[],focused=[],nodes=new Map();

@@ -135,3 +135,28 @@ body.sector-accounting #main .ledger-links>a>span:last-child{flex:none;font-fami
  body.sector-accounting #main .hero--ledger .ledger-links{grid-template-columns:minmax(0,1fr);gap:12px;padding-top:18px}
  body.sector-accounting #main .ledger-links>a{min-height:53px;padding-bottom:12px;font-size:23px}
 }
+
+/* Axis uses a horizontal practice identity and an image-first business introduction. */
+body.client-axis #header{position:relative;inset:auto;width:auto;height:auto;background:#fff;border-bottom:1px solid #d8e2e9}
+body.client-axis #header .header-inner{display:flex;flex-direction:row;align-items:center;justify-content:space-between;min-height:108px;padding-block:18px;gap:30px;border:0}
+body.client-axis #header .brand{flex:0 0 185px;gap:12px;align-items:center;flex-direction:row;color:#24435d}
+body.client-axis #header .brand>span{font:600 32px/1.1 Arial,Helvetica,sans-serif;letter-spacing:-.045em}
+body.client-axis #header .brand-descriptor{font:400 14px/1.4 Arial,Helvetica,sans-serif;color:#526b7c;min-height:1.4em}
+body.client-axis #header .nav{display:flex;flex-direction:row;gap:25px;min-height:44px;margin:0;padding:0;border:0;font-size:17px}
+body.client-axis #header .nav>a{min-height:44px;display:flex;align-items:center;padding:0;border:0;color:#24435d}
+body.client-axis #header .header-actions{display:flex;flex-direction:row;align-items:center;gap:18px;flex:0 0 auto;margin:0;width:auto}
+body.client-axis #header .header-actions>.button{width:215px;max-width:215px;min-height:52px;flex:0 0 auto;border-radius:8px;white-space:nowrap;font-size:16px}
+body.client-axis #main,body.client-axis #footer{margin-left:0}
+body.client-axis #main .hero.hero--ledger{padding:52px 0 43px;background:#eff4f7;background-image:none}
+body.client-axis #main .hero--ledger .hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);grid-template-areas:'image copy' 'topics topics';gap:32px 60px;align-items:center}
+body.client-axis #main .hero--ledger .hero-grid>.visual{height:465px;min-height:465px;border:0;border-radius:12px 12px 90px 12px;box-shadow:none}
+body.client-axis #main .hero--ledger .hero-copy>.eyebrow{padding-top:0;border:0;font-size:14px;letter-spacing:.07em;min-height:3.2em;margin-bottom:16px;color:#45667d}
+body.client-axis #main .hero--ledger .hero-copy h1{font:600 clamp(42px,4.3vw,61px)/1.1 Arial,Helvetica,sans-serif;letter-spacing:-.055em;min-height:2.2em;margin-bottom:24px;color:#203b50}
+body.client-axis #main .hero--ledger .hero-copy .hero-intro{max-width:520px;min-height:4.95em;font-size:19px;color:#4a6477}
+body.client-axis #main .hero--ledger .hero-copy .actions{min-height:60px;margin-top:21px;gap:12px 23px}
+body.client-axis #main .hero--ledger .hero-copy .actions>.button{border-radius:8px}
+body.client-axis #main .hero--ledger .hero-copy .actions>.button.outline{border-radius:0}
+body.client-axis #main .hero--ledger .ledger-links{border-top:0;gap:20px;padding-top:7px}
+body.client-axis #main .ledger-links>a{background:#fff;border:1px solid #d2e0e9;border-radius:8px;min-height:78px;padding:18px 20px;font:500 19px/1.4 Arial,Helvetica,sans-serif}
+@media(max-width:1100px){body.client-axis #header .nav{display:none}body.client-axis #header .header-actions>.button{display:none}body.client-axis #header .brand{flex:1 1 auto}body.client-axis #main .hero--ledger .hero-grid{gap:30px}body.client-axis #main .hero--ledger .hero-copy h1{font-size:48px}}
+@media(max-width:760px){body.client-axis #header .header-inner{min-height:100px;gap:16px}body.client-axis #header .brand>span{font-size:29px}body.client-axis #header .brand-descriptor{font-size:13px}body.client-axis #header .header-actions{gap:0}body.client-axis #main .hero.hero--ledger{padding:29px 0 34px}body.client-axis #main .hero--ledger .hero-grid{grid-template-columns:minmax(0,1fr);grid-template-areas:'copy' 'image' 'topics';gap:26px}body.client-axis #main .hero--ledger .hero-copy h1{font-size:clamp(35px,9.6vw,48px);min-height:3.3em}body.client-axis #main .hero--ledger .hero-copy .hero-intro{font-size:18px;min-height:6.6em}body.client-axis #main .hero--ledger .hero-copy .actions{min-height:122px}body.client-axis #main .hero--ledger .hero-grid>.visual{height:300px;min-height:300px;border-radius:10px 10px 65px 10px}body.client-axis #main .hero--ledger .ledger-links{grid-template-columns:minmax(0,1fr);gap:12px}body.client-axis #main .ledger-links>a{font-size:19px;min-height:64px}}

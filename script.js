@@ -43,9 +43,10 @@
     return `<section id="reviews" class="section google-section"><div class="container"><div class="section-head"><div><p class="eyebrow">${h(t('googleReviews'))}</p><h2>${h(t('reviewTitle'))}</h2></div>${rating()}</div><div class="google-layout"><div class="map-card"><iframe id="businessMap" title="${h(t('mapTitle') + ' · ' + c.name)}" src="${h(C.mapEmbed(c))}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe><div class="map-caption"><div><strong data-business-name>${h(c.name)}</strong><p data-business-address>${h(c.business.address)}</p></div>${external(c.business.mapsUrl, t('directions'))}</div></div><div id="googleReviews" aria-live="polite">${reviewFallback(c.google.enabled ? 'reviewLoading' : 'connectionPending')}</div></div><div id="googleAttribution" class="google-attribution" hidden translate="no"><img src="assets/google-maps.svg" alt="Google Maps" width="98" height="18"><span>${h(t('reviewOrder'))}</span></div></div></section>`;
   }
   function gallery() {
-    const photos = c.images.inspiration || [{ src: c.images.hero }, { src: c.images.service || c.images.hero }];
+    const used = [c.images.hero, c.images.service, ...c.services.map(service => service.image)];
+    const photos = C.uniquePhotos(c.images.inspiration || [], used, location.href);
     const slides = photos.map(photo => `<figure class="photo-slide"><img src="${h(photo.src)}" alt="${h(t('photoConcept'))}" loading="lazy" width="1000" height="750"></figure>`).join('');
-    return `<section id="gallery" class="section gallery-section"><div class="container"><div class="section-head"><div><p class="eyebrow" id="galleryEyebrow">${h(t('inspiration'))}</p><h2 id="galleryHeading">${h(t('inspirationTitle'))}</h2></div>${external(c.business.mapsUrl, t('openMaps'))}</div><div id="googlePhotos">${carousel('photo', slides)}</div></div></section>`;
+    return `<section id="gallery" class="section gallery-section"${photos.length ? '' : ' hidden'}><div class="container"><div class="section-head"><div><p class="eyebrow" id="galleryEyebrow">${h(t('inspiration'))}</p><h2 id="galleryHeading">${h(t('inspirationTitle'))}</h2></div>${external(c.business.mapsUrl, t('openMaps'))}</div><div id="googlePhotos" class="photo-grid" data-photo-count="${photos.length}">${slides}</div></div></section>`;
   }
   function hours() {
     const formatter = new Intl.DateTimeFormat(C.locale(lang), { weekday: 'short' });
@@ -144,10 +145,14 @@
     if (photosResult.status === 'fulfilled' && photosResult.value) {
       const data = photosResult.value;
       syncBusiness(data);
-      if (data.photos?.length && document.getElementById('googlePhotos')) {
+      const photos = C.uniquePhotos(data.photos, [], location.href);
+      if (photos.length && document.getElementById('googlePhotos')) {
+        document.getElementById('gallery').hidden = false;
         document.getElementById('galleryEyebrow').textContent = t('googlePhotos');
         document.getElementById('galleryHeading').textContent = t('galleryTitle');
-        document.getElementById('googlePhotos').innerHTML = carousel('photo', data.photos.map(photo => `<figure class="photo-slide"><img src="${h(C.safeUrl(photo.url))}" alt="${h(t('photoAlt'))}" loading="lazy" width="1000" height="750"><figcaption>${(photo.authorAttributions || []).map(author => external(author.uri, author.displayName)).join(' · ')} ${external(photo.googleMapsUri, 'Google Maps')}</figcaption></figure>`).join(''));
+        const grid = document.getElementById('googlePhotos');
+        grid.dataset.photoCount = String(photos.length);
+        grid.innerHTML = photos.map(photo => `<figure class="photo-slide"><img src="${h(C.safeUrl(photo.url))}" alt="${h(t('photoAlt'))}" loading="lazy" width="1000" height="750"><figcaption>${(photo.authorAttributions || []).map(author => external(author.uri, author.displayName)).join(' · ')} ${external(photo.googleMapsUri, 'Google Maps')}</figcaption></figure>`).join('');
       }
     }
     mountCarousels();

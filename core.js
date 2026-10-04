@@ -2,6 +2,7 @@
 'use strict';const api={
 escape:v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),
 safeUrl(v){try{const u=new URL(v);return ['https:','http:'].includes(u.protocol)?u.href:'';}catch{return '';}},
+uniquePhotos(photos,exclude=[],base='http://local/'){const key=value=>{if(typeof value!=='string'||!value.trim())return '';try{const url=new URL(value,base);if(!['http:','https:'].includes(url.protocol))return '';url.hash='';return url.href;}catch{return '';}};const seen=new Set(exclude.filter(Boolean).map(key).filter(Boolean));return (photos||[]).filter(photo=>{const value=key(photo?.url||photo?.src);if(!value||seen.has(value))return false;seen.add(value);return true;});},
 dayKey(d){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');},
 resolveLanguage(config,requested){return root.LocaleBootstrap?.resolve(config.languages,config.defaultLanguage,requested)||(config.languages.includes(requested)?requested:config.defaultLanguage);},
 resolve(registry,search){const p=new URLSearchParams(search),id=p.get('client')||registry.defaultClient;if(!Object.hasOwn(registry.clients,id))throw new Error('Unknown client');const c=registry.clients[id];return {config:c,lang:api.resolveLanguage(c,p.get('lang'))};},

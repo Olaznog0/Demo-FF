@@ -36,12 +36,12 @@ body.sector-restaurant.public-restaurants .supper-menu-links>a>span:first-child{
 body.sector-restaurant.public-restaurants .hero--supper>.container:last-child{width:min(1160px,calc(100% - 80px));margin:auto}
 body.sector-restaurant.public-restaurants #information .services-compact{display:grid;grid-template-columns:minmax(0,1fr);gap:0;border-top:1px solid #d4b495}
 body.sector-restaurant.public-restaurants #information .service-card{display:grid;grid-template-columns:220px minmax(0,1fr) 200px;gap:42px;align-items:center;padding:31px 0;border:0;border-bottom:1px solid #d4b495;border-radius:0;background:transparent;overflow:visible;box-shadow:none}
-body.sector-restaurant.public-restaurants #information .public-dish{width:208px;height:208px;aspect-ratio:1;object-fit:contain;margin:0;align-self:center;padding:15px;border:1px solid #ddc7a8;border-radius:50%;background:#fffdf5;box-shadow:inset 0 0 0 9px #f4eadb;transform:none}
+body.sector-restaurant.public-restaurants #information .public-dish{width:208px;height:auto;aspect-ratio:3/2;object-fit:cover;margin:0;align-self:center;padding:0;border:1px solid #ddc7a8;border-radius:16px;background:#fffdf5;box-shadow:0 8px 22px #633a2012;transform:none}
 body.sector-restaurant.public-restaurants #information .service-copy{margin:0}
 body.sector-restaurant.public-restaurants #information .service-card h3{font:400 38px/1.2 Georgia,Cambria,serif;margin-bottom:11px}
 body.sector-restaurant.public-restaurants #information .service-card p{font-size:18px;line-height:1.6;color:#73523f;max-width:550px}
 body.sector-restaurant.public-restaurants #information .service-card>.text-link{grid-column:3;justify-self:end;align-self:center;margin:0;color:#873521;font:400 18px/1.5 Georgia,Cambria,serif;min-height:44px;max-width:100%;text-align:right}
-@media(max-width:1000px){body.sector-restaurant.public-restaurants #main .hero--supper .hero-grid{padding-inline:32px}body.sector-restaurant.public-restaurants #main .hero--supper .hero-copy h1{font-size:66px}body.sector-restaurant.public-restaurants #information .service-card{grid-template-columns:170px minmax(0,1fr);gap:26px}body.sector-restaurant.public-restaurants #information .public-dish{width:160px;height:160px}body.sector-restaurant.public-restaurants #information .service-card>.text-link{grid-column:2;justify-self:start;text-align:left}}
+@media(max-width:1000px){body.sector-restaurant.public-restaurants #main .hero--supper .hero-grid{padding-inline:32px}body.sector-restaurant.public-restaurants #main .hero--supper .hero-copy h1{font-size:66px}body.sector-restaurant.public-restaurants #information .service-card{grid-template-columns:170px minmax(0,1fr);gap:26px}body.sector-restaurant.public-restaurants #information .public-dish{width:160px;height:auto}body.sector-restaurant.public-restaurants #information .service-card>.text-link{grid-column:2;justify-self:start;text-align:left}}
 @media(max-width:650px){
  body.sector-restaurant.public-restaurants #main .hero--supper .hero-grid{height:700px;min-height:700px;padding:36px 24px 60px;align-items:start}
  body.sector-restaurant.public-restaurants #main .hero--supper .hero-copy h1{font-size:clamp(35px,10.4vw,56px);line-height:1.08;min-height:2.16em;margin-bottom:19px}
@@ -55,7 +55,7 @@ body.sector-restaurant.public-restaurants #information .service-card>.text-link{
  body.sector-restaurant.public-restaurants .supper-menu-links>a+a{border-left:0;border-top:1px solid #dec4a8}
  body.sector-restaurant.public-restaurants .supper-menu-links>a>span:first-child{min-height:1.2em}
  body.sector-restaurant.public-restaurants #information .service-card{grid-template-columns:minmax(0,1fr);gap:23px;padding:31px 0}
- body.sector-restaurant.public-restaurants #information .public-dish{width:230px;height:230px;justify-self:center;padding:17px}
+ body.sector-restaurant.public-restaurants #information .public-dish{width:100%;max-width:360px;height:auto;justify-self:center;padding:0}
  body.sector-restaurant.public-restaurants #information .service-card h3{font-size:34px}
  body.sector-restaurant.public-restaurants #information .service-card>.text-link{grid-column:1;justify-self:start}
 }

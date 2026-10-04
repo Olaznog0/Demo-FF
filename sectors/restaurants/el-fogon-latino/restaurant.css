@@ -79,11 +79,11 @@ body.sector-restaurant #main .hero-bottom{width:min(1160px,calc(100% - 80px));ma
 body.sector-restaurant #main .taste-strip{display:none}
 body.sector-restaurant #menu .menu-list{display:grid;grid-template-columns:minmax(0,1fr);gap:0;border-top:1px solid #d4b495}
 body.sector-restaurant #menu .menu-item,body.sector-restaurant #menu .menu-item:first-child,body.sector-restaurant #menu .menu-item:nth-child(2){display:grid;grid-template-columns:220px minmax(0,1fr) 200px;gap:42px;align-items:center;padding:31px 0;border-bottom:1px solid #d4b495}
-body.sector-restaurant #menu .dish-illustration{width:208px;height:208px;aspect-ratio:1;object-fit:contain;margin:0;padding:15px;border:1px solid #ddc7a8;border-radius:50%;background:#fffdf5;box-shadow:inset 0 0 0 9px #f4eadb;transform:none}
+body.sector-restaurant #menu .dish-illustration{width:208px;height:auto;aspect-ratio:3/2;object-fit:cover;margin:0;padding:0;border:1px solid #ddc7a8;border-radius:16px;background:#fffdf5;box-shadow:0 8px 22px #633a2012;transform:none}
 body.sector-restaurant #menu .menu-item h3{font-size:38px;font-family:Georgia,Cambria,serif;font-weight:400;margin-bottom:11px}
 body.sector-restaurant #menu .menu-item p{font-size:18px;line-height:1.6;color:#73523f;max-width:550px}
 body.sector-restaurant #menu .menu-cta{justify-self:end;color:#873521;font:400 18px/1.5 Georgia,Cambria,serif;min-height:44px;max-width:100%;text-align:right}
-@media(max-width:1000px){body.sector-restaurant #main .hero-copy{padding-inline:32px}body.sector-restaurant #main .hero-copy h1{font-size:66px}body.sector-restaurant .supper-menu-links{width:calc(100% - 48px)}body.sector-restaurant .supper-menu-links>a{padding:17px 21px;font-size:21px}body.sector-restaurant #menu .menu-item{grid-template-columns:170px minmax(0,1fr);gap:26px}body.sector-restaurant #menu .dish-illustration{width:160px;height:160px}body.sector-restaurant #menu .menu-cta{grid-column:2;justify-self:start;text-align:left}}
+@media(max-width:1000px){body.sector-restaurant #main .hero-copy{padding-inline:32px}body.sector-restaurant #main .hero-copy h1{font-size:66px}body.sector-restaurant .supper-menu-links{width:calc(100% - 48px)}body.sector-restaurant .supper-menu-links>a{padding:17px 21px;font-size:21px}body.sector-restaurant #menu .menu-item{grid-template-columns:170px minmax(0,1fr);gap:26px}body.sector-restaurant #menu .dish-illustration{width:160px;height:auto}body.sector-restaurant #menu .menu-cta{grid-column:2;justify-self:start;text-align:left}}
 @media(max-width:650px){
  body.sector-restaurant #main .hero .jumbotron{height:700px;min-height:700px;align-items:start}
  body.sector-restaurant #main .hero-copy{padding:36px 24px 60px;max-width:100%}
@@ -100,7 +100,7 @@ body.sector-restaurant #menu .menu-cta{justify-self:end;color:#873521;font:400 1
  body.sector-restaurant .supper-menu-links>a>span:first-child{min-height:1.2em}
  body.sector-restaurant #main .hero-bottom{width:calc(100% - 40px);padding-top:21px;font-size:15px}
  body.sector-restaurant #menu .menu-item,body.sector-restaurant #menu .menu-item:first-child,body.sector-restaurant #menu .menu-item:nth-child(2){grid-template-columns:minmax(0,1fr);gap:23px;padding:31px 0}
- body.sector-restaurant #menu .dish-illustration{width:230px;height:230px;justify-self:center;padding:17px}
+ body.sector-restaurant #menu .dish-illustration{width:100%;max-width:360px;height:auto;justify-self:center;padding:0}
  body.sector-restaurant #menu .menu-item h3{font-size:34px}
  body.sector-restaurant #menu .menu-cta{grid-column:1;justify-self:start}
 }

@@ -167,15 +167,15 @@ const config={
   },
   "menuImages": [
     {
-      "src": "assets/pica-pollo-illustration.svg",
+      "src": "/assets/pica-pollo-photo.webp",
       "concept": true
     },
     {
-      "src": "assets/rabo-illustration.svg",
+      "src": "/assets/rabo-de-vaca-photo.webp",
       "concept": true
     },
     {
-      "src": "assets/tostones-illustration.svg",
+      "src": "/assets/tostones-photo.webp",
       "concept": true
     }
   ],
@@ -183,7 +183,12 @@ const config={
     {
       "id": "pica-pollo",
       "title": "Pica Pollo",
-      "image": "assets/pica-pollo-illustration.svg",
+      "image": "/assets/pica-pollo-photo.webp",
+      "imageAlt": {
+        "nl": "Goudbruine krokante kip met verse limoen op een keramisch bord.",
+        "en": "Golden crispy chicken with fresh lime on a ceramic plate.",
+        "es": "Pollo crujiente y dorado con lima fresca en un plato de cerámica."
+      },
       "category": {
         "nl": "Kip",
         "en": "Chicken",
@@ -198,7 +203,12 @@ const config={
     {
       "id": "rabo",
       "title": "Rabo de vaca",
-      "image": "assets/rabo-illustration.svg",
+      "image": "/assets/rabo-de-vaca-photo.webp",
+      "imageAlt": {
+        "nl": "Langzaam gestoofde ossenstaart in rijke saus met witte rijst.",
+        "en": "Slow-braised oxtail in a rich sauce with white rice.",
+        "es": "Rabo de vaca guisado en salsa con arroz blanco."
+      },
       "category": {
         "nl": "Vlees",
         "en": "Meat",
@@ -213,7 +223,12 @@ const config={
     {
       "id": "tostones",
       "title": "Tostones",
-      "image": "assets/tostones-illustration.svg",
+      "image": "/assets/tostones-photo.webp",
+      "imageAlt": {
+        "nl": "Krokante gouden tostones met een knoflookdip en limoen.",
+        "en": "Crisp golden plantain rounds with a garlic dip and lime.",
+        "es": "Tostones dorados y crujientes con salsa de ajo y lima."
+      },
       "category": {
         "nl": "Bijgerecht",
         "en": "Side dish",

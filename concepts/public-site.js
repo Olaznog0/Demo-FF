@@ -48,7 +48,7 @@
  if(c.sector==='restaurant'){
   document.querySelectorAll('.service-card').forEach((card,index)=>{
    const service=c.services[index],holder=card.querySelector('.service-icon');
-   if(holder&&service.image)holder.outerHTML=`<img class="public-dish" src="${h(service.image)}" alt="${h(l(service.title))}" width="520" height="400" loading="lazy">`;
+   if(holder&&service.image)holder.outerHTML=`<img class="public-dish" src="${h(service.image)}" alt="${h(l(service.imageAlt)||l(service.title))}" width="520" height="400" loading="lazy">`;
    const reserve=card.querySelector('.text-link');
    if(reserve){reserve.href='/booking.html?'+new URLSearchParams({client:c.id,lang});reserve.textContent=l(c.ui.book)+' ↗';}
   });
