@@ -30,7 +30,7 @@
  }
  function gallery(clients,language='en'){
   const lang=Object.hasOwn(galleryCopy,language)?language:'en',copy=galleryCopy[lang],canonical=pageUrl('sectors/index.html',lang),url=canonical;
-  const schema={'@context':'https://schema.org','@type':'CollectionPage','@id':canonical+'#webpage',url:canonical,name:copy.title,description:copy.description,inLanguage:lang,publisher:organization,breadcrumb:breadcrumb(null,url,lang),mainEntity:{'@type':'ItemList',itemListElement:clients.map((client,index)=>({'@type':'ListItem',position:index+1,name:client.name,url:pageUrl(client.homePage,lang==='nl'?'nl':'en'),item:{'@type':'CreativeWork',name:client.name+' · fictional website concept',url:pageUrl(client.homePage),creator:organization,provider:organization}}))}};
+  const schema={'@context':'https://schema.org','@type':'CollectionPage','@id':canonical+'#webpage',url:canonical,name:copy.title,description:copy.description,inLanguage:lang,publisher:organization,breadcrumb:breadcrumb(null,url,lang),mainEntity:{'@type':'ItemList',itemListElement:clients.map((client,index)=>({'@type':'ListItem',position:index+1,name:client.name,url:pageUrl(client.homePage,lang==='nl'?'nl':'en'),item:{'@type':'CreativeWork',name:client.name+' · fictional website concept',url:pageUrl(client.homePage,lang==='nl'?'nl':'en'),creator:organization,provider:organization}}))}};
   return {...copy,title:copy.title,canonical,url,image:imageUrl('/assets/salon-scene.webp'),lang,languages:['en','nl','es'],page:'sectors/index.html',schema};
  }
  function head(meta){

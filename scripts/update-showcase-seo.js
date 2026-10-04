@@ -2,6 +2,16 @@
 const fs=require('node:fs/promises'),path=require('node:path'),SEO=require('../concepts/seo.js'),registry=require('../public-client-config.js');
 const root=path.resolve(__dirname,'..');
 const escape=value=>String(value).replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+const galleryAlts={
+ en:{accountants:'A bright office with wooden desks',restaurants:'Chicken, rice and golden plantain on a rustic plate',movers:'Moving boxes and an open van outside a home',salon:'A stylist cutting hair in a sunlit salon',dentists:'A bright dental reception with a welcoming waiting area'},
+ nl:{accountants:'Licht kantoor met houten bureaus',restaurants:'Kip, rijst en goudgele bakbanaan op een rustiek bord',movers:'Verhuisdozen en een open bestelwagen voor een woning',salon:'Een kapper knipt haar in een zonnige salon',dentists:'Lichte tandartsreceptie met een uitnodigende wachtruimte'},
+ es:{accountants:'Oficina luminosa con escritorios de madera',restaurants:'Pollo, arroz y plátano dorado en un plato rústico',movers:'Cajas de mudanza y una furgoneta abierta frente a una casa',salon:'Un peluquero corta el cabello en un salón luminoso',dentists:'Recepción dental luminosa con una acogedora sala de espera'}
+};
+const galleryAria={
+ en:{'Ocimatik home':'Ocimatik home','Main navigation':'Main navigation','Language':'Language','Open menu':'Open menu','Footer navigation':'Footer navigation'},
+ nl:{'Ocimatik home':'Ocimatik · home','Main navigation':'Hoofdnavigatie','Language':'Taal','Open menu':'Menu openen','Footer navigation':'Voettekstnavigatie'},
+ es:{'Ocimatik home':'Ocimatik · inicio','Main navigation':'Navegación principal','Language':'Idioma','Open menu':'Abrir menú','Footer navigation':'Navegación del pie'}
+};
 async function update(){
  for(const client of Object.values(registry.clients)){
   const original=await fs.readFile(path.join(root,client.homePage),'utf8');
@@ -26,7 +36,13 @@ async function update(){
   if(!html.includes('src="../concepts/seo.js"'))html=html.replace('<script src="gallery.js" defer>','<script src="../public-client-config.js" defer></script><script src="../concepts/seo.js" defer></script><script src="gallery.js" defer>');
   html=SEO.staticHTML(html,SEO.gallery(clients,language),'gallerySchema');
   html=html.replace(/(<(a|p|h1|h2|strong|span|div)\b[^>]*data-copy="([^"]+)"[^>]*>)[\s\S]*?(<\/\2>)/g,(all,start,_tag,key,end)=>visible[language][key]?start+(key==='title'?visible[language][key]:escape(visible[language][key]))+end:all);
+  html=html.replace(/<img\b[^>]*data-alt="([^"]+)"[^>]*>/g,(tag,key)=>{
+   if(!galleryAlts[language][key])throw new Error('Missing native gallery image description: '+language+'/'+key);
+   return tag.replace(/\balt="[^"]*"/,'alt="'+escape(galleryAlts[language][key])+'"');
+  });
+  html=html.replace(/\baria-label="([^"]*)"/g,(attribute,label)=>Object.hasOwn(galleryAria[language],label)?'aria-label="'+escape(galleryAria[language][label])+'"':attribute);
   html=html.replace(/(<a data-language="([^"]+)"[^>]*href=")[^"]*/g,(_all,start,lang)=>start+(lang==='en'?'index.html':lang+'.html'));
+  html=html.replace(/<a data-language="([^"]+)"[^>]*>/g,(tag,lang)=>tag.replace(/\saria-current="[^"]*"/g,'').replace(/>$/,lang===language?' aria-current="page">':'>'));
   if(language==='nl')html=html.replace(/(href="\/concepts\/[^/]+\/)index\.html\?client=([^"&]+)&amp;lang=en/g,'$1nl.html?client=$2&amp;lang=nl');
   await fs.writeFile(file,html);
  }

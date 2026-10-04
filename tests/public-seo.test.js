@@ -36,7 +36,28 @@ for(const lang of ['en','nl','es'])test(`gallery ${lang} describes Ocimatik's fi
  const file='sectors/'+(lang==='en'?'index':lang)+'.html',meta=SEO.gallery(clients,lang),html=inspect(file,meta,'gallerySchema');
  assert.equal(meta.schema['@type'],'CollectionPage');assert.equal(meta.schema.mainEntity.itemListElement.length,5);
  assert(meta.schema.mainEntity.itemListElement.every(item=>item.item['@type']==='CreativeWork'&&item.item.provider.name==='Ocimatik'));
+ for(const [index,item] of meta.schema.mainEntity.itemListElement.entries()){
+  const expected=SEO.pageUrl(clients[index].homePage,lang==='nl'?'nl':'en');
+  assert.equal(item.url,expected);assert.equal(item.item.url,expected,'The work and its list link use the same available language route');
+ }
  assert.match(html,lang==='en'?/Five industries/:lang==='nl'?/Vijf sectoren/:/Cinco sectores/);
+});
+
+const nativeGalleryAccessibility={
+ en:{alts:['A bright office with wooden desks','Chicken, rice and golden plantain on a rustic plate','Moving boxes and an open van outside a home','A stylist cutting hair in a sunlit salon','A bright dental reception with a welcoming waiting area'],labels:['Ocimatik home','Main navigation','Language','Open menu','Footer navigation']},
+ nl:{alts:['Licht kantoor met houten bureaus','Kip, rijst en goudgele bakbanaan op een rustiek bord','Verhuisdozen en een open bestelwagen voor een woning','Een kapper knipt haar in een zonnige salon','Lichte tandartsreceptie met een uitnodigende wachtruimte'],labels:['Ocimatik · home','Hoofdnavigatie','Taal','Menu openen','Voettekstnavigatie']},
+ es:{alts:['Oficina luminosa con escritorios de madera','Pollo, arroz y plátano dorado en un plato rústico','Cajas de mudanza y una furgoneta abierta frente a una casa','Un peluquero corta el cabello en un salón luminoso','Recepción dental luminosa con una acogedora sala de espera'],labels:['Ocimatik · inicio','Navegación principal','Idioma','Abrir menú','Navegación del pie']}
+};
+for(const lang of ['en','nl','es'])test(`gallery ${lang} exposes localized image descriptions and navigation names before JavaScript`,()=>{
+ const html=fs.readFileSync(path.join(root,'sectors',lang==='en'?'index.html':lang+'.html'),'utf8'),expected=nativeGalleryAccessibility[lang];
+ const images=[...html.matchAll(/<img\b[^>]*data-alt="([^"]+)"[^>]*>/g)];
+ assert.deepEqual(images.map(match=>match[1]),['accountants','restaurants','movers','salon','dentists']);
+ assert.deepEqual(images.map(match=>match[0].match(/\balt="([^"]*)"/)[1]),expected.alts);
+ for(const label of expected.labels)assert(html.includes('aria-label="'+label+'"'),label+' is readable without translation JavaScript');
+ const languages=[...html.matchAll(/<a data-language="([^"]+)"[^>]*>/g)];
+ assert.deepEqual(languages.map(match=>match[1]),['en','nl','es']);
+ assert.deepEqual(languages.filter(match=>match[0].includes('aria-current="page"')).map(match=>match[1]),[lang]);
+ if(lang!=='en')for(const label of ['Main navigation','Language','Open menu','Footer navigation'])assert(!html.includes('aria-label="'+label+'"'),'No English navigation fallback in the localized HTML');
 });
 test('legacy query URLs use the matching canonical file without leaking preview hosts or UI parameters',()=>{
  const nodes=new Map(),links=['en','nl','x-default'].map(hreflang=>({hreflang}));
