@@ -43,6 +43,14 @@ export function bookingServices(lead) {
 export const CONFIRMATION_TTL = 15 * 60 * 1000;
 export function confirmationKey(context) { return 'ocimatik-campaign-request-v1:' + context.lead.id + ':' + context.lead.google.cid; }
 const validDate = value => /^\d{4}-\d{2}-\d{2}$/.test(value || '') && Number.isFinite(Date.parse(value + 'T12:00:00Z')) && new Date(value + 'T12:00:00Z').toISOString().slice(0, 10) === value;
+const reviewAuthorIdentity = review => {
+  try {
+    const url = new URL(review?.authorUrl);
+    const profile = url.hostname === 'www.google.com' && url.pathname.match(/^\/maps\/contrib\/(\d+)(?:\/|$)/);
+    if (url.protocol === 'https:' && profile) return 'google:' + profile[1];
+  } catch { /* Legacy records without profile links use their attributed name. */ }
+  return 'name:' + String(review?.authorName || '').trim().toLocaleLowerCase();
+};
 export function confirmationSummary(context, data, now = Date.now()) {
   if (data?.leadId !== context.lead.id || data?.cid !== context.lead.google.cid || !['booking', 'enquiry'].includes(data.kind || 'booking')) throw new Error('Invalid business request summary.');
   const kind = data.kind || 'booking';
@@ -59,9 +67,30 @@ export function readConfirmation(context, raw, now = Date.now()) {
 
 export function validateModel(model) {
   const issues = [];
-  if (model.schemaVersion !== 1 || model.businesses.length !== 20) issues.push('Exactly twenty campaign businesses are required.');
+  if (!model || model.schemaVersion !== 1 || !Array.isArray(model.businesses)) return ['Invalid campaign model.'];
+  // Existing links use the schema-1 twenty-business payload. Expanded releases
+  // explicitly describe disjoint cohorts instead of silently replacing it.
+  if (!Object.hasOwn(model, 'cohorts')) {
+    if (model.businesses.length !== 20) issues.push('Exactly twenty campaign businesses are required.');
+  } else {
+    const cohortIds = new Set(), members = new Set();
+    if (!Array.isArray(model.cohorts) || !model.cohorts.length) issues.push('Explicit campaign cohorts are required.');
+    for (const cohort of Array.isArray(model.cohorts) ? model.cohorts : []) {
+      if (!cohort || typeof cohort.id !== 'string' || !/^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$/.test(cohort.id) || cohortIds.has(cohort.id)) issues.push('Invalid or duplicate campaign cohort ID.');
+      cohortIds.add(cohort?.id);
+      if (!Number.isInteger(cohort?.expectedCount) || cohort.expectedCount < 1 || !Array.isArray(cohort.leadIds) || cohort.leadIds.length !== cohort.expectedCount) issues.push('Campaign cohort count mismatch: ' + cohort?.id);
+      for (const id of Array.isArray(cohort?.leadIds) ? cohort.leadIds : []) {
+        if (typeof id !== 'string' || !id.trim() || members.has(id)) issues.push('Invalid or duplicate campaign cohort member: ' + id);
+        members.add(id);
+      }
+    }
+    const businessIds = new Set(model.businesses.map(business => business?.id));
+    if (members.size !== model.businesses.length || [...members].some(id => !businessIds.has(id)) || [...businessIds].some(id => !members.has(id))) issues.push('Campaign cohorts must cover every business exactly once.');
+  }
   const ids = new Set(), cids = new Set();
   for (const business of model.businesses) {
+    if (!business || typeof business !== 'object' || !business.google || typeof business.google !== 'object') { issues.push('Invalid campaign business.'); continue; }
+    if (typeof business.id !== 'string' || !business.id.trim()) issues.push('Missing business ID.');
     if (ids.has(business.id)) issues.push('Duplicate business ID: ' + business.id);
     if (cids.has(business.google.cid)) issues.push('Duplicate Google CID: ' + business.id);
     ids.add(business.id); cids.add(business.google.cid);
@@ -79,13 +108,15 @@ export function validateModel(model) {
       }
     }
     const snapshot = business.google.reviewSnapshot;
+    if (Object.hasOwn(model, 'cohorts') && !snapshot) issues.push('Expanded campaign businesses require five-review snapshots: ' + business.id);
     if (snapshot) {
       if (snapshot.cid !== business.google.cid || !Array.isArray(snapshot.reviews) || snapshot.reviews.length !== 5 || !Number.isFinite(Date.parse(snapshot.observedAt))) issues.push('Five-review snapshot identity mismatch: ' + business.id);
-      const unique = new Set();
+      const unique = new Set(), authors = new Set();
       for (const review of Array.isArray(snapshot.reviews) ? snapshot.reviews : []) {
-        const target = review.originalLanguage === 'nl' ? 'en' : 'nl';
-        if (!review.authorName || !review.text || !review.sourceUrl || !review.reviewId || unique.has(review.reviewId) || !['en', 'nl'].includes(review.originalLanguage) || !review.translations?.[target] || !Number.isInteger(review.rating) || review.rating < 1 || review.rating > 5) issues.push('Invalid five-review snapshot: ' + business.id);
-        unique.add(review.reviewId);
+        const target = review?.originalLanguage === 'nl' ? 'en' : 'nl';
+        const author = reviewAuthorIdentity(review);
+        if (typeof review?.authorName !== 'string' || !review.authorName.trim() || typeof review?.text !== 'string' || !review.text.trim() || typeof review?.sourceUrl !== 'string' || !review.sourceUrl.trim() || !review?.reviewId || unique.has(review.reviewId) || authors.has(author) || !['en', 'nl'].includes(review?.originalLanguage) || typeof review?.translations?.[target] !== 'string' || !review.translations[target].trim() || !Number.isInteger(review?.rating) || review.rating < 1 || review.rating > 5) issues.push('Invalid five-review snapshot: ' + business.id);
+        unique.add(review?.reviewId); authors.add(author);
       }
     }
     for (const key of ['contact', 'publicEmails', 'email', 'marketingPermission', 'inventory']) {

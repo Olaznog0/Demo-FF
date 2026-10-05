@@ -11,6 +11,10 @@
   const initials = name => name.trim().split(/\s+/).filter(Boolean).slice(0, 2).map(part => Array.from(part)[0]).join('').toLocaleUpperCase();
   const safePhoto = value => { try { const url = new URL(value); return url.protocol === 'https:' && (url.hostname === 'lh3.googleusercontent.com' || url.hostname.endsWith('.googleusercontent.com')) ? url.href : null; } catch { return null; } };
   const safeAuthor = value => { try { const url = new URL(value); return url.protocol === 'https:' && url.hostname === 'www.google.com' && url.pathname.startsWith('/maps/contrib/') ? url.href : null; } catch { return null; } };
+  const authorIdentity = review => {
+    const url = safeAuthor(review.authorUrl), profile = url && new URL(url).pathname.match(/^\/maps\/contrib\/(\d+)(?:\/|$)/);
+    return profile ? 'google:' + profile[1] : 'name:' + review.authorName.trim().toLocaleLowerCase();
+  };
 
   function styles() {
     if (document.getElementById('campaign-reviews-style')) return;
@@ -32,6 +36,7 @@
       .cr-rating-row{display:flex;align-items:center;gap:11px}.cr-stars{color:var(--cr-gold);font:21px/1 Arial,Helvetica,sans-serif;letter-spacing:3px;white-space:nowrap}.cr-score{color:var(--cr-muted);font:600 14px/1.4 Arial,Helvetica,sans-serif;white-space:nowrap}
       .cr-quote{max-width:55ch;font-family:var(--cr-quote-font,inherit);font-size:clamp(21px,2vw,25px);font-weight:400;line-height:1.58;letter-spacing:-.012em;color:var(--cr-ink);margin:0;min-block-size:3.16em;overflow-wrap:anywhere}
       .cr-copy{display:flex;flex-direction:column;align-items:flex-start;gap:12px;min-width:0}.cr-quote.is-collapsed{display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}.cr-expand{font:600 14px/1.5 Arial,Helvetica,sans-serif;background:none;color:var(--cr-ink);border:0;border-bottom:1px solid currentColor;padding:4px 0;min-height:34px;cursor:pointer}.cr-expand[hidden]{display:none}
+      .cr-field-context{font:600 15px/1.5 Arial,Helvetica,sans-serif;color:var(--cr-muted)}
       .cr-translation{display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap;border-top:1px solid var(--cr-line);padding-top:14px;min-height:45px;font:14px/1.5 Arial,Helvetica,sans-serif;color:var(--cr-muted)}.cr-original{font:inherit;color:var(--cr-ink);background:none;border:0;padding:5px 0;cursor:pointer;text-decoration:underline;text-underline-offset:4px;min-height:34px}.cr-original[hidden]{display:none}.cr-original:hover{text-decoration-thickness:2px}
       .cr-controls{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:20px}.cr-control-group{display:flex;align-items:center;gap:8px}.cr-button{display:inline-grid;place-items:center;width:46px;height:46px;border:1px solid var(--cr-line);border-radius:50%;background:var(--cr-paper);color:var(--cr-ink);font:20px/1 Arial,Helvetica,sans-serif;cursor:pointer;transition:transform .18s ease,box-shadow .18s ease}.cr-button:hover{transform:translateY(-2px);box-shadow:0 4px 12px #142a2014}.cr-button[hidden],.cr-control-group[hidden]{display:none}
       .cr-position{font:15px/1.5 Arial,Helvetica,sans-serif;color:var(--muted,#45596b);min-width:58px;text-align:center}.cr-all{font:16px/1.5 Arial,Helvetica,sans-serif;color:inherit;text-decoration:underline!important;text-underline-offset:4px;padding-block:8px}.cr-all:hover{text-decoration-thickness:2px}.campaign-reviews :focus-visible{outline:3px solid currentColor;outline-offset:4px}
@@ -60,7 +65,7 @@
     }
     const snapshot = context.reviewSnapshot;
     const validReview = review => review && typeof review.authorName === 'string' && !!review.authorName.trim() && typeof review.text === 'string' && !!review.text.trim() && Number.isInteger(review.rating) && review.rating >= 1 && review.rating <= 5;
-    if (snapshot != null && (String(snapshot.cid) !== cid || !Array.isArray(snapshot.reviews) || snapshot.reviews.length !== 5 || !Array.from(snapshot.reviews).every(validReview) || new Set(snapshot.reviews.map(review => review.authorName.trim().toLocaleLowerCase())).size !== 5)) {
+    if (snapshot != null && (String(snapshot.cid) !== cid || !Array.isArray(snapshot.reviews) || snapshot.reviews.length !== 5 || !Array.from(snapshot.reviews).every(validReview) || new Set(snapshot.reviews.map(authorIdentity)).size !== 5)) {
       existing?.destroy(); container.replaceChildren();
       throw new RangeError('The five-review snapshot is invalid or its Google review identity does not match');
     }
@@ -112,6 +117,8 @@
       const ratingRow = element('div', 'cr-rating-row'); const score = element('span', 'cr-score', review.rating + ' / 5'); score.setAttribute('aria-hidden', 'true'); ratingRow.append(stars, score);
       const copyArea = element('div', 'cr-copy'), quote = element('blockquote', 'cr-quote'), expand = element('button', 'cr-expand'); expand.type = 'button';
       quote.id = 'campaign-review-copy-' + leadId + '-' + reviewIndex;
+      const fieldContext = review.quoteContext?.nl && review.quoteContext?.en ? element('span', 'cr-field-context') : null;
+      if (fieldContext) { fieldContext.id = quote.id + '-field'; quote.setAttribute('aria-describedby', fieldContext.id); copyArea.append(fieldContext); }
       expand.setAttribute('aria-controls', quote.id);
       copyArea.append(quote, expand);
       const translation = element('div', 'cr-translation'); const translatedLabel = element('span'); const original = element('button', 'cr-original'); original.type = 'button';
@@ -132,8 +139,16 @@
       };
       const refresh = () => {
         const copy = text[lang]; const hasTranslation = lang !== review.originalLanguage && !!review.translations?.[lang];
-        quote.textContent = originalShown || !hasTranslation ? (review.displayText || review.text) : review.translations[lang];
-        quote.lang = originalShown || !hasTranslation ? (review.originalLanguage || 'nl') : lang;
+        const displayedLanguage = originalShown || !hasTranslation ? (review.originalLanguage || 'nl') : lang;
+        let displayedCopy = originalShown || !hasTranslation ? (review.displayText || review.text) : review.translations[lang];
+        if (fieldContext) {
+          const contextLabel = review.quoteContext[displayedLanguage];
+          fieldContext.textContent = contextLabel; fieldContext.lang = displayedLanguage;
+          // The context stays outside the quoted words; source values remain intact.
+          if (displayedCopy.startsWith(contextLabel + ': ')) displayedCopy = displayedCopy.slice(contextLabel.length + 2);
+        }
+        quote.textContent = displayedCopy;
+        quote.lang = displayedLanguage;
         measure();
         date.textContent = review.publishedLabels?.[lang] || review.publishedLabel || '';
         stars.setAttribute('aria-label', review.rating + ' ' + copy.rating);

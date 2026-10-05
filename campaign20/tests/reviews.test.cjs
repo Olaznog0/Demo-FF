@@ -7,6 +7,7 @@ const vm = require('node:vm');
 const source = fs.readFileSync(path.join(__dirname, '..', 'reviews-ui.js'), 'utf8');
 const snapshotSource = fs.readFileSync(path.join(__dirname, '..', 'reviews-data.js'), 'utf8');
 const components = fs.readFileSync(path.join(__dirname, '..', 'components.css'), 'utf8');
+const originalReviewIds = new Set(['NLEZ2-029', 'NLEZ1-389', 'NLE100S-096', 'NLEX100N-119', 'NLEZ1-547', 'NLEZ1-349', 'NLEX100N-156', 'NLEP7-018', 'NLE100S-043', 'NLEX100N-043', 'NLE100S-058', 'NLEZ1-358', 'NLE100S-115', 'NLEZ1-544', 'NLEZ1-359', 'NLEP7-168', 'NLE100S-014', 'NLEX100N-065', 'NLEZ2-201', 'NLEZ1-351']);
 
 // Execute the production carousel with its real attributed snapshots. This
 // surface records DOM state and timers without a browser, requests or renders.
@@ -88,6 +89,7 @@ test('All 41 original review texts, authors, 40 portraits and actual scores stay
   for (const lang of ['nl', 'en']) {
     const view = fixture();
     for (const [id, business] of Object.entries(view.window.CAMPAIGN_REVIEWS.businesses)) {
+      if (!originalReviewIds.has(id)) continue;
       view.mount(id, lang);
       const cards = view.container.querySelectorAll('.cr-card');
       assert.equal(cards.length, business.reviews.length);
@@ -284,6 +286,29 @@ test('An authoritative same-business five-review snapshot selects exactly five f
   assert.strictEqual(view.mount('NLEZ2-029', 'nl', undefined, snapshot).controller, controller);
   assert.strictEqual(view.container.querySelectorAll('.cr-card')[0], cards[0]);
   assert.equal(cards[0].querySelector('.cr-quote').textContent, snapshot.reviews[0].text);
+});
+
+test('distinct Google profiles with the same displayed name remain five reviews; the same profile cannot repeat', () => {
+  const view = fixture(), snapshot = fiveReviewSnapshot(view);
+  snapshot.reviews.forEach((review, index) => { review.authorUrl = 'https://www.google.com/maps/contrib/' + (100000 + index) + '/reviews'; });
+  snapshot.reviews[4].authorName = snapshot.reviews[0].authorName;
+  assert.equal(view.mount('NLEZ2-029', 'nl', undefined, snapshot).controller.getState().count, 5);
+  const duplicate = structuredClone(snapshot); duplicate.reviews[4].authorUrl = duplicate.reviews[0].authorUrl;
+  assert.throws(() => view.mount('NLEZ2-029', 'nl', undefined, duplicate), /five-review snapshot.*identity/);
+});
+
+test('a structured child-friendliness comment shows its field context in both languages and when the original is opened', () => {
+  const view = fixture(), snapshot = fiveReviewSnapshot(view);
+  snapshot.reviews[0] = { ...snapshot.reviews[0], authorName: 'John Vd ham', text: 'Super leuk dat idee', displayText: 'Kindvriendelijkheid: Super leuk dat idee', quoteContext: { nl: 'Kindvriendelijkheid', en: 'Child friendliness' }, translations: { en: 'Child friendliness: Such a nice idea' } };
+  const before = JSON.stringify(snapshot), { controller } = view.mount('NLEZ2-029', 'nl', undefined, snapshot);
+  const card = view.container.querySelector('.cr-card'), label = card.querySelector('.cr-field-context'), quote = card.querySelector('.cr-quote');
+  assert.equal(label.textContent, 'Kindvriendelijkheid'); assert.equal(quote.textContent, 'Super leuk dat idee');
+  assert.equal(quote.getAttribute('aria-describedby'), label.id);
+  controller.update({ lang: 'en' });
+  assert.equal(label.textContent, 'Child friendliness'); assert.equal(quote.textContent, 'Such a nice idea');
+  card.querySelector('.cr-original').emit('click');
+  assert.equal(label.textContent, 'Kindvriendelijkheid'); assert.equal(quote.textContent, 'Super leuk dat idee');
+  assert.equal(quote.lang, 'nl'); assert.equal(label.lang, 'nl'); assert.equal(JSON.stringify(snapshot), before);
 });
 
 test('A supplied mismatched or malformed five-review snapshot clears prior cards instead of silently displaying legacy or another business reviews', () => {

@@ -8,11 +8,14 @@ import { THEME_IDS, resolveContext, contextUrl, validateModel, bookingServices, 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const model = JSON.parse(await fs.readFile(path.join(root, 'business-data.json'), 'utf8'));
 const manifest = JSON.parse(await fs.readFile(path.resolve(root, '../../deliverables/leads/campaign-pitches-20-2026-10-04/manifest.json'), 'utf8'));
+const originalIds = new Set(manifest.records.map(record => record.id));
+const originalBusinesses = model.businesses.filter(business => originalIds.has(business.id));
 
-test('Every public business matches the primary campaign CID and original manifest', () => {
+test('Every original public business matches the primary campaign CID and frozen original manifest', () => {
   assert.deepEqual(validateModel(model), []);
-  assert.deepEqual(new Set(model.businesses.map(lead => lead.id)), new Set(manifest.records.map(lead => lead.id)));
-  for (const lead of model.businesses) {
+  assert.deepEqual(new Set(originalBusinesses.map(lead => lead.id)), originalIds);
+  if (model.cohorts) assert.deepEqual(new Set(model.cohorts.find(cohort => cohort.id === 'J1-legacy').leadIds), originalIds);
+  for (const lead of originalBusinesses) {
     const source = manifest.records.find(record => record.id === lead.id);
     assert.equal(lead.google.cid, source.googleCidDecimal);
     assert.equal(lead.name, source.name);
@@ -33,7 +36,7 @@ test('Public Google summaries use the newest CID-matched primary snapshots', asy
     assert.equal(lead.google.summarySourceUrl, observed.sourceUrl);
   }
 });
-test('All 200 business, theme and language combinations preserve the requested identity', () => {
+test('All 400 current business, theme and language combinations preserve the requested identity', () => {
   const combinations = [];
   for (const lead of model.businesses) for (const theme of THEME_IDS[lead.family]) for (const lang of ['en', 'nl']) {
     const context = resolveContext(model, `?lead=${lead.id}&theme=${theme}&lang=${lang}`);
@@ -42,7 +45,8 @@ test('All 200 business, theme and language combinations preserve the requested i
     assert.equal(url.searchParams.get('lead'), lead.id); assert.equal(url.searchParams.get('theme'), theme); assert.equal(url.searchParams.get('lang'), lang); assert.equal(url.hash, ''); assert.equal(url.searchParams.has('old'), false);
     combinations.push(url.href);
   }
-  assert.equal(new Set(combinations).size, 200);
+  assert.equal(model.businesses.length, 40);
+  assert.equal(new Set(combinations).size, 400);
 });
 
 test('All twenty carousels have multiple genuine reviews, preserving frozen snapshots and primary extension attribution', async () => {
@@ -51,9 +55,13 @@ test('All twenty carousels have multiple genuine reviews, preserving frozen snap
   const rawEvidence = await fs.readFile(path.resolve(root, '../../deliverables/leads/campaign-pitches-20-2026-10-04/review-evidence-extension-2026-10-05.json'), 'utf8');
   const evidence = JSON.parse(rawEvidence);
   assert.equal(model.reviewExtensionSha256, createHash('sha256').update(rawEvidence).digest('hex'));
-  assert.equal(model.reviewSnapshotSha256, createHash('sha256').update(raw).digest('hex'));
+  // Reconstruct the unchanged original serialization before checking its frozen
+  // hash; the later cohort is an append and cannot overwrite this evidence.
+  const originalBaseline = { ...baseline, businesses: Object.fromEntries(Object.entries(baseline.businesses).filter(([id]) => originalIds.has(id))) };
+  const originalRaw = raw.slice(0, raw.indexOf('window.CAMPAIGN_REVIEWS')) + 'window.CAMPAIGN_REVIEWS = ' + JSON.stringify(originalBaseline, null, 2) + ';\n';
+  assert.equal(model.reviewSnapshotSha256, createHash('sha256').update(originalRaw).digest('hex'));
   let added = 0;
-  for (const lead of model.businesses) {
+  for (const lead of originalBusinesses) {
     const original = baseline.businesses[lead.id];
     const extra = lead.google.reviewExtension?.reviews || [];
     assert.ok(original.reviews.length + extra.length >= 2, lead.name + ' must have a real multi-review carousel');
@@ -128,7 +136,7 @@ test('Confirmation survives refresh only for the correct business, recent valid 
     assert.ok(confirmationKey(context).includes(lead.id)); assert.ok(confirmationKey(context).includes(lead.google.cid));
   }
 });
-test('The current five-review selection covers all twenty businesses with exact primary attribution and no duplicate slides', async () => {
+test('The original five-review selection still covers its twenty businesses with exact primary attribution and no duplicate slides', async () => {
   const sourceFiles = ['google-five-food-2026-10-05.json', 'google-five-beauty-2026-10-05.json'];
   const observedBusinesses = new Map();
   for (const file of sourceFiles) {
@@ -143,7 +151,7 @@ test('The current five-review selection covers all twenty businesses with exact 
     }
   }
   let count = 0;
-  for (const lead of model.businesses) {
+  for (const lead of originalBusinesses) {
     const observed = observedBusinesses.get(lead.id), selection = lead.google.reviewSnapshot;
     assert.equal(observed.businessName, lead.name);
     assert.equal(selection.cid, lead.google.cid);
@@ -177,6 +185,48 @@ test('The current five-review selection covers all twenty businesses with exact 
   duplicate.businesses[0].google.reviewSnapshot.reviews[4] = structuredClone(duplicate.businesses[0].google.reviewSnapshot.reviews[0]);
   assert.ok(validateModel(duplicate).some(issue => issue.includes('Invalid five-review snapshot')));
 });
+test('The current forty-business release contains two hundred reviews and twenty new native Google-attributed businesses', async () => {
+  assert.deepEqual(validateModel(model), []);
+  assert.deepEqual(model.cohorts.map(cohort => [cohort.id, cohort.expectedCount]), [['J1-legacy', 20], ['J2-2026-10-06', 20]]);
+  const newIds = new Set(model.cohorts[1].leadIds), additions = model.businesses.filter(business => newIds.has(business.id));
+  assert.equal(additions.length, 20); assert.equal(additions.filter(business => business.family === 'restaurants').length, 19); assert.equal(additions.filter(business => business.family === 'salon').length, 1);
+  assert.ok([...newIds].every(id => !originalIds.has(id)));
+  const reviewIds = new Set(); let count = 0;
+  for (const business of model.businesses) {
+    const snapshot = business.google.reviewSnapshot;
+    assert.equal(snapshot.reviews.length, 5); assert.equal(snapshot.cid, business.google.cid);
+    for (const review of snapshot.reviews) {
+      assert.ok(!reviewIds.has(review.reviewId), 'A Google review must not be reused for another business'); reviewIds.add(review.reviewId); count++;
+    }
+  }
+  assert.equal(count, 200);
+  for (const business of additions) {
+    assert.equal(business.google.placeId, null, 'A Google CID must never be represented as an invented Places API ID');
+    assert.deepEqual(business.confirmedServices, []); assert.equal(business.tableReservationEnabled, false);
+    const snapshot = business.google.reviewSnapshot;
+    const profiles = new Set();
+    for (const review of snapshot.reviews) {
+      assert.equal(review.nativeReviewId, review.reviewId); assert.equal(review.reviewIdType, 'native-google-review-id');
+      const authorUrl = new URL(review.authorUrl), profile = authorUrl.pathname.match(/^\/maps\/contrib\/(\d+)\//);
+      assert.equal(authorUrl.protocol, 'https:'); assert.equal(authorUrl.hostname, 'www.google.com'); assert.ok(profile);
+      assert.ok(!profiles.has(profile[1])); profiles.add(profile[1]);
+      const attribution = review.sourceAttribution;
+      assert.equal(attribution.provider, 'Google Maps'); assert.equal(attribution.cid, business.google.cid);
+      assert.equal(attribution.reviewId, review.reviewId); assert.equal(attribution.reviewIdType, 'native-google-review-id');
+      assert.equal(attribution.observedAt, review.observedAt); assert.equal(attribution.primarySourceUrl, review.sourceUrl);
+      const maps = new URL(review.sourceUrl), feature = maps.href.match(/!1s0x[a-f0-9]+:(0x[a-f0-9]+)/i);
+      assert.equal(maps.protocol, 'https:'); assert.equal(maps.hostname, 'www.google.com'); assert.ok(feature);
+      assert.equal(BigInt(feature[1]).toString(), business.google.cid);
+      assert.ok(Number.isFinite(Date.parse(review.observedAt)));
+      assert.equal(review.translationProvider, 'editorial translation');
+      assert.ok(review.translations[review.originalLanguage === 'nl' ? 'en' : 'nl']);
+      assert.ok(Number.isInteger(review.rating) && review.rating >= 1 && review.rating <= 5);
+    }
+  }
+  const contextual = additions.flatMap(business => business.google.reviewSnapshot.reviews).find(review => review.authorName === 'John Vd ham');
+  assert.deepEqual(contextual.quoteContext, { nl: 'Kindvriendelijkheid', en: 'Child friendliness' });
+  assert.equal(contextual.text, 'Super leuk dat idee');
+});
 test('A restaurant cannot select a beauty style, and an unknown language safely defaults', () => {
   const food = model.businesses.find(lead => lead.family === 'restaurants'), beauty = model.businesses.find(lead => lead.family === 'salon');
   assert.equal(resolveContext(model, `lead=${food.id}&theme=B1&lang=es`).theme, food.defaultTheme);
@@ -188,8 +238,10 @@ test('Public preview payload excludes email lists and private workflow informati
   const raw = await fs.readFile(path.join(root, 'business-data.json'), 'utf8');
   assert.doesNotMatch(raw, /"publicEmails"|"marketingPermission"|"contactReady"|"strictRank"|"sourceBrief"|"sourceFile"|deliverables\//);
   assert.doesNotMatch(raw, /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/);
-  assert.equal(model.businesses.filter(lead => lead.family === 'restaurants').length, 10);
-  assert.equal(model.businesses.filter(lead => lead.family === 'salon').length, 10);
+  assert.equal(originalBusinesses.filter(lead => lead.family === 'restaurants').length, 10);
+  assert.equal(originalBusinesses.filter(lead => lead.family === 'salon').length, 10);
+  assert.equal(model.businesses.filter(lead => lead.family === 'restaurants').length, 29);
+  assert.equal(model.businesses.filter(lead => lead.family === 'salon').length, 11);
   assert.equal(model.businesses.filter(lead => lead.tableReservationEnabled !== false).length, 0);
 });
 test('Language and palette changes update content without rebuilding product or calling providers', async () => {
