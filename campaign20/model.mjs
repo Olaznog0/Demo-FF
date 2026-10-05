@@ -37,6 +37,13 @@ export function validateModel(model) {
     if (!THEME_IDS[business.family]?.includes(business.defaultTheme)) issues.push('Theme-family mismatch: ' + business.id);
     if (!Array.isArray(business.confirmedServices)) issues.push('Missing service provenance: ' + business.id);
     if (business.tableReservationEnabled !== false) issues.push('Do not introduce unconfirmed table reservations: ' + business.id);
+    const extension = business.google.reviewExtension;
+    if (extension) {
+      if (extension.cid !== business.google.cid || !Array.isArray(extension.reviews) || !extension.reviews.length) issues.push('Review extension identity mismatch: ' + business.id);
+      for (const review of Array.isArray(extension.reviews) ? extension.reviews : []) {
+        if (!review.authorName || !review.text || !review.sourceUrl || !review.observedAt || !Number.isInteger(review.rating) || review.rating < 1 || review.rating > 5) issues.push('Invalid review extension: ' + business.id);
+      }
+    }
     for (const key of ['contact', 'publicEmails', 'email', 'marketingPermission', 'inventory']) {
       if (Object.hasOwn(business, key)) issues.push('Private campaign metadata must not be bundled: ' + key);
     }

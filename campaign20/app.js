@@ -125,7 +125,7 @@ function mountModules() {
   if (window.CampaignReviews?.mount) {
     const container = $('reviews-module');
     if (reviewsMount?.container === container && reviewsMount.controller?.update) reviewsMount.controller.update({ lang: payload.lang });
-    else { reviewsMount?.controller?.destroy?.(); reviewsMount = { container, controller: window.CampaignReviews.mount(container, { leadId: payload.leadId, cid: payload.cid, lang: payload.lang }) }; }
+    else { reviewsMount?.controller?.destroy?.(); reviewsMount = { container, controller: window.CampaignReviews.mount(container, { leadId: payload.leadId, cid: payload.cid, lang: payload.lang, reviewExtension: context.lead.google.reviewExtension }) }; }
   }
   else { const slot = $('reviews-module'); slot.replaceChildren(); const link = translated(linked('', context.lead.google.mapsUrl, 'google-summary'), d => `${context.lead.google.rating} / 5 · ${context.lead.google.reviewCount} Google ${d.reviews.toLowerCase()} ↗`); link.target = '_blank'; link.rel = 'noopener noreferrer'; slot.append(link); applyLanguage(); }
   if (window.CampaignCalendar?.mount) {
@@ -170,7 +170,15 @@ function setTheme(theme) {
   applyLanguage(); updateUrl(); dispatchContext();
 }
 window.addEventListener('campaign20:reviews-ready', () => { if (context?.view === 'home') mountModules(); });
-window.addEventListener('popstate', () => { const next = resolveContext(model, location.search); if (next.lead.id !== context.lead.id) thankYouData = null; context = next; toolbar(); context.view === 'thanks' ? renderThanks() : renderHome(); });
+window.addEventListener('popstate', () => {
+  if (!model || !context) return;
+  const next = resolveContext(model, location.search);
+  // Native section links also fire popstate. Keep the current product and its
+  // review/appointment state when only the fragment changes.
+  if (next.lead.id === context.lead.id && next.view === context.view && next.theme === context.theme && next.lang === context.lang) return;
+  if (next.lead.id !== context.lead.id) thankYouData = null;
+  context = next; toolbar(); context.view === 'thanks' ? renderThanks() : renderHome();
+});
 
 try {
   const response = await fetch('./business-data.json', { cache: 'no-store' }); if (!response.ok) throw new Error('Business data could not be loaded.'); model = await response.json();

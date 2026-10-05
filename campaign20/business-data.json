@@ -3,6 +3,7 @@
   "generatedAt": "2026-10-04",
   "manifestSha256": "88cc20d244545a075357b4c437ee124827d743c4dfb964904998fb3dc69d0c27",
   "reviewSnapshotSha256": "6c9e7f8ef6dd5b2bb8b96dbd9d4aa331c1ef1c04d10dbde42481f4d60c9ff70f",
+  "reviewExtensionSha256": "e457322af8a35f0dc3f3aa633be64b5a5393ae7f7dd1194439c87b9a64cf468a",
   "businesses": [
     {
       "id": "NLEZ2-029",
@@ -56,7 +57,34 @@
         "reviewCount": 130,
         "observedAt": "2026-10-04T20:45:14.336Z",
         "identitySourceUrl": "https://www.google.com/search?q=Kapsalon+De+Nieuwe+Roos+Papsouwselaan+458+Delft+reviews&hl=nl",
-        "summarySourceUrl": "https://www.google.com/search?q=Kapsalon+De+Nieuwe+Roos+Papsouwselaan+458+Delft+reviews&hl=nl#sv=CAESzQEKuQEStgEKd0FKaVQ0dEljdWVoVjVDRUNXek9qY1J2MGVEY2VDU1VsZ3ViTC1LdHNZSHBjWWtBVnlyeFEtWXM3bWEzeGJfYlBPMl9KTTFOU1dVck9jRjl3M25ZcTJBQkR5REFuanNnZUZpYm9aYWlfTmRXWm5hX2Z3cnBhNVRnEhdjcnJDYXNLLUxQdnJpLWdQdTRfSXdBdxoiQURzcjlmVFBUUVV3SXRDaExvNjZzOVJod1VraHZWV2NUQRIEODA1MRoBMyoAMAA4AUAAGAAgy4Tysw1KAhAB"
+        "summarySourceUrl": "https://www.google.com/search?q=Kapsalon+De+Nieuwe+Roos+Papsouwselaan+458+Delft+reviews&hl=nl#sv=CAESzQEKuQEStgEKd0FKaVQ0dEljdWVoVjVDRUNXek9qY1J2MGVEY2VDU1VsZ3ViTC1LdHNZSHBjWWtBVnlyeFEtWXM3bWEzeGJfYlBPMl9KTTFOU1dVck9jRjl3M25ZcTJBQkR5REFuanNnZUZpYm9aYWlfTmRXWm5hX2Z3cnBhNVRnEhdjcnJDYXNLLUxQdnJpLWdQdTRfSXdBdxoiQURzcjlmVFBUUVV3SXRDaExvNjZzOVJod1VraHZWV2NUQRIEODA1MRoBMyoAMAA4AUAAGAAgy4Tysw1KAhAB",
+        "reviewExtension": {
+          "cid": "3388725439076351115",
+          "reviews": [
+            {
+              "authorName": "patrick van der Vlist",
+              "authorUrl": "https://www.google.com/maps/contrib/109235923721996534465/reviews?hl=nl",
+              "photoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjUcgK6feK-g1cR29FOwO-8OwFh_kHebVKsyD8lD8vqUu73_6njM4A=w81-h81-p-rp-mo-ba12-br100",
+              "rating": 5,
+              "text": "Top kapsalon met een goeie service en geen lange wachttijd je hoeft ook geen afspraak te maken als je binnen loopt ben je na even wachten al aan de beurt. Ze knippen goed en snel, iets wat ik heel fijn vind omdat ik geen  zin heb om lang in een kappersstoel te zitten.",
+              "displayText": "Top kapsalon met een goeie service en geen lange wachttijd je hoeft ook geen afspraak te maken als je binnen loopt ben je na even wachten al aan de beurt. Ze knippen goed en snel, iets wat ik heel fijn vind omdat ik geen  zin heb om lang in een kappersstoel te zitten.",
+              "originalLanguage": "nl",
+              "translations": {
+                "en": "A great hair salon with good service and no long waiting times. You do not even need an appointment: when you walk in, you are served after a short wait. They cut well and quickly, which I really appreciate because I do not want to sit in a hairdresser’s chair for long."
+              },
+              "translationProvider": "editorial translation",
+              "publishedLabel": "8 jaar geleden",
+              "publishedLabels": {
+                "nl": "8 jaar geleden",
+                "en": "8 years ago"
+              },
+              "reviewId": "ChdDSUhNMG9nS0VJQ0FnSUNReklXd293RRAB",
+              "isExcerpt": false,
+              "sourceUrl": "https://www.google.com/maps/place/Dames+%26+Heren+Kapsalon+De+Nieuwe+Roos/@51.9987858,4.3543093,17z/data=!3m1!5s0x47c5b5bb8f78a5ab:0xe491e4f39b379b8b!4m8!3m7!1s0x47c5b5bc057ba09d:0x2f072bd52579bc8b!8m2!3d51.9987858!4d4.3543093!9m1!1b1!16s%2Fg%2F1vyxhlpm?entry=ttu&g_ep=EgoyMDI2MDkzMC4wIKXMDSoASAFQAw%3D%3D",
+              "observedAt": "2026-10-04T23:48:45.016Z"
+            }
+          ]
+        }
       },
       "media": {
         "asset": "hair-inspiration.webp",
@@ -85,7 +113,56 @@
         "rating": 4.3,
         "reviewCount": 319,
         "observedAt": "2026-10-04T20:46:27.350Z",
-        "summarySourceUrl": "https://www.google.com/search?q=Cafe+Aan+Zet+Schiedamseweg+1+Rotterdam+reviews"
+        "summarySourceUrl": "https://www.google.com/search?q=Cafe+Aan+Zet+Schiedamseweg+1+Rotterdam+reviews",
+        "reviewExtension": {
+          "cid": "11812416250633715829",
+          "reviews": [
+            {
+              "authorName": "gekke guppen",
+              "authorUrl": "https://www.google.com/maps/contrib/111622707833958367181/reviews?hl=nl",
+              "photoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjXkNXlaIEXoyVPjBPftSqUY8zo3Ay8BPyY5yo_12X3k9S2wEt-r4Q=w81-h81-p-rp-mo-ba12-br100",
+              "rating": 5,
+              "text": "Alleen drinken gehad en op terras gezeten tot het te erg regende en toen nog even binnen gezeten,  was er wel gezellig 👍",
+              "displayText": "Alleen drinken gehad en op terras gezeten tot het te erg regende en toen nog even binnen gezeten,  was er wel gezellig 👍",
+              "originalLanguage": "nl",
+              "translations": {
+                "en": "We only had drinks and sat on the terrace until the rain became too heavy, then spent a little time inside. It was cosy there 👍"
+              },
+              "translationProvider": "editorial translation",
+              "publishedLabel": "2 jaar geleden",
+              "publishedLabels": {
+                "nl": "2 jaar geleden",
+                "en": "2 years ago"
+              },
+              "reviewId": "ChdDSUhNMG9nS0VJQ0FnSUNUb2Z5WG5BRRAB",
+              "isExcerpt": false,
+              "sourceUrl": "https://www.google.com/maps/place/Caf%C3%A9+%22aan+Zet%22/@51.9099274,4.4483848,17z/data=!3m1!4b1!4m6!3m5!1s0x47c434ecbfa51b99:0xa3ee21febe130075!8m2!3d51.9099274!4d4.4483848!16s%2Fg%2F1td3qnrl?entry=ttu&g_ep=EgoyMDI2MDkzMC4wIKXMDSoASAFQAw%3D%3D",
+              "observedAt": "2026-10-04T23:49:17.904Z"
+            },
+            {
+              "authorName": "Luca M",
+              "authorUrl": "https://www.google.com/maps/contrib/114589873470436052335/reviews?hl=nl",
+              "photoUrl": "https://lh3.googleusercontent.com/a/ACg8ocKGq-8kjFwRYU8fWUB95LVr6TszWxtr4puH_P6JPRsJt2DsmA=w81-h81-p-rp-mo-br100",
+              "rating": 5,
+              "text": "Zeer leuk cafe en personeel we hebben erg genoten lekker bier en bitterballen",
+              "displayText": "Zeer leuk cafe en personeel we hebben erg genoten lekker bier en bitterballen",
+              "originalLanguage": "nl",
+              "translations": {
+                "en": "A very nice café and staff. We really enjoyed the good beer and bitterballen."
+              },
+              "translationProvider": "editorial translation",
+              "publishedLabel": "een jaar geleden",
+              "publishedLabels": {
+                "nl": "een jaar geleden",
+                "en": "1 year ago"
+              },
+              "reviewId": "Ci9DQUlRQUNvZENodHljRjlvT214SmJHMHpVVGR0Y1hGdWJXRmlWbkV0Wm1oVGJWRRAB",
+              "isExcerpt": false,
+              "sourceUrl": "https://www.google.com/maps/place/Caf%C3%A9+%22aan+Zet%22/@51.9099274,4.4483848,17z/data=!3m1!4b1!4m6!3m5!1s0x47c434ecbfa51b99:0xa3ee21febe130075!8m2!3d51.9099274!4d4.4483848!16s%2Fg%2F1td3qnrl?entry=ttu&g_ep=EgoyMDI2MDkzMC4wIKXMDSoASAFQAw%3D%3D",
+              "observedAt": "2026-10-04T23:49:17.904Z"
+            }
+          ]
+        }
       },
       "media": {
         "asset": "restaurant-cover.webp",
@@ -421,7 +498,56 @@
         "reviewCount": 59,
         "observedAt": "2026-10-04T20:46:04.363Z",
         "identitySourceUrl": "https://www.google.com/maps/place/Lana+Hairstyling+%E2%9C%82/@52.1608089,4.4911759,17z/data=!3m1!4b1!4m6!3m5!1s0x416551f0c85898ff:0x9f82af44a6ccfa5e!8m2!3d52.1608089!4d4.4911759!16s%2Fg%2F11bby3yhky?entry=ttu",
-        "summarySourceUrl": "https://www.google.com/search?q=Lana%20Hairstyling%20Lange%20Mare%20102%2C%202312%20GV%20Leiden%20reviews&hl=nl"
+        "summarySourceUrl": "https://www.google.com/search?q=Lana%20Hairstyling%20Lange%20Mare%20102%2C%202312%20GV%20Leiden%20reviews&hl=nl",
+        "reviewExtension": {
+          "cid": "11493941908394015326",
+          "reviews": [
+            {
+              "authorName": "nora omari",
+              "authorUrl": "https://www.google.com/maps/contrib/104075734272431157879/reviews?hl=nl",
+              "photoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjVoMX55IMQsQBKUggSZ2jcLTGSTPcaIKjlabI87kxFl--slB7GEAw=w81-h81-p-rp-mo-br100",
+              "rating": 5,
+              "text": "beste kapster in leiden\nLieve spontane kapster s\nZe zijn attent n geduldig ..\nhighL & haar in model fohnen\nTop service",
+              "displayText": "beste kapster in leiden\nLieve spontane kapster s\nZe zijn attent n geduldig ..\nhighL & haar in model fohnen\nTop service",
+              "originalLanguage": "nl",
+              "translations": {
+                "en": "The best hairdressers in Leiden. Lovely, spontaneous hairdressers. They are attentive and patient. Highlights and blow-drying the hair into shape. Top service."
+              },
+              "translationProvider": "editorial translation",
+              "publishedLabel": "Bewerkt: 2 jaar geleden",
+              "publishedLabels": {
+                "nl": "Bewerkt: 2 jaar geleden",
+                "en": "Edited: 2 years ago"
+              },
+              "reviewId": "ChZDSUhNMG9nS0VJQ0FnSUNXcjlTQ1FnEAE",
+              "isExcerpt": false,
+              "sourceUrl": "https://www.google.com/maps/place/Lana+Hairstyling+%E2%9C%82/@52.1608089,4.4911759,17z/data=!3m1!4b1!4m6!3m5!1s0x416551f0c85898ff:0x9f82af44a6ccfa5e!8m2!3d52.1608089!4d4.4911759!16s%2Fg%2F11bby3yhky?entry=ttu&g_ep=EgoyMDI2MDkzMC4wIKXMDSoASAFQAw%3D%3D",
+              "observedAt": "2026-10-04T23:49:58.467Z"
+            },
+            {
+              "authorName": "Romy Verlinden",
+              "authorUrl": "https://www.google.com/maps/contrib/115192375045059226784/reviews?hl=nl",
+              "photoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjV6yCT4KM8e9i8M8wndaE_grQ4kQxFP5Dz-iSHLCC517oy92Mpv=w81-h81-p-rp-mo-br100",
+              "rating": 5,
+              "text": "Super lieve meiden nemen echt de tijd voor je ben super tevreden! 🥰 …",
+              "displayText": "Super lieve meiden nemen echt de tijd voor je ben super tevreden! 🥰",
+              "originalLanguage": "nl",
+              "translations": {
+                "en": "Such lovely girls who really take their time with you. I am very satisfied! 🥰"
+              },
+              "translationProvider": "editorial translation",
+              "publishedLabel": "2 jaar geleden",
+              "publishedLabels": {
+                "nl": "2 jaar geleden",
+                "en": "2 years ago"
+              },
+              "reviewId": "ChdDSUhNMG9nS0VJQ0FnSUNuNGJMNG5nRRAB",
+              "isExcerpt": true,
+              "sourceUrl": "https://www.google.com/maps/place/Lana+Hairstyling+%E2%9C%82/@52.1608089,4.4911759,17z/data=!3m1!4b1!4m6!3m5!1s0x416551f0c85898ff:0x9f82af44a6ccfa5e!8m2!3d52.1608089!4d4.4911759!16s%2Fg%2F11bby3yhky?entry=ttu&g_ep=EgoyMDI2MDkzMC4wIKXMDSoASAFQAw%3D%3D",
+              "observedAt": "2026-10-04T23:49:58.467Z"
+            }
+          ]
+        }
       },
       "media": {
         "asset": "hair-inspiration.webp",
@@ -574,7 +700,34 @@
         "reviewCount": 36,
         "observedAt": "2026-10-04T20:46:15.868Z",
         "identitySourceUrl": "https://www.google.com/search?q=De+Wateringse+Oliebollenkraam+Plein+15+reviews",
-        "summarySourceUrl": "https://www.google.com/search?q=De+Wateringse+Oliebollenkraam+Plein+15+reviews"
+        "summarySourceUrl": "https://www.google.com/search?q=De+Wateringse+Oliebollenkraam+Plein+15+reviews",
+        "reviewExtension": {
+          "cid": "2684083363594556612",
+          "reviews": [
+            {
+              "authorName": "Irene Meijer",
+              "authorUrl": "https://www.google.com/maps/contrib/118082175599249550672/reviews?hl=nl",
+              "photoUrl": "https://lh3.googleusercontent.com/a-/ALV-UjUkux_PiWhHhkHzPgG2w7fSNyjSzeSDoxudcD7AgSyJEePi4lCz=w81-h81-p-rp-mo-ba12-br100",
+              "rating": 5,
+              "text": "Oliebollen waren top. Tijdens het wachten kreeg je koffie en thee en er was een zanger de sfeer was helemaal geweldig.",
+              "displayText": "Oliebollen waren top. Tijdens het wachten kreeg je koffie en thee en er was een zanger de sfeer was helemaal geweldig.",
+              "originalLanguage": "nl",
+              "translations": {
+                "en": "The oliebollen were excellent. While you waited, you were offered coffee and tea, and there was a singer. The atmosphere was absolutely wonderful."
+              },
+              "translationProvider": "editorial translation",
+              "publishedLabel": "6 jaar geleden",
+              "publishedLabels": {
+                "nl": "6 jaar geleden",
+                "en": "6 years ago"
+              },
+              "reviewId": "ChZDSUhNMG9nS0VJQ0FnSURNZ2NtV0dBEAE",
+              "isExcerpt": false,
+              "sourceUrl": "https://www.google.com/maps/place/De+Wateringse+Oliebollenkraam/@52.0250665,4.2738175,17z/data=!3m1!4b1!4m6!3m5!1s0x47c5b3fcc85e278b:0x253fc7992a96d4c4!8m2!3d52.0250665!4d4.2738175!16s%2Fg%2F11c2j8xflq?entry=ttu&g_ep=EgoyMDI2MDkzMC4wIKXMDSoASAFQAw%3D%3D",
+              "observedAt": "2026-10-04T23:50:18.875Z"
+            }
+          ]
+        }
       },
       "media": {
         "asset": null,

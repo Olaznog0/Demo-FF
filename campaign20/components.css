@@ -19,7 +19,7 @@
 .theme-B5 .campaign-reviews{--cr-paper:#fff;--cr-ink:#1c3e80;--cr-muted:#50637d;--cr-line:#d1dcec;--cr-radius:12px;--cr-shadow:0 10px 28px #09206014}
 .theme-R1 .cr-heading,.theme-R3 .cr-heading,.theme-R5 .cr-heading,.theme-B1 .cr-heading,.theme-B2 .cr-heading,.theme-B3 .cr-heading,.theme-B4 .cr-heading{font-family:Georgia,'Times New Roman',serif;font-weight:400}
 .theme-R2 .cr-heading,.theme-R4 .cr-heading,.theme-B5 .cr-heading{font-weight:800;letter-spacing:-.045em}
-.theme-R3 .cr-carousel,.theme-B4 .cr-carousel{border-top:3px solid var(--accent)}
-.theme-R5 .cr-carousel{border-top:3px solid #dfbf88}.theme-B3 .cr-carousel{border-top:3px solid #bda27c}
+.theme-R3 .cr-card,.theme-B4 .cr-card{border-top:3px solid var(--accent)}
+.theme-R5 .cr-card{border-top:3px solid #dfbf88}.theme-B3 .cr-card{border-top:3px solid #bda27c}
 .theme-R2 .cr-button,.theme-B3 .cr-button,.theme-B5 .cr-button{border-radius:10px}.theme-R1 .cr-button,.theme-R5 .cr-button,.theme-B1 .cr-button{border-radius:3px}
 /* End campaign review themes. */

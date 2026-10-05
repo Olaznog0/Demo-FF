@@ -1,11 +1,19 @@
 /* One readable review component across the public concepts and business pitches.
    Google source links stay on real excerpts; sample voices keep their own identity. */
-#main [data-carousel]:has([data-review-card]){min-width:0;max-width:100%;}
-#main [data-carousel]:has([data-review-card]) .carousel-track{gap:20px;align-items:stretch;padding:3px 1px 10px;scroll-padding-inline:1px;}
+#main [data-carousel]:has([data-review-card]){min-width:0;max-width:100%;container-name:reviews;container-type:inline-size;}
+#main [data-carousel]:has([data-review-card]) .carousel-track{
+ display:flex;gap:20px;align-items:stretch;min-width:0;max-width:100%;
+ overflow-x:auto;overflow-y:hidden;padding:3px 1px 13px;scroll-padding-inline:1px;
+ scroll-snap-type:x mandatory;scroll-behavior:smooth;overscroll-behavior-x:contain;
+ scrollbar-width:thin;scrollbar-color:#83929d #e8edf0;-webkit-overflow-scrolling:touch;
+}
+#main [data-carousel]:has([data-review-card]) .carousel-track::-webkit-scrollbar{display:block;height:5px;}
+#main [data-carousel]:has([data-review-card]) .carousel-track::-webkit-scrollbar-track{background:#e8edf0;border-radius:20px;}
+#main [data-carousel]:has([data-review-card]) .carousel-track::-webkit-scrollbar-thumb{background:#83929d;border-radius:20px;}
 body #main .review-card[data-review-card],
 body #main .public-voices-carousel .public-voice[data-review-card]{
- display:flex;flex-direction:column;flex:0 0 100%;min-width:0;max-width:100%;
- min-height:0;width:100%;padding:28px;border:1px solid #dfe4e8;
+ display:flex;flex-direction:column;flex:0 0 calc(100% - 56px);min-width:0;max-width:100%;
+ min-height:0;width:calc(100% - 56px);padding:28px;border:1px solid #dfe4e8;
  border-radius:20px;background:#fff;color:#25333d;box-sizing:border-box;
  box-shadow:0 6px 18px #18314508;scroll-snap-align:start;
  font-family:Arial,Helvetica,sans-serif;text-align:left;
@@ -83,6 +91,15 @@ body #main .review-card[data-review-card] .review-source .text-link:hover{color:
 #main [data-carousel]:has([data-review-card]) .carousel-arrows button:disabled{opacity:.4;cursor:default;}
 #main [data-carousel]:has([data-review-card]) [hidden]{display:none!important;}
 #main [data-carousel]:has([data-review-card]) :is(a,button,summary,[tabindex]):focus-visible{outline:3px solid #24618a;outline-offset:4px;}
+/* The component adapts to its own space: a narrow column shows the next card,
+   while a full-width section has two comfortably readable reviews together. */
+@container reviews (min-width:720px){
+ body #main .review-card[data-review-card],body #main .public-voices-carousel .public-voice[data-review-card]{flex-basis:calc((100% - 20px)/2);width:calc((100% - 20px)/2);}
+}
+@container reviews (max-width:420px){
+ body #main .review-card[data-review-card],body #main .public-voices-carousel .public-voice[data-review-card]{flex-basis:calc(100% - 44px);width:calc(100% - 44px);}
+}
+body #main .review-card[data-review-card]:only-child,body #main .public-voices-carousel .public-voice[data-review-card]:only-child{flex-basis:100%;width:100%;}
 @media(max-width:650px){
  body #main .review-card[data-review-card],body #main .public-voices-carousel .public-voice[data-review-card]{padding:23px 21px;border-radius:17px;}
  body #main .review-card[data-review-card] .review-text,body #main .public-voice[data-review-card] blockquote{font-size:18px;line-height:1.65;}

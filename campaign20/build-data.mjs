@@ -31,7 +31,35 @@ try {
   }
   reviewSnapshotSha256 = createHash('sha256').update(rawReviews).digest('hex');
 } catch (error) { if (error.code !== 'ENOENT') throw error; }
-const model = { schemaVersion: 1, generatedAt: '2026-10-04', manifestSha256: createHash('sha256').update(rawManifest).digest('hex'), reviewSnapshotSha256, businesses };
+let reviewExtensionSha256 = null;
+try {
+  const rawExtension = await fs.readFile(path.join(packet, 'review-evidence-extension-2026-10-05.json'), 'utf8');
+  const extension = JSON.parse(rawExtension);
+  if (extension.schemaVersion !== 1 || extension.primaryUiObserved !== true || !Array.isArray(extension.businesses)) throw new Error('Review extensions require primary UI evidence.');
+  const seen = new Set();
+  const googleUrl = (value, kind) => {
+    const url = new URL(value);
+    if (url.protocol !== 'https:' || (kind === 'photo' ? !url.hostname.endsWith('.googleusercontent.com') : url.hostname !== 'www.google.com' || !url.pathname.startsWith('/maps/'))) throw new Error('Unexpected review evidence URL.');
+    return value;
+  };
+  for (const record of extension.businesses) {
+    const lead = businesses.find(item => item.id === record.leadId);
+    if (!lead || seen.has(record.leadId) || lead.name !== record.businessName || lead.google.cid !== record.cid) throw new Error('Review extension business identity mismatch.');
+    seen.add(record.leadId);
+    const feature = googleUrl(record.primarySourceUrl).match(/!1s0x[a-f0-9]+:(0x[a-f0-9]+)/i);
+    if (!feature || BigInt(feature[1]).toString() !== record.cid || !Number.isFinite(Date.parse(record.observedAt))) throw new Error('Review extension source does not prove the Google identity.');
+    if (!Array.isArray(record.reviews) || !record.reviews.length) throw new Error('A review extension must contain observed comments.');
+    lead.google.reviewExtension = { cid: record.cid, reviews: record.reviews.map(review => {
+      if (!review.author || !review.quote || !review.publishedLabel || !review.reviewId || review.originalLanguage !== 'nl' || !Number.isInteger(review.rating) || review.rating < 1 || review.rating > 5) throw new Error('Invalid observed review extension.');
+      if (review.translation?.isTranslation !== true || review.translation?.provider !== 'editorial translation' || !review.translation?.en) throw new Error('Review extension requires an attributed translation.');
+      if (review.excerpt && !review.quote.startsWith(review.excerpt)) throw new Error('Review excerpt must preserve the original words.');
+      const dateEn = review.publishedLabel.replace(/^Bewerkt: /, 'Edited: ').replace(/een jaar geleden$/, '1 year ago').replace(/(\d+) jaar geleden$/, '$1 years ago');
+      return { authorName: review.author, authorUrl: googleUrl(review.authorUrl), photoUrl: review.photoUrl ? googleUrl(review.photoUrl, 'photo') : null, rating: review.rating, text: review.quote, displayText: review.excerpt || review.quote, originalLanguage: review.originalLanguage, translations: { en: review.translation.en }, translationProvider: review.translation.provider, publishedLabel: review.publishedLabel, publishedLabels: { nl: review.publishedLabel, en: dateEn }, reviewId: review.reviewId, isExcerpt: review.isExcerpt === true, sourceUrl: record.primarySourceUrl, observedAt: record.observedAt };
+    }) };
+  }
+  reviewExtensionSha256 = createHash('sha256').update(rawExtension).digest('hex');
+} catch (error) { if (error.code !== 'ENOENT') throw error; }
+const model = { schemaVersion: 1, generatedAt: '2026-10-04', manifestSha256: createHash('sha256').update(rawManifest).digest('hex'), reviewSnapshotSha256, reviewExtensionSha256, businesses };
 const errors = validateModel(model); if (errors.length) throw new Error(errors.join('\n'));
 await fs.writeFile(path.join(here, 'business-data.json'), JSON.stringify(model, null, 2) + '\n');
 console.log(JSON.stringify({ businesses: businesses.length, families: businesses.reduce((counts, lead) => ({ ...counts, [lead.family]: (counts[lead.family] || 0) + 1 }), {}), publicContactEmailIncluded: false, privateCampaignFilesCopied: false }));

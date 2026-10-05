@@ -15,6 +15,7 @@ class Element {
     this.tagName = tag; this.ownerDocument = doc; this.children = [];
     this.attrs = {}; this.dataset = {}; this.style = {}; this.listeners = new Map();
     this.className = ''; this._text = ''; this.hidden = false;
+    this.scrollLeft = 0; this.scrollCalls = [];
     this.classList = { toggle: (value, enabled) => {
       const classes = new Set(this.className.split(/\s+/).filter(Boolean));
       if (enabled) classes.add(value); else classes.delete(value);
@@ -23,6 +24,18 @@ class Element {
   }
   setAttribute(name, value) { this.attrs[name] = String(value); }
   getAttribute(name) { return this.attrs[name]; }
+  get clientWidth() { return this.ownerDocument?.layout?.width || 620; }
+  get clientHeight() { return this.measurement ? (this.className.split(/\s+/).includes('is-collapsed') ? Math.min(this.measurement.height, this.measurement.fullHeight) : this.measurement.fullHeight) : undefined; }
+  get scrollHeight() { return this.measurement?.fullHeight; }
+  get offsetLeft() { return Math.max(0, this.parentElement?.children.indexOf(this) || 0) * ((this.ownerDocument?.layout?.cardWidth || 560) + (this.ownerDocument?.layout?.gap || 20)); }
+  get scrollWidth() { return this.className.split(/\s+/).includes('cr-carousel') ? this.children.length * ((this.ownerDocument.layout.cardWidth || 560) + (this.ownerDocument.layout.gap || 20)) - (this.ownerDocument.layout.gap || 20) : this.clientWidth; }
+  getBoundingClientRect() { return { width: this.className.split(/\s+/).includes('cr-card') ? this.ownerDocument.layout.cardWidth : this.clientWidth }; }
+  scrollTo(options) {
+    this.scrollCalls.push(options);
+    const left = Math.max(0, Math.min(this.scrollWidth - this.clientWidth, options.left));
+    if (options.behavior === 'smooth' && this.ownerDocument.deferSmooth) { this.pendingScroll = left; return; }
+    this.scrollLeft = left; this.emit('scroll');
+  }
   get textContent() { return this._text + this.children.map(child => child.textContent).join(''); }
   set textContent(value) { this._text = String(value); this.children = []; }
   append(...children) { for (const child of children) { child.parentElement = this; this.children.push(child); } }
@@ -41,26 +54,31 @@ class Element {
   emit(event, detail = {}) { for (const handler of this.listeners.get(event) || []) handler({ target: this, ...detail }); }
 }
 
-function fixture({ reducedMotion = false } = {}) {
+function fixture({ reducedMotion = false, width = 620, cardWidth = 560, deferSmooth = false } = {}) {
   const doc = new Element('document'); doc.hidden = false;
+  doc.layout = { width, cardWidth, gap: 20 };
+  doc.deferSmooth = deferSmooth;
   doc.head = new Element('head', doc); doc.body = new Element('body', doc); doc.append(doc.head, doc.body);
   doc.createElement = tag => new Element(tag, doc);
   doc.createTextNode = value => { const node = new Element('#text', doc); node.textContent = value; return node; };
   doc.getElementById = id => doc.querySelectorAll('style').find(node => node.id === id) || null;
   const motion = new Element('media', doc); motion.matches = reducedMotion;
   let nextTimer = 0; const timers = new Map();
+  const observers = [];
   const window = { document: doc, matchMedia: () => motion,
+    ResizeObserver: class { constructor(callback) { this.callback = callback; this.disconnected = false; this.targets = []; observers.push(this); } observe(target) { this.targets.push(target); } disconnect() { this.disconnected = true; } },
     setTimeout: (callback, ms) => { timers.set(++nextTimer, { callback, ms }); return nextTimer; },
     clearTimeout: id => timers.delete(id)
   };
   const context = vm.createContext({ window, document: doc, URL, Intl });
   vm.runInContext(snapshotSource, context); vm.runInContext(source, context);
   const container = doc.createElement('section'); doc.body.append(container);
-  return { doc, window, motion, timers, container,
-    mount(id = 'NLEZ2-029', lang = 'nl') {
+  return { doc, window, motion, timers, container, observers,
+    mount(id = 'NLEZ2-029', lang = 'nl', reviewExtension) {
       const business = window.CAMPAIGN_REVIEWS.businesses[id];
-      return { business, controller: window.CampaignReviews.mount(container, { leadId: id, cid: business.cid, lang }) };
+      return { business, controller: window.CampaignReviews.mount(container, { leadId: id, cid: business.cid, lang, reviewExtension }) };
     },
+    resize(width, cardWidth) { doc.layout = { width, cardWidth, gap: 20 }; for (const observer of observers) if (!observer.disconnected) observer.callback(); },
     advance() { const timer = timers.values().next().value; assert(timer); timers.clear(); timer.callback(); }
   };
 }
@@ -135,15 +153,163 @@ test('Identity mismatches clear the prior review carousel and never expose anoth
   assert.throws(() => fresh.controller.update({ cid: '1' }), /different business/);
 });
 
-test('Multiple reviews autoplay with one accessible active card, while one review hides all slideshow controls', () => {
+test('Native scrolling keeps every review accessible and advances actual scroll offsets; single sources have no useless controls', () => {
   const view = fixture(); const { controller } = view.mount();
-  let cards = view.container.querySelectorAll('.cr-card');
+  const cards = view.container.querySelectorAll('.cr-card'), track = view.container.querySelector('.cr-carousel');
   assert.equal(view.timers.size, 1); assert.equal([...view.timers.values()][0].ms, 7200);
-  assert.equal(cards[0].inert, false); assert.equal(cards[1].inert, true);
+  assert.equal(track.tabIndex, 0);
+  assert(cards.every(card => !card.inert && card.getAttribute('aria-hidden') !== 'true'));
   view.advance(); assert.equal(controller.getState().index, 1);
-  assert.equal(cards[0].getAttribute('aria-hidden'), 'true'); assert.equal(cards[1].getAttribute('aria-hidden'), 'false');
+  assert.equal(track.scrollLeft, track.scrollWidth - track.clientWidth);
+  assert.equal(track.scrollCalls.at(-1).behavior, 'smooth');
+  view.advance(); assert.equal(controller.getState().index, 0); assert.equal(track.scrollLeft, 0);
+  assert(cards.every(card => !card.inert && card.getAttribute('aria-hidden') !== 'true'));
   view.mount('NLEZ1-389'); assert.equal(view.timers.size, 0);
   assert.equal(view.container.querySelector('.cr-control-group').hidden, true);
+});
+
+test('Arrow, Home and End navigation scrolls the native track and clamps at the ends instead of hiding cards', () => {
+  const view = fixture(); view.mount(); const track = view.container.querySelector('.cr-carousel');
+  let prevented = 0;
+  const key = value => track.emit('keydown', { key: value, preventDefault() { prevented++; } });
+  key('ArrowRight'); assert(track.scrollLeft > 0);
+  assert.equal(view.container.querySelectorAll('.cr-button')[1].disabled, true);
+  key('ArrowRight'); assert.equal(track.scrollLeft, track.scrollWidth - track.clientWidth);
+  key('Home'); assert.equal(track.scrollLeft, 0);
+  key('End'); assert(track.scrollLeft > 0);
+  key('ArrowLeft'); assert.equal(track.scrollLeft, 0);
+  assert.equal(prevented, 5);
+  const cardLink = view.container.querySelector('.cr-author');
+  track.emit('keydown', { target: cardLink, key: 'ArrowRight', preventDefault() { throw new Error('Do not capture descendant keys'); } });
+  assert.equal(track.scrollLeft, 0);
+});
+
+test('In-flight smooth navigation retains its intended stop across immediate language changes, repeated arrows and resize', () => {
+  const view = fixture({ deferSmooth: true });
+  const id = 'NLEZ1-389', business = view.window.CAMPAIGN_REVIEWS.businesses[id];
+  const extra = ['Second fixture author', 'Third fixture author'].map((authorName, index) => ({ authorName, text: 'Attributed fixture review ' + index, rating: 5, originalLanguage: 'nl' }));
+  const { controller } = view.mount(id, 'nl', { cid: business.cid, reviews: extra });
+  const track = view.container.querySelector('.cr-carousel'), buttons = view.container.querySelectorAll('.cr-button');
+  buttons[1].emit('click'); assert.equal(controller.getState().index, 1);
+  track.scrollLeft = 100; track.emit('scroll'); assert.equal(controller.getState().index, 1);
+  controller.update({ lang: 'en' }); assert.equal(view.container.querySelector('.cr-position').textContent, '2 of 3');
+  assert.equal(track.scrollLeft, 100);
+  buttons[1].emit('click'); assert.equal(controller.getState().index, 2);
+  assert.equal(track.pendingScroll, track.scrollWidth - track.clientWidth);
+  track.emit('keydown', { key: 'ArrowLeft', preventDefault() {} }); assert.equal(controller.getState().index, 1);
+  assert.equal(track.pendingScroll, 580);
+  view.resize(390, 358); assert.equal(track.pendingScroll, 378); assert.equal(controller.getState().index, 1);
+  track.scrollLeft = track.pendingScroll; track.emit('scroll');
+  assert.equal(controller.getState().index, 1);
+  track.scrollLeft = 0; track.emit('scroll'); assert.equal(controller.getState().index, 0); // Target cleared on arrival.
+  buttons[1].emit('click'); assert.equal(controller.getState().index, 1);
+  track.emit('scrollend'); assert.equal(controller.getState().index, 0); // Interrupted programmatic scroll.
+  buttons[1].emit('click'); track.emit('pointerdown'); assert.equal(controller.getState().index, 0);
+  assert.equal(view.timers.size, 0);
+  track.scrollLeft = 378; track.emit('scroll'); assert.equal(controller.getState().index, 1);
+  track.emit('pointerup'); assert.equal(view.timers.size, 1);
+  track.emit('keydown', { key: 'End', preventDefault() {} }); assert.equal(controller.getState().index, 2);
+  track.emit('wheel'); assert.equal(controller.getState().index, 1);
+  controller.destroy(); assert.equal(view.timers.size, 0);
+  assert.equal((track.listeners.get('scrollend') || []).length, 0); assert.equal((track.listeners.get('wheel') || []).length, 0);
+});
+
+test('Touch scrolling updates the carousel position; pointer interaction, language changes and original-copy preference preserve the cards', () => {
+  const view = fixture(); const { controller } = view.mount('NLEZ2-029', 'en');
+  const track = view.container.querySelector('.cr-carousel'), cards = view.container.querySelectorAll('.cr-card');
+  cards[1].querySelector('.cr-original').emit('click');
+  track.emit('pointerdown'); assert.equal(view.timers.size, 0);
+  track.scrollLeft = track.scrollWidth - track.clientWidth; track.emit('scroll');
+  assert.equal(controller.getState().index, 1); assert.equal(view.timers.size, 0);
+  track.emit('pointerup'); assert.equal(view.timers.size, 1);
+  const beforeScroll = track.scrollLeft;
+  const same = view.mount('NLEZ2-029', 'nl'); assert.strictEqual(same.controller, controller);
+  assert.equal(track.scrollLeft, beforeScroll); assert.strictEqual(view.container.querySelectorAll('.cr-card')[1], cards[1]);
+  controller.update({ lang: 'en' });
+  assert.equal(cards[1].querySelector('.cr-quote').lang, 'nl');
+  assert.equal(cards[1].querySelector('.cr-original').getAttribute('aria-pressed'), 'true');
+});
+
+test('Resizing from two fully visible desktop cards to a mobile scroll track enables controls and autoplay without rebuilding reviews', () => {
+  const view = fixture({ width: 1040, cardWidth: 510 }); const { controller } = view.mount();
+  const cards = view.container.querySelectorAll('.cr-card'), track = view.container.querySelector('.cr-carousel');
+  assert.equal(view.timers.size, 0); assert.equal(view.container.querySelector('.cr-control-group').hidden, true);
+  assert.equal(view.container.querySelector('.cr-position').textContent, '1–2 van 2');
+  view.resize(390, 358); assert.equal(view.timers.size, 1); assert.equal(view.container.querySelector('.cr-control-group').hidden, false);
+  assert.strictEqual(view.container.querySelectorAll('.cr-card')[0], cards[0]);
+  view.advance(); assert(track.scrollLeft > 0);
+  controller.destroy(); assert(view.observers.every(observer => observer.disconnected));
+  assert.equal((track.listeners.get('scroll') || []).length, 0); assert.equal((track.listeners.get('keydown') || []).length, 0);
+  assert.equal(view.timers.size, 0);
+});
+
+test('Verified same-business supplements add attributed reviews without mutating frozen snapshots or admitting mismatched identities', () => {
+  const view = fixture(); const id = 'NLEZ1-389'; const business = view.window.CAMPAIGN_REVIEWS.businesses[id];
+  const frozenBefore = JSON.stringify(business);
+  const extra = { authorName: 'Fixture reviewer', text: 'Original English fixture.', rating: 4, originalLanguage: 'en', translations: { nl: 'Nederlandse fixturevertaling.' }, publishedLabel: '3 weeks ago' };
+  const duplicate = { ...business.reviews[0] };
+  const { controller } = view.mount(id, 'nl', { cid: business.cid, reviews: [extra, duplicate, { ...extra, rating: 6 }, { ...extra, authorName: '' }, { ...extra, text: '' }] });
+  assert.equal(controller.getState().count, 2); assert.equal(JSON.stringify(business), frozenBefore);
+  const card = view.container.querySelectorAll('.cr-card')[1];
+  assert.equal(card.querySelector('.cr-quote').textContent, extra.translations.nl);
+  assert.equal(card.querySelector('.cr-quote').lang, 'nl');
+  assert.equal(card.querySelector('.cr-translation').textContent.startsWith('Vertaald uit het Engels'), true);
+  controller.update({ lang: 'en' });
+  assert.equal(card.querySelector('.cr-quote').textContent, extra.text); assert.equal(card.querySelector('.cr-original').hidden, true);
+  controller.destroy();
+  const mismatched = view.mount(id, 'nl', { cid: '999', reviews: [extra] });
+  assert.equal(mismatched.controller.getState().count, 1); assert.equal(JSON.stringify(business), frozenBefore);
+});
+
+test('The responsive stylesheet uses native scroll snap and individual cards rather than a stacked or hidden slideshow', () => {
+  assert.match(source, /overflow-x:auto/); assert.match(source, /scroll-snap-type:x mandatory/);
+  assert.match(source, /flex:0 0 calc\(\(100% - 20px\)\/2\)/); assert.match(source, /flex-basis:92%/);
+  assert.doesNotMatch(source, /grid-area:1\/1|visibility:hidden|pointer-events:none|\.inert\s*=/);
+});
+
+test('Long quotes expand reversibly without shortening the attributed text or resetting translation and scroll state', () => {
+  const view = fixture(); const id = 'NLEZ1-389', business = view.window.CAMPAIGN_REVIEWS.businesses[id];
+  const originalText = 'Een uitvoerige persoonlijke beoordeling. '.repeat(10);
+  const translatedText = 'An extensive personal review. '.repeat(12);
+  const { controller } = view.mount(id, 'en', { cid: business.cid, reviews: [{ authorName: 'Long fixture reviewer', text: originalText, rating: 5, originalLanguage: 'nl', translations: { en: translatedText } }] });
+  const card = view.container.querySelectorAll('.cr-card')[1], quote = card.querySelector('.cr-quote'), expand = card.querySelector('.cr-expand');
+  assert.equal(quote.textContent, translatedText); assert(quote.className.includes('is-collapsed'));
+  assert.equal(expand.textContent, 'Read more'); assert.equal(expand.hidden, false);
+  expand.emit('click'); assert.equal(expand.getAttribute('aria-expanded'), 'true'); assert.equal(quote.className.includes('is-collapsed'), false);
+  card.querySelector('.cr-original').emit('click'); assert.equal(quote.textContent, originalText); assert.equal(quote.className.includes('is-collapsed'), false);
+  controller.update({ lang: 'nl' }); assert.equal(expand.textContent, 'Minder tonen');
+  expand.emit('click'); assert.equal(quote.textContent, originalText); assert(quote.className.includes('is-collapsed'));
+  assert.equal(view.container.querySelector('.cr-card').querySelector('.cr-expand').hidden, true);
+});
+
+test('Read more follows measured six-line overflow rather than character length, and remeasures on font or card resizing', () => {
+  const view = fixture(); const id = 'NLEZ1-389', business = view.window.CAMPAIGN_REVIEWS.businesses[id];
+  const shortOriginal = 'Een kortere tekst die bij smalle kaarten toch meer dan zes regels nodig heeft.';
+  const longTranslation = 'A considerably longer review which fits the wider desktop card. '.repeat(5);
+  const { controller } = view.mount(id, 'nl', { cid: business.cid, reviews: [{ authorName: 'Measured fixture reviewer', text: shortOriginal, rating: 5, originalLanguage: 'nl', translations: { en: longTranslation } }] });
+  const track = view.container.querySelector('.cr-carousel'), card = view.container.querySelectorAll('.cr-card')[1];
+  const quote = card.querySelector('.cr-quote'), expand = card.querySelector('.cr-expand');
+  assert.equal(expand.getAttribute('aria-controls'), quote.id);
+  assert.equal(card.querySelector('.cr-original').getAttribute('aria-controls'), quote.id);
+  assert.equal(expand.hidden, true); // No layout data: conservative fallback.
+  quote.measurement = { height: 180, fullHeight: 340 };
+  view.resize(390, 358);
+  assert.equal(expand.hidden, false); assert(quote.className.includes('is-collapsed'));
+  assert.equal(quote.textContent, shortOriginal);
+  assert(view.observers[0].targets.includes(track)); assert(view.observers[0].targets.includes(quote));
+  expand.emit('click'); assert.equal(quote.className.includes('is-collapsed'), false);
+  track.scrollLeft = track.scrollWidth - track.clientWidth; track.emit('scroll'); const scrollBefore = track.scrollLeft;
+  quote.measurement = { height: 180, fullHeight: 120 };
+  controller.update({ lang: 'en' });
+  assert.equal(quote.textContent, longTranslation); assert.equal(expand.hidden, true);
+  assert.equal(expand.getAttribute('aria-expanded'), 'true'); assert.equal(track.scrollLeft, scrollBefore);
+  quote.measurement = { height: 180, fullHeight: 370 }; view.resize(390, 358);
+  assert.equal(expand.hidden, false); assert.equal(expand.textContent, 'Show less');
+  assert.equal(quote.className.includes('is-collapsed'), false);
+  expand.emit('click'); assert(quote.className.includes('is-collapsed')); assert.equal(quote.textContent, longTranslation);
+  card.querySelector('.cr-original').emit('click'); assert.equal(quote.textContent, shortOriginal);
+  assert.equal(expand.getAttribute('aria-expanded'), 'false');
+  controller.destroy(); assert(view.observers.every(observer => observer.disconnected));
 });
 
 test('Hover, keyboard focus, hidden documents and reduced-motion pause automatic rotation', () => {

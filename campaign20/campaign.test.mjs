@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 import { THEME_IDS, resolveContext, contextUrl, validateModel } from './model.mjs';
 const root = path.dirname(fileURLToPath(import.meta.url));
 const model = JSON.parse(await fs.readFile(path.join(root, 'business-data.json'), 'utf8'));
@@ -42,6 +43,47 @@ test('All 200 business, theme and language combinations preserve the requested i
     combinations.push(url.href);
   }
   assert.equal(new Set(combinations).size, 200);
+});
+
+test('All twenty carousels have multiple genuine reviews, preserving frozen snapshots and primary extension attribution', async () => {
+  const raw = await fs.readFile(path.join(root, 'reviews-data.js'), 'utf8');
+  const baseline = JSON.parse(raw.match(/window\.CAMPAIGN_REVIEWS\s*=\s*(\{[\s\S]*\})\s*;\s*$/)[1]);
+  const rawEvidence = await fs.readFile(path.resolve(root, '../../deliverables/leads/campaign-pitches-20-2026-10-04/review-evidence-extension-2026-10-05.json'), 'utf8');
+  const evidence = JSON.parse(rawEvidence);
+  assert.equal(model.reviewExtensionSha256, createHash('sha256').update(rawEvidence).digest('hex'));
+  assert.equal(model.reviewSnapshotSha256, createHash('sha256').update(raw).digest('hex'));
+  let added = 0;
+  for (const lead of model.businesses) {
+    const original = baseline.businesses[lead.id];
+    const extra = lead.google.reviewExtension?.reviews || [];
+    assert.ok(original.reviews.length + extra.length >= 2, lead.name + ' must have a real multi-review carousel');
+    if (!extra.length) continue;
+    const source = evidence.businesses.find(record => record.leadId === lead.id);
+    assert.equal(source.cid, lead.google.cid);
+    assert.equal(lead.google.reviewExtension.cid, lead.google.cid);
+    assert.equal(source.businessName, lead.name);
+    const feature = source.primarySourceUrl.match(/!1s0x[a-f0-9]+:(0x[a-f0-9]+)/i);
+    assert.equal(BigInt(feature[1]).toString(), lead.google.cid);
+    for (const review of extra) {
+      const observed = source.reviews.find(item => item.reviewId === review.reviewId);
+      assert.equal(review.authorName, observed.author);
+      assert.equal(review.authorUrl, observed.authorUrl);
+      assert.equal(review.photoUrl, observed.photoUrl);
+      assert.equal(review.text, observed.quote);
+      assert.equal(review.rating, observed.rating);
+      assert.equal(review.publishedLabel, observed.publishedLabel);
+      assert.equal(review.translations.en, observed.translation.en);
+      assert.equal(review.translationProvider, 'editorial translation');
+      assert.equal(review.sourceUrl, source.primarySourceUrl);
+      assert.ok(!original.reviews.some(item => item.authorName === review.authorName && item.text === review.text), 'Do not duplicate a quote to manufacture carousel slides');
+      added++;
+    }
+  }
+  assert.equal(added, 6);
+  const invalid = structuredClone(model);
+  const changed = invalid.businesses.find(lead => lead.google.reviewExtension);
+  changed.google.reviewExtension.cid = '1';
+  assert.ok(validateModel(invalid).some(issue => issue.includes('Review extension identity mismatch')));
 });
 test('Thank-you and return URLs retain business identity with no personal details', () => {
   for (const lead of model.businesses) {
