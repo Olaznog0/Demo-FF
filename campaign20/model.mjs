@@ -9,7 +9,7 @@ export function resolveContext(model, search) {
   if (!lead) throw new Error('The campaign has no configured business.');
   const allowed = THEME_IDS[lead.family];
   const theme = allowed.includes(query.get('theme')) ? query.get('theme') : lead.defaultTheme;
-  return { lead, theme, lang: LANGUAGES.includes(query.get('lang')) ? query.get('lang') : 'nl', view: query.get('view') === 'thanks' ? 'thanks' : 'home' };
+  return { lead, theme, lang: LANGUAGES.includes(query.get('lang')) ? query.get('lang') : 'nl', view: ['booking', 'faq', 'thanks'].includes(query.get('view')) ? query.get('view') : 'home', serviceId: bookingServices(lead).some(service => service.id === query.get('service')) ? query.get('service') : null };
 }
 
 export function contextUrl(base, context, view = 'home') {
@@ -20,7 +20,41 @@ export function contextUrl(base, context, view = 'home') {
   url.searchParams.set('theme', context.theme);
   url.searchParams.set('lang', context.lang);
   if (view !== 'home') url.searchParams.set('view', view);
+  if (view === 'booking' && bookingServices(context.lead).some(service => service.id === context.serviceId)) url.searchParams.set('service', context.serviceId);
   return url;
+}
+
+// These are request intentions rather than invented treatments, table policies,
+// prices or availability. Specific variants use the preserved business evidence.
+export function bookingServices(lead) {
+  if (lead.family === 'salon') return [
+    { id: 'appointment', title: { en: lead.id === 'NLEX100N-119' ? 'Barber appointment' : 'Hair appointment', nl: 'Kappersafspraak' } },
+    { id: 'consultation', title: { en: 'Discuss my wishes', nl: 'Mijn wensen bespreken' } }
+  ];
+  if (lead.id === 'NLEX100N-156') return [{ id: 'visit', title: { en: 'Visit the fish kiosk', nl: 'De viskiosk bezoeken' } }];
+  if (lead.id === 'NLE100S-058') return [
+    { id: 'visit', title: { en: 'Visit the café', nl: 'Het café bezoeken' } },
+    { id: 'event-visit', title: { en: 'Visit for live music', nl: 'Bezoek voor livemuziek' } }
+  ];
+  if (lead.groupId === 'ice-cream') return [{ id: 'visit', title: { en: lead.id === 'NLEZ2-201' ? 'Visit the seasonal stall' : 'Visit for ice cream', nl: lead.id === 'NLEZ2-201' ? 'De seizoenskraam bezoeken' : 'Langskomen voor ijs' } }];
+  return [{ id: 'visit', title: { en: 'Plan a visit', nl: 'Een bezoek plannen' } }];
+}
+
+export const CONFIRMATION_TTL = 15 * 60 * 1000;
+export function confirmationKey(context) { return 'ocimatik-campaign-request-v1:' + context.lead.id + ':' + context.lead.google.cid; }
+const validDate = value => /^\d{4}-\d{2}-\d{2}$/.test(value || '') && Number.isFinite(Date.parse(value + 'T12:00:00Z')) && new Date(value + 'T12:00:00Z').toISOString().slice(0, 10) === value;
+export function confirmationSummary(context, data, now = Date.now()) {
+  if (data?.leadId !== context.lead.id || data?.cid !== context.lead.google.cid || !['booking', 'enquiry'].includes(data.kind || 'booking')) throw new Error('Invalid business request summary.');
+  const kind = data.kind || 'booking';
+  if (kind === 'booking' && (!validDate(data.date) || !/^([01]\d|2[0-3]):[0-5]\d$/.test(data.time || '') || !bookingServices(context.lead).some(service => service.id === data.serviceId))) throw new Error('Invalid business request summary.');
+  return { version: 1, leadId: context.lead.id, cid: context.lead.google.cid, kind, date: kind === 'booking' ? data.date : null, time: kind === 'booking' ? data.time : null, serviceId: kind === 'booking' ? data.serviceId : null, createdAt: now };
+}
+export function readConfirmation(context, raw, now = Date.now()) {
+  try {
+    const data = JSON.parse(raw);
+    if (data?.version !== 1 || !Number.isFinite(data.createdAt) || now < data.createdAt || now - data.createdAt > CONFIRMATION_TTL) return null;
+    return confirmationSummary(context, data, data.createdAt);
+  } catch { return null; }
 }
 
 export function validateModel(model) {

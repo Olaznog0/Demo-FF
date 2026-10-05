@@ -17,7 +17,7 @@
  }
  window.PublicConceptSEO.apply(document,window.PublicConceptSEO.concept(c,lang),'conceptSchema');
  const portfolio=document.querySelector('.public-portfolio');
- if(portfolio){portfolio.querySelector('[data-portfolio-library]').textContent=text.library;portfolio.querySelector('[data-portfolio-library]').href='/sectors/index.html?lang='+lang;portfolio.querySelector('[data-portfolio-label]').textContent=c.name+' · '+text.concept;}
+ if(portfolio){const owner=portfolio.querySelector('a[href="https://ocimatik.com/"]');if(owner)owner.textContent='Demo Ocimatik';portfolio.querySelector('[data-portfolio-library]').textContent=text.library;portfolio.querySelector('[data-portfolio-library]').href='/sectors/index.html?lang='+lang;portfolio.querySelector('[data-portfolio-label]').textContent=c.name+' · '+text.concept;}
  document.querySelectorAll('.lang-btn,.langs a').forEach(link=>{
   const language=link.getAttribute('lang')||new URL(link.getAttribute('href'),location.href).searchParams.get('lang');
   if(c.languages.includes(language))link.href='/'+c.homePage+'?lang='+language;
@@ -50,7 +50,7 @@
    const service=c.services[index],holder=card.querySelector('.service-icon');
    if(holder&&service.image)holder.outerHTML=`<img class="public-dish" src="${h(service.image)}" alt="${h(l(service.imageAlt)||l(service.title))}" width="520" height="400" loading="lazy">`;
    const reserve=card.querySelector('.text-link');
-   if(reserve){reserve.href='/booking.html?'+new URLSearchParams({client:c.id,lang});reserve.textContent=l(c.ui.book)+' ↗';}
+   if(reserve){reserve.href='/booking.html?'+new URLSearchParams({client:c.id,lang});reserve.target='_blank';reserve.rel='noopener noreferrer';reserve.textContent=l(c.ui.book)+' ↗';}
   });
  }
  const footer=document.getElementById(c.sector==='salon'?'siteFooter':'footer');

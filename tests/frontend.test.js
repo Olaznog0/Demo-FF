@@ -17,3 +17,16 @@ test('Recovered review feed renders real avatars, stars and attribution, with sm
 test('Photos retain their author credits in a static grid independently of review availability',async()=>{const {nodes}=await renderHome('en',true);assert(nodes.get('googleReviews').innerHTML.includes('Explore all experiences and photos on Google Maps.'));assert(nodes.get('googleReviews').innerHTML.includes('retryGoogle'));assert(!nodes.get('googleReviews').innerHTML.includes('Test author'));const photos=nodes.get('googlePhotos').innerHTML;assert(photos.includes('https://example.com/salon.jpg'));assert(photos.includes('Photo author'));assert(photos.includes('https://example.com/photographer'));assert(!photos.includes('data-carousel'));assert.equal(nodes.get('googlePhotos').dataset.photoCount,'1');assert.equal(nodes.get('gallery').hidden,false);});
 test('Ayden does not repeat its hero and service photos in Hair inspiration; review controls remain available',async()=>{for(const lang of ['en','nl']){const {nodes}=await renderHome(lang);const gallery=nodes.get('main').innerHTML.match(/<section id="gallery"([^]*?)<\/section>/)[0];assert(gallery.includes(' hidden'));assert(!gallery.includes('<img'));assert(!gallery.includes('data-carousel'));assert(nodes.get('googleReviews').innerHTML.includes('data-carousel-toggle'));}});
 test('Ayden keeps dated real review excerpts visible when the unconfigured API is unavailable',async()=>{const {nodes}=await renderHome('en',true,true),markup=nodes.get('googleReviews').innerHTML;assert(markup.includes('Sebastiaan P'));assert(markup.includes('Very friendly and easy to make an appointment.'));assert(markup.includes('Translation'));assert(markup.includes('Google Maps ·'));assert(markup.includes('9 years ago'));assert(!markup.includes('9 jaar geleden'));assert(!markup.includes('Test author'));});
+
+test('salon booking actions retain the selected language and service in an independent tab, with FAQ visible before contact',async()=>{
+ for(const lang of ['en','nl']){
+  const {nodes}=await renderHome(lang),markup=nodes.get('main').innerHTML;
+  const links=[...markup.matchAll(/<a\b[^>]*href="([^"]*booking\.html[^"]*)"[^>]*>/g)];
+  assert(links.length>=3);
+  for(const [anchor,href]of links){const url=new URL(href.replaceAll('&amp;','&'),'https://example.test/');assert.equal(url.pathname,'/booking.html');assert.equal(url.searchParams.get('client'),'ayden');assert.equal(url.searchParams.get('lang'),lang);assert.match(anchor,/target="_blank"/);assert.match(anchor,/rel="noopener noreferrer"/);}
+  assert(links.some(([,href])=>href.includes('service=')));
+  assert.equal((markup.match(/<section[^>]*id="faq"/g)||[]).length,1);
+  assert(markup.indexOf('id="faq"')<markup.indexOf('id="contact"'));
+  assert(!markup.includes('type="date"'));assert(!markup.includes('bookingForm'));
+ }
+});

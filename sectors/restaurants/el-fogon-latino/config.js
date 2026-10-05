@@ -132,6 +132,8 @@ const config={
   ],
   "calendar": {
     "mode": "demo",
+    "tableReservation": true,
+    "serviceId": "table",
     "bookingUrl": "../../../booking.html",
     "workingDays": [
       0,
@@ -298,6 +300,11 @@ const config={
     "contact"
   ],
   "ui": {
+    "services": {
+      "nl": "Menu",
+      "en": "Menu",
+      "es": "Menú"
+    },
     "book": {
       "nl": "Reserveer een tafel",
       "en": "Reserve a table",

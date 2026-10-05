@@ -1,4 +1,4 @@
-import { THEME_IDS, contextUrl, resolveContext, validateModel } from './model.mjs';
+import { THEME_IDS, contextUrl, resolveContext, validateModel, bookingServices, confirmationKey, confirmationSummary, readConfirmation } from './model.mjs';
 const $ = id => document.getElementById(id);
 const make = (tag, className, text) => { const node = document.createElement(tag); if (className) node.className = className; if (text !== undefined) node.textContent = text; return node; };
 const safeUrl = value => { try { const url = new URL(value); return url.protocol === 'https:' ? url.href : null; } catch { return null; } };
@@ -23,9 +23,29 @@ const words = {
   }
 };
 
+Object.assign(words.en, { home: 'The website', about: 'About us', discover: 'Services', faqNav: 'FAQ', newTab: 'Opens in a new tab', aboutTitle: 'A familiar place. A personal touch.', aboutBody: (b) => `${b.name}, in ${b.locality}. Discover the atmosphere, read our guests’ experiences and tell us what you have in mind.`, aboutBeauty: (b) => `${b.name}, in ${b.locality}. Your wishes start the conversation. Get to know the salon and plan your next appointment.`, invitationKicker: 'Your next moment', invitationTitle: 'Let’s make a plan.', invitationBody: 'Choose your preferred date and time in our visit planner.', invitationBeauty: 'Choose what you have in mind, then a day and time that suit you.', bookingKicker: 'A little time for you', bookingTitle: 'Let’s plan your visit.', bookingBeauty: 'Your next appointment.', bookingBody: 'Your preferences, in one place. Start with what you have in mind.', contactTitle: 'A question? Let’s talk.', contactBody: 'Tell us what you have in mind. We’ll be in touch to help with the details.', name: 'Your name', email: 'Email address', message: 'Your message', send: 'Send my message', contactRequired: 'Enter your name, a valid email address and a message.', thanksTitle: 'Thank you for your request.', thanksBeauty: 'Thank you for planning your next appointment. We’ll be in touch to confirm the details.', thanksFood: 'Thank you for planning your visit. We’ll be in touch about your request.', thanksMessage: 'Thank you for your message. We’ll be in touch as soon as possible.', thanksNote: 'We look forward to hearing more about what you have in mind.', summaryService: 'Your preference', galleryTitle: 'A little inspiration.', galleryBody: 'A fresh perspective for your next look.' });
+Object.assign(words.nl, { home: 'De website', about: 'Over ons', discover: 'Mogelijkheden', faqNav: 'FAQ', newTab: 'Opent in een nieuw tabblad', aboutTitle: 'Een vertrouwde plek. Persoonlijke aandacht.', aboutBody: (b) => `${b.name}, in ${b.locality}. Ontdek de sfeer, lees de ervaringen van onze gasten en vertel ons wat je in gedachten hebt.`, aboutBeauty: (b) => `${b.name}, in ${b.locality}. Jouw wensen zijn het begin van ons gesprek. Leer de salon kennen en plan je volgende afspraak.`, invitationKicker: 'Jouw volgende moment', invitationTitle: 'Zullen we iets plannen?', invitationBody: 'Kies je gewenste datum en tijd in onze bezoekplanner.', invitationBeauty: 'Kies wat je in gedachten hebt en daarna een dag en tijd die je uitkomen.', bookingKicker: 'Even tijd voor jezelf', bookingTitle: 'Plan je volgende bezoek.', bookingBeauty: 'Je volgende afspraak.', bookingBody: 'Jouw voorkeuren op één plek. Begin met wat je in gedachten hebt.', contactTitle: 'Een vraag? Laten we praten.', contactBody: 'Vertel ons wat je in gedachten hebt. We nemen contact op om je verder te helpen.', name: 'Je naam', email: 'E-mailadres', message: 'Je bericht', send: 'Verstuur mijn bericht', contactRequired: 'Vul je naam, een geldig e-mailadres en een bericht in.', thanksTitle: 'Bedankt voor je aanvraag.', thanksBeauty: 'Bedankt voor het plannen van je volgende afspraak. We nemen contact op om de details te bevestigen.', thanksFood: 'Bedankt voor het plannen van je bezoek. We nemen contact op over je aanvraag.', thanksMessage: 'Bedankt voor je bericht. We nemen zo snel mogelijk contact op.', thanksNote: 'We horen graag meer over wat je in gedachten hebt.', summaryService: 'Jouw voorkeur', galleryTitle: 'Een beetje inspiratie.', galleryBody: 'Een frisse blik op jouw volgende look.' });
+
 let model, context, bindings = [], toolbarBindings = [], thankYouData = null, calendarMount = null, reviewsMount = null;
+Object.assign(words.en, { thanksMessageTitle: 'Thank you for your message.', noRequestTitle: 'Let’s start with you.', noRequestBody: 'Return to the website to send a message or plan your next visit.' });
+Object.assign(words.nl, { thanksMessageTitle: 'Bedankt voor je bericht.', noRequestTitle: 'Het begint bij jou.', noRequestBody: 'Ga naar de website om een bericht te sturen of je volgende bezoek te plannen.' });
 function translated(node, getter) { bindings.push(() => node.textContent = getter(words[context.lang], context.lead)); return node; }
 function linked(label, href, className) { const link = make('a', className, label); link.href = href; return link; }
+function homeLink(label, anchor = '', className = '') { const url = themeUrl('home'); url.hash = anchor; const link = linked(label, url.href, className); link.dataset.home = 'true'; if (anchor) link.dataset.anchor = anchor; return link; }
+function bookingLink(className = 'site-cta', serviceId = null) {
+  const link = linked('', contextUrl(location.href, { ...context, serviceId }, 'booking').href, className); link.dataset.booking = 'true'; if (serviceId) link.dataset.service = serviceId; link.target = '_blank'; link.rel = 'noopener noreferrer';
+  link.append(translated(make('span'), (d, b) => b.family === 'salon' ? d.calendarBeauty : d.calendarFood), make('span', 'cta-arrow', '↗')); link.lastChild.setAttribute('aria-hidden', 'true');
+  bindings.push(() => link.title = words[context.lang].newTab); return link;
+}
+function siteHeader(lead, inner = false) {
+  const header = make('header', 'site-header'); header.append(businessBrand(lead));
+  const nav = make('nav', 'site-nav'); bindings.push(() => nav.setAttribute('aria-label', words[context.lang].navigation));
+  const items = inner ? [['home', ''], ['contact', 'contact']] : [['about', 'about'], ['discover', 'discover'], ['reviews', 'reviews-module'], ['contact', 'contact']];
+  for (const [key, anchor] of items) nav.append(translated(inner ? homeLink('', anchor) : linked('', '#' + anchor), d => d[key]));
+  const faqLink = translated(linked('', themeUrl('faq').href), d => d.faqNav); faqLink.dataset.faq = 'true'; nav.append(faqLink);
+  if (!inner) nav.append(bookingLink('nav-booking'));
+  header.append(nav); return header;
+}
 function businessBrand(lead) {
   const brand = linked('', themeUrl('home').href, 'site-brand'); brand.dataset.home = 'true';
   if (lead.name.length > 34) brand.classList.add('brand-long-name');
@@ -48,7 +68,7 @@ function dispatchContext() { window.dispatchEvent(new CustomEvent('campaign20:co
 function toolbar() {
   toolbarBindings = [];
   const text = getter => { const node = make('span'); toolbarBindings.push(() => node.textContent = getter(words[context.lang])); return node; };
-  const brand = make('div', 'demo-brand'); brand.append(make('strong', 'demo-badge', 'Demo'), text(d => d.preview));
+  const brand = make('div', 'demo-brand'); const ocimatik = linked('Demo Ocimatik', 'https://ocimatik.com/', 'demo-badge'); ocimatik.target = '_blank'; ocimatik.rel = 'noopener noreferrer'; brand.append(ocimatik, text(d => d.preview));
   const controls = make('div', 'demo-controls');
   const language = make('div', 'demo-languages'); language.setAttribute('role', 'group');
   for (const lang of ['en', 'nl']) {
@@ -87,28 +107,44 @@ function bodyText(d, lead) {
   return d.bodyFood;
 }
 
+function businessSymbol(lead) {
+  const paths = lead.family === 'salon'
+    ? ['M8 8l18 18M8 24L26 6M25 25l3 3', 'M10 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM10 25a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z']
+    : lead.groupId === 'ice-cream'
+      ? ['M8 16h16L16 30Z', 'M7 16a5 5 0 0 1 3-9 6 6 0 0 1 12 0 5 5 0 0 1 3 9', 'M12 21l8 4M14 17l8 5']
+      : lead.id === 'NLEX100N-156'
+        ? ['M5 16c7-10 14-10 22 0-8 10-15 10-22 0Z', 'M5 16l-4-6v12ZM20 10q-3 6 0 12', 'M23 14h.1']
+        : ['M5 11h18v8a8 8 0 0 1-8 8h-2a8 8 0 0 1-8-8Z', 'M23 12h3a4 4 0 0 1 0 8h-3M2 30h27M10 3v3M17 2v4'];
+  const ns = 'http://www.w3.org/2000/svg', svg = document.createElementNS(ns, 'svg');
+  for (const [name, value] of Object.entries({ viewBox: '0 0 32 32', fill: 'none', stroke: 'currentColor', 'stroke-width': '1.5', 'stroke-linecap': 'round', 'stroke-linejoin': 'round', 'aria-hidden': 'true', class: 'stamp-symbol' })) svg.setAttribute(name, value);
+  for (const d of paths) { const path = document.createElementNS(ns, 'path'); path.setAttribute('d', d); svg.append(path); } return svg;
+}
+
 function renderHome() {
+  calendarMount?.controller?.destroy?.(); calendarMount = null;
   const lead = context.lead; bindings = [];
   const site = make('article', 'site theme-' + context.theme); site.dataset.leadId = lead.id; site.dataset.googleCid = lead.google.cid;
-  const header = make('header', 'site-header'); header.append(businessBrand(lead));
-  const nav = make('nav', 'site-nav'); bindings.push(() => nav.setAttribute('aria-label', words[context.lang].navigation));
-  for (const [key, href] of [['discover', '#discover'], ['reviews', '#reviews-module'], ['contact', '#calendar-module']]) nav.append(translated(linked('', href), d => d[key]));
-  header.append(nav); site.append(header);
+  site.append(siteHeader(lead));
   const hero = make('section', 'site-hero'), copy = make('div', 'hero-copy'); copy.append(make('p', 'site-kicker', lead.locality));
   copy.append(translated(make('h1', 'site-title'), (d, b) => b.groupId === 'ice-cream' ? d.heroIce : (b.family === 'salon' ? d.heroBeauty : d.heroFood)[context.theme]));
   copy.append(translated(make('p', 'site-body'), bodyText));
-  const cta = linked('', '#calendar-module', 'site-cta'); cta.append(translated(make('span'), (d, b) => b.family === 'salon' ? d.calendarBeauty : d.calendarFood), make('span', 'cta-arrow', '↗')); cta.lastChild.setAttribute('aria-hidden', 'true'); copy.append(cta);
+  copy.append(bookingLink());
+  const proof = linked('', '#reviews-module', 'hero-google-proof'); bindings.push(() => { const d = words[context.lang]; proof.textContent = `★ ${new Intl.NumberFormat(context.lang, { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(lead.google.rating)} / 5 · ${lead.google.reviewCount} Google ${d.reviews.toLowerCase()}`; }); copy.append(proof);
   const visual = make('figure', 'hero-visual');
   if (lead.media.asset) { const img = make('img'); img.src = '/demos/assets/' + lead.media.asset; img.width = 1200; img.height = 900; img.decoding = 'async'; img.fetchPriority = 'high'; bindings.push(() => img.alt = lead.family === 'salon' ? words[context.lang].beautyAlt : words[context.lang].assetAlt); visual.append(img); } else visual.append(iceVisual());
   hero.append(copy, visual); site.append(hero);
-  const strip = make('section', 'service-strip'); strip.id = 'discover';
-  for (let index = 0; index < 3; index++) { const card = make('div', 'service-item'); const choose = d => lead.family === 'salon' ? d.serviceBeauty : lead.groupId === 'ice-cream' ? d.serviceIce : d.serviceFood; card.append(translated(make('h2'), d => choose(d)[index][0]), translated(make('p'), d => choose(d)[index][1])); strip.append(card); }
-  site.append(strip);
+  const about = make('section', 'content-section about-section'); about.id = 'about'; const aboutCopy = make('div'); aboutCopy.append(translated(make('p', 'site-kicker'), d => d.about), translated(make('h2', 'section-title'), d => d.aboutTitle), translated(make('p', 'section-body'), d => lead.family === 'salon' ? d.aboutBeauty(lead) : d.aboutBody(lead)));
+  const stamp = make('div', 'business-stamp'); stamp.setAttribute('aria-hidden', 'true'); stamp.append(businessSymbol(lead), make('strong', '', lead.name), make('span', '', lead.locality)); about.append(aboutCopy, stamp); site.append(about);
+  const services = make('section', 'content-section services-section'); services.id = 'discover'; services.append(translated(make('p', 'site-kicker'), d => d.discover), translated(make('h2', 'section-title'), d => lead.family === 'salon' ? d.invitationKicker : d.detailsLabel)); const choices = make('div', 'booking-service-cards');
+  for (const service of bookingServices(lead)) { const card = make('article', 'booking-service-card'); card.append(translated(make('h3'), () => service.title[context.lang]), translated(make('p'), d => lead.family === 'salon' ? d.invitationBeauty : d.invitationBody), bookingLink('text-cta', service.id)); choices.append(card); } services.append(choices); site.append(services);
+  if (lead.family === 'salon') { const gallery = make('section', 'content-section inspiration-section'); gallery.id = 'inspiration'; const img = make('img', 'inspiration-image'); img.src = '/demos/assets/' + (lead.media.asset === 'salon-scene.webp' ? 'hair-inspiration.webp' : 'salon-scene.webp'); img.width = 1200; img.height = 900; img.loading = 'lazy'; img.decoding = 'async'; bindings.push(() => img.alt = words[context.lang].beautyAlt); const intro = make('div'); intro.append(translated(make('h2', 'section-title'), d => d.galleryTitle), translated(make('p', 'section-body'), d => d.galleryBody), bookingLink()); gallery.append(img, intro); site.append(gallery); }
   const reviews = make('section', 'content-section reviews-section'); reviews.id = 'reviews-module'; reviews.dataset.leadId = lead.id; reviews.dataset.googleCid = lead.google.cid; site.append(reviews);
-  const calendar = make('section', 'content-section calendar-section'); calendar.id = 'calendar-module'; calendar.dataset.leadId = lead.id; calendar.dataset.googleCid = lead.google.cid; site.append(calendar);
+  site.append(bookingInvitation());
   const faq = make('section', 'content-section faq-section'); faq.id = 'faq'; faq.append(translated(make('h2', 'section-title'), d => d.faq));
   const faqs = make('div', 'faq-grid');
   for (let index = 0; index < 3; index++) { const item = make('details', 'faq-item'); const summary = make('summary'); summary.append(translated(make('h3'), d => (lead.family === 'salon' ? d.faqBeauty : d.faqFood)[index][0])); const answer = translated(make('p'), d => (lead.family === 'salon' ? d.faqBeauty : d.faqFood)[index][1]); item.append(summary, answer); faqs.append(item); } faq.append(faqs); site.append(faq);
+  const moreFaq = translated(linked('', themeUrl('faq').href, 'text-cta'), d => d.faq); moreFaq.dataset.faq = 'true'; faq.append(moreFaq);
+  site.append(contactSection());
   const visit = make('section', 'content-section visit-section'); visit.id = 'visit';
   const info = make('div', 'visit-copy'); info.append(translated(make('h2', 'section-title'), d => d.findUs), make('strong', 'visit-name', lead.name), make('p', 'visit-address', lead.address));
   const maps = safeUrl(lead.google.mapsUrl); if (maps) { const link = translated(linked('', maps, 'location-link'), d => d.getDirections); link.target = '_blank'; link.rel = 'noopener noreferrer'; info.append(link); }
@@ -118,17 +154,53 @@ function renderHome() {
   $('product').replaceChildren(site); applyLanguage(); mountModules();
 }
 
-function moduleContext() { return { leadId: context.lead.id, cid: context.lead.google.cid, businessName: context.lead.name, family: context.lead.family, subtype: context.lead.groupId === 'ice-cream' ? 'ice-cream' : context.lead.actualSubtype, lang: context.lang, onSuccess: showThanks }; }
+function bookingInvitation() {
+  const section = make('section', 'content-section booking-invitation'); section.id = 'appointment';
+  const copy = make('div'); copy.append(translated(make('p', 'site-kicker'), d => d.invitationKicker), translated(make('h2', 'section-title'), d => d.invitationTitle), translated(make('p', 'section-body'), (d, b) => b.family === 'salon' ? d.invitationBeauty : d.invitationBody));
+  section.append(copy, bookingLink()); return section;
+}
+
+function contactSection() {
+  const section = make('section', 'content-section campaign-contact'); section.id = 'contact'; const intro = make('div', 'contact-intro'); intro.append(translated(make('p', 'site-kicker'), d => d.contact), translated(make('h2', 'section-title'), d => d.contactTitle), translated(make('p', 'section-body'), d => d.contactBody));
+  const form = make('form', 'contact-form'); form.noValidate = true; form.dataset.contactForm = 'true';
+  for (const [name, type] of [['name', 'text'], ['email', 'email'], ['message', 'textarea']]) { const label = make('label', 'contact-field'); label.append(translated(make('span'), d => d[name])); const field = make(type === 'textarea' ? 'textarea' : 'input'); if (type !== 'textarea') { field.type = type; field.autocomplete = name; } else field.rows = 5; field.name = name; field.required = true; field.maxLength = name === 'message' ? 3000 : name === 'name' ? 120 : 200; if (name !== 'email') field.minLength = name === 'name' ? 2 : 10; label.append(field); form.append(label); }
+  const error = make('p', 'contact-error'); error.setAttribute('role', 'alert'); error.hidden = true; bindings.push(() => { if (!error.hidden) error.textContent = words[context.lang].contactRequired; });
+  const submit = translated(make('button', 'site-cta'), d => d.send); submit.type = 'submit'; form.append(error, submit);
+  form.addEventListener('input', () => { error.hidden = true; });
+  form.addEventListener('submit', event => { event.preventDefault(); const fields = form.elements; const valid = fields.name.value.trim().length >= 2 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email.value.trim()) && fields.message.value.trim().length >= 10; if (!valid) { error.hidden = false; error.textContent = words[context.lang].contactRequired; form.reportValidity(); return; } submit.disabled = true; showThanks({ leadId: context.lead.id, cid: context.lead.google.cid, kind: 'enquiry' }); });
+  section.append(intro, form); return section;
+}
+
+function renderBooking() {
+  reviewsMount?.controller?.destroy?.(); reviewsMount = null; bindings = [];
+  const lead = context.lead, site = make('article', 'site booking-site theme-' + context.theme); site.dataset.leadId = lead.id; site.dataset.googleCid = lead.google.cid; site.append(siteHeader(lead, true));
+  const intro = make('section', 'booking-intro'); intro.append(translated(make('p', 'site-kicker'), d => d.bookingKicker), translated(make('h1', 'site-title'), d => lead.family === 'salon' ? d.bookingBeauty : d.bookingTitle), translated(make('p', 'section-body'), d => d.bookingBody)); site.append(intro);
+  const slot = make('section', 'booking-module'); slot.id = 'calendar-module'; slot.dataset.leadId = lead.id; slot.dataset.googleCid = lead.google.cid; site.append(slot);
+  const footer = make('footer', 'site-footer'); footer.append(make('strong', '', lead.name), translated(homeLink('', '', 'text-cta'), d => d.returnHome)); site.append(footer); $('product').replaceChildren(site); applyLanguage(); mountModules();
+}
+
+function renderFaq() {
+  calendarMount?.controller?.destroy?.(); calendarMount = null; reviewsMount?.controller?.destroy?.(); reviewsMount = null; bindings = [];
+  const lead = context.lead, site = make('article', 'site faq-site theme-' + context.theme); site.dataset.leadId = lead.id; site.dataset.googleCid = lead.google.cid; site.append(siteHeader(lead, true));
+  const content = make('section', 'content-section full-faq'); content.append(translated(make('p', 'site-kicker'), d => d.faqNav), translated(make('h1', 'site-title'), d => d.faq));
+  const list = make('div', 'full-faq-list'); for (let index = 0; index < 3; index++) { const item = make('details', 'faq-item'); const summary = make('summary'); summary.append(translated(make('h2'), d => (lead.family === 'salon' ? d.faqBeauty : d.faqFood)[index][0])); item.append(summary, translated(make('p'), d => (lead.family === 'salon' ? d.faqBeauty : d.faqFood)[index][1])); list.append(item); } content.append(list); site.append(content, bookingInvitation());
+  const footer = make('footer', 'site-footer faq-footer'); footer.append(make('strong', '', lead.name), make('p', '', lead.address));
+  const directions = translated(linked('', lead.google.mapsUrl, 'text-cta'), d => d.getDirections); directions.target = '_blank'; directions.rel = 'noopener noreferrer';
+  footer.append(directions, translated(homeLink('', 'contact', 'text-cta'), d => d.contact), translated(homeLink('', '', 'text-cta'), d => d.returnHome)); site.append(footer);
+  $('product').replaceChildren(site); applyLanguage(); dispatchContext();
+}
+
+function moduleContext() { return { leadId: context.lead.id, cid: context.lead.google.cid, businessName: context.lead.name, family: context.lead.family, subtype: context.lead.groupId === 'ice-cream' ? 'ice-cream' : context.lead.actualSubtype, services: bookingServices(context.lead), serviceId: context.serviceId, lang: context.lang, onSuccess: showThanks }; }
 function mountModules() {
-  if (context.view !== 'home') return;
+  if (!['home', 'booking'].includes(context.view)) return;
   const payload = moduleContext();
-  if (window.CampaignReviews?.mount) {
+  if (context.view === 'home' && window.CampaignReviews?.mount) {
     const container = $('reviews-module');
     if (reviewsMount?.container === container && reviewsMount.controller?.update) reviewsMount.controller.update({ lang: payload.lang });
     else { reviewsMount?.controller?.destroy?.(); reviewsMount = { container, controller: window.CampaignReviews.mount(container, { leadId: payload.leadId, cid: payload.cid, lang: payload.lang, reviewExtension: context.lead.google.reviewExtension, reviewSnapshot: context.lead.google.reviewSnapshot }) }; }
   }
-  else { const slot = $('reviews-module'); slot.replaceChildren(); const link = translated(linked('', context.lead.google.mapsUrl, 'google-summary'), d => `${context.lead.google.rating} / 5 · ${context.lead.google.reviewCount} Google ${d.reviews.toLowerCase()} ↗`); link.target = '_blank'; link.rel = 'noopener noreferrer'; slot.append(link); applyLanguage(); }
-  if (window.CampaignCalendar?.mount) {
+  else if (context.view === 'home') { const slot = $('reviews-module'); slot.replaceChildren(); const link = translated(linked('', context.lead.google.mapsUrl, 'google-summary'), d => `${context.lead.google.rating} / 5 · ${context.lead.google.reviewCount} Google ${d.reviews.toLowerCase()} ↗`); link.target = '_blank'; link.rel = 'noopener noreferrer'; slot.append(link); applyLanguage(); }
+  if (context.view === 'booking' && window.CampaignCalendar?.mount) {
     const container = $('calendar-module');
     if (calendarMount?.container === container && calendarMount.controller?.update) calendarMount.controller.update({ lang: payload.lang, onSuccess: showThanks });
     else { calendarMount?.controller?.destroy?.(); calendarMount = { container, controller: window.CampaignCalendar.mount(container, payload) }; }
@@ -140,18 +212,19 @@ function renderThanks() {
   calendarMount?.controller?.destroy?.(); calendarMount = null;
   reviewsMount?.controller?.destroy?.(); reviewsMount = null;
   bindings = []; const lead = context.lead, site = make('article', 'site thanks-site theme-' + context.theme); site.dataset.leadId = lead.id; site.dataset.googleCid = lead.google.cid;
-  const header = make('header', 'site-header'); header.append(businessBrand(lead)); site.append(header);
+  site.append(siteHeader(lead, true));
   const main = make('section', 'thanks-content');
-  const icon = make('div', 'thanks-symbol'); icon.setAttribute('aria-hidden', 'true'); icon.textContent = '✓';
-  const copy = make('div', 'thanks-copy'); copy.append(translated(make('p', 'site-kicker'), d => d.thanksKicker), translated(make('h1', 'site-title'), d => d.thanksTitle), translated(make('p', 'site-body'), d => lead.family === 'salon' ? d.thanksBeauty : d.thanksFood), translated(make('p', 'thanks-demo'), d => d.thanksDemo));
+  const icon = make('div', 'thanks-symbol'); icon.setAttribute('aria-hidden', 'true'); icon.textContent = thankYouData ? '✓' : '↗';
+  const copy = make('div', 'thanks-copy'); copy.append(translated(make('p', 'site-kicker'), d => thankYouData ? d.thanksKicker : d.personalWebsite), translated(make('h1', 'site-title'), d => !thankYouData ? d.noRequestTitle : thankYouData.kind === 'enquiry' ? d.thanksMessageTitle : d.thanksTitle), translated(make('p', 'site-body'), d => !thankYouData ? d.noRequestBody : thankYouData.kind === 'enquiry' ? d.thanksMessage : lead.family === 'salon' ? d.thanksBeauty : d.thanksFood));
+  if (thankYouData?.serviceId) copy.append(translated(make('p', 'thanks-service'), d => `${d.summaryService}: ${bookingServices(lead).find(service => service.id === thankYouData.serviceId)?.title[context.lang] || ''}`));
   if (thankYouData?.date) { const date = translated(make('p', 'thanks-date'), d => `${d.preferredDate}: ${new Intl.DateTimeFormat(context.lang === 'nl' ? 'nl-NL' : 'en-GB', { dateStyle: 'long', timeZone: 'Europe/Amsterdam' }).format(new Date(thankYouData.date + 'T12:00:00Z'))}${thankYouData.time ? ' · ' + thankYouData.time : ''}`); copy.append(date); }
-  const link = translated(linked('', themeUrl('home').href, 'site-cta'), d => d.returnHome); link.dataset.home = 'true'; link.addEventListener('click', event => { event.preventDefault(); context.view = 'home'; updateUrl(); renderHome(); window.scrollTo({ top: 0, behavior: 'instant' }); }); copy.append(link, translated(make('p', 'thanks-note'), d => d.thanksNote)); main.append(icon, copy); site.append(main);
+  const link = translated(homeLink('', '', 'site-cta'), d => d.returnHome); copy.append(link, translated(make('p', 'thanks-note'), d => d.thanksNote)); main.append(icon, copy); site.append(main);
   const footer = make('footer', 'site-footer'); footer.append(make('strong', '', lead.name), make('p', '', lead.address)); site.append(footer); $('product').replaceChildren(site); applyLanguage();
 }
 
 function showThanks(data) {
-  if (data?.leadId !== context.lead.id || String(data?.cid || '') !== context.lead.google.cid) throw new Error('The request belongs to another business.');
-  thankYouData = { date: typeof data?.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(data.date) ? data.date : null, time: typeof data?.time === 'string' && /^\d{2}:\d{2}$/.test(data.time) ? data.time : null, intent: typeof data?.intent === 'string' ? data.intent : null };
+  thankYouData = confirmationSummary(context, data);
+  try { sessionStorage.setItem(confirmationKey(context), JSON.stringify(thankYouData)); } catch { /* In-memory confirmation still works if storage is unavailable. */ }
   context.view = 'thanks'; updateUrl(); renderThanks(); window.scrollTo({ top: 0, behavior: 'instant' }); $('main-content').focus({ preventScroll: true });
 }
 function applyLanguage() {
@@ -160,7 +233,9 @@ function applyLanguage() {
   document.querySelector('.skip').textContent = words[context.lang].skip;
   document.title = `${context.lead.name} · ${words[context.lang].personalWebsite} · Demo`;
   document.querySelectorAll('[data-language]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.language === context.lang)));
-  document.querySelectorAll('[data-home]').forEach(link => link.href = themeUrl('home').href);
+  document.querySelectorAll('[data-home]').forEach(link => { const url = themeUrl('home'); url.hash = link.dataset.anchor || ''; link.href = url.href; });
+  document.querySelectorAll('[data-booking]').forEach(link => link.href = contextUrl(location.href, { ...context, serviceId: link.dataset.service || null }, 'booking').href);
+  document.querySelectorAll('[data-faq]').forEach(link => link.href = themeUrl('faq').href);
 }
 function setLanguage(lang) { if (!['en', 'nl'].includes(lang) || context.lang === lang) return; context.lang = lang; applyLanguage(); updateUrl(); mountModules(); }
 function setTheme(theme) {
@@ -170,6 +245,7 @@ function setTheme(theme) {
   applyLanguage(); updateUrl(); dispatchContext();
 }
 window.addEventListener('campaign20:reviews-ready', () => { if (context?.view === 'home') mountModules(); });
+function renderRoute() { if (context.view === 'booking') renderBooking(); else if (context.view === 'faq') renderFaq(); else if (context.view === 'thanks') renderThanks(); else renderHome(); }
 window.addEventListener('popstate', () => {
   if (!model || !context) return;
   const next = resolveContext(model, location.search);
@@ -177,12 +253,12 @@ window.addEventListener('popstate', () => {
   // review/appointment state when only the fragment changes.
   if (next.lead.id === context.lead.id && next.view === context.view && next.theme === context.theme && next.lang === context.lang) return;
   if (next.lead.id !== context.lead.id) thankYouData = null;
-  context = next; toolbar(); context.view === 'thanks' ? renderThanks() : renderHome();
+  context = next; toolbar(); renderRoute();
 });
 
 try {
   const response = await fetch('./business-data.json', { cache: 'no-store' }); if (!response.ok) throw new Error('Business data could not be loaded.'); model = await response.json();
   const issues = validateModel(model); if (issues.length) throw new Error(issues.join('; '));
-  context = resolveContext(model, location.search); toolbar(); context.view === 'thanks' ? renderThanks() : renderHome(); updateUrl();
+  context = resolveContext(model, location.search); try { thankYouData = readConfirmation(context, sessionStorage.getItem(confirmationKey(context))); } catch { thankYouData = null; } toolbar(); renderRoute(); updateUrl();
   window.CAMPAIGN20 = { getContext: () => ({ ...moduleContext(), theme: context.theme, returnUrl: themeUrl('home').href }), showThanks };
 } catch (error) { $('load-error').hidden = false; $('load-error').textContent = 'The website preview could not be loaded. Please refresh and try again.'; console.error('Campaign preview:', error.message); }

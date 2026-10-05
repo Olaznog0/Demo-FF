@@ -4,7 +4,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
-import { THEME_IDS, resolveContext, contextUrl, validateModel } from './model.mjs';
+import { THEME_IDS, resolveContext, contextUrl, validateModel, bookingServices, confirmationKey, confirmationSummary, readConfirmation, CONFIRMATION_TTL } from './model.mjs';
 const root = path.dirname(fileURLToPath(import.meta.url));
 const model = JSON.parse(await fs.readFile(path.join(root, 'business-data.json'), 'utf8'));
 const manifest = JSON.parse(await fs.readFile(path.resolve(root, '../../deliverables/leads/campaign-pitches-20-2026-10-04/manifest.json'), 'utf8'));
@@ -92,6 +92,40 @@ test('Thank-you and return URLs retain business identity with no personal detail
     assert.equal(resolveContext(model, thanks.search).view, 'thanks');
     assert.deepEqual([...thanks.searchParams.keys()].sort(), ['lang', 'lead', 'theme', 'view']);
     const back = contextUrl(thanks, context, 'home'); assert.equal(back.searchParams.has('view'), false); assert.equal(back.searchParams.get('lead'), lead.id);
+  }
+});
+test('All business, palette and language combinations provide independent booking and FAQ routes with a correct homepage return', () => {
+  for (const lead of model.businesses) for (const theme of THEME_IDS[lead.family]) for (const lang of ['nl', 'en']) {
+    const context = resolveContext(model, `?lead=${lead.id}&theme=${theme}&lang=${lang}`);
+    for (const view of ['booking', 'faq', 'thanks']) {
+      const route = contextUrl('https://example.test/pitch/index.html?email=private@example.test#old', context, view);
+      const resolved = resolveContext(model, route.search);
+      assert.equal(resolved.view, view); assert.equal(resolved.lead.id, lead.id); assert.equal(resolved.theme, theme); assert.equal(resolved.lang, lang);
+      assert.equal(route.pathname, '/pitch/index.html'); assert.equal(route.searchParams.has('email'), false);
+      const back = contextUrl(route, resolved, 'home'); assert.equal(resolveContext(model, back.search).view, 'home'); assert.equal(back.searchParams.get('lead'), lead.id);
+    }
+    const services = bookingServices(lead);
+    assert.ok(services.length); assert.equal(new Set(services.map(item => item.id)).size, services.length);
+    for (const service of services) { assert.ok(service.title.en && service.title.nl); assert.doesNotMatch(service.title.en, /general inquiry|table reservation|price|confirmed/i); const url = contextUrl('https://example.test/pitch/index.html', { ...context, serviceId: service.id }, 'booking'); assert.equal(resolveContext(model, url.search).serviceId, service.id); assert.equal(contextUrl(url, context, 'home').searchParams.has('service'), false); }
+    assert.equal(resolveContext(model, `?lead=${lead.id}&view=booking&service=unrelated`).serviceId, null);
+  }
+});
+test('Confirmation survives refresh only for the correct business, recent valid request and nonpersonal fields', () => {
+  const now = Date.parse('2026-10-05T10:00:00Z');
+  for (const lead of model.businesses) {
+    const context = resolveContext(model, `?lead=${lead.id}&lang=en`), serviceId = bookingServices(lead)[0].id;
+    const raw = { leadId: lead.id, cid: lead.google.cid, date: '2026-10-06', time: '14:00', serviceId, name: 'Do not store', email: 'private@example.test', message: 'Do not store this message' };
+    const summary = confirmationSummary(context, raw, now), stored = JSON.stringify(summary);
+    assert.deepEqual(readConfirmation(context, stored, now + 1000), summary);
+    assert.doesNotMatch(stored, /Do not store|private@example|name|email|message/);
+    assert.equal(readConfirmation(context, stored, now + CONFIRMATION_TTL + 1), null);
+    assert.equal(readConfirmation(context, stored, now - 1), null);
+    assert.equal(readConfirmation(context, '{invalid json', now), null);
+    for (const mutation of [{ cid: '123' }, { leadId: 'wrong' }, { date: '2026-02-30' }, { time: '25:99' }, { serviceId: 'general-inquiry' }]) assert.throws(() => confirmationSummary(context, { ...raw, ...mutation }, now), /Invalid business request/);
+    const enquiry = confirmationSummary(context, { ...raw, kind: 'enquiry', date: 'invalid', serviceId: 'ignore' }, now);
+    assert.equal(enquiry.kind, 'enquiry'); assert.equal(enquiry.date, null); assert.equal(enquiry.serviceId, null);
+    assert.deepEqual(readConfirmation(context, JSON.stringify(enquiry), now), enquiry);
+    assert.ok(confirmationKey(context).includes(lead.id)); assert.ok(confirmationKey(context).includes(lead.google.cid));
   }
 });
 test('The current five-review selection covers all twenty businesses with exact primary attribution and no duplicate slides', async () => {

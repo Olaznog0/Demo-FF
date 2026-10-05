@@ -112,6 +112,12 @@ async function choose(calendar, date) {
   assert(day && !day.disabled, 'The selected date must be rendered and selectable');
   await calendar.container.emit('click', { target: day });
 }
+const appointmentOptions = () => [{ id: 'appointment', title: { en: 'An appointment', nl: 'Een afspraak' } }, { id: 'consultation', title: { en: 'Discuss my wishes', nl: 'Mijn wensen bespreken' } }];
+async function choosePreference(calendar, field, value) {
+  const button = calendar.container.querySelectorAll('[data-'+field+']').find(node => node.dataset[field] === value);
+  assert(button && !button.disabled, 'The preference must be selectable');
+  await calendar.container.emit('click', { target: button });
+}
 
 test('Amsterdam day follows local midnight and both DST clock changes independently of host timezone', () => {
   const { localDay } = fixture().api.helpers;
@@ -274,5 +280,98 @@ test('submission rechecks Amsterdam today instead of allowing a date that expire
   assert.equal(calendar.container.querySelector('[data-day="2026-10-24"]').disabled, true);
   assert.equal(calendar.container.querySelector('[data-day="2026-10-25"]').getAttribute('aria-current'), 'date');
   assert.equal(f.doc.activeElement.dataset.day, '2026-10-25', 'An expired date focuses the refreshed day control instead of an already valid email');
+  assert.deepEqual(f.requests, []);
+});
+
+test('configured appointment choices are required and preferred-time buttons update the live summary before demo completion', async () => {
+  const f = fixture(), confirmations = [], services = appointmentOptions(), calendar = f.mount(lead('choices', '123', { services, onSuccess: data => confirmations.push(plain(data)) })), form = calendar.container.querySelector('form');
+  assert.equal(calendar.container.querySelectorAll('[data-service]').length, 2);
+  assert(calendar.container.querySelectorAll('[data-service]').every(button => button.type === 'button' && button.getAttribute('aria-pressed') === 'false'));
+  assert(calendar.container.querySelectorAll('[data-time]').every(button => button.disabled));
+  await form.emit('submit'); assert.match(calendar.container.querySelector('.cal-error').textContent, /Choose an option/); assert.equal(f.doc.activeElement.dataset.service, 'appointment');
+  await fill(calendar, { name: 'Example', email: 'example@example.test', message: 'A preference, please.' });
+  await choose(calendar, '2026-10-06'); assert(calendar.container.querySelectorAll('[data-time]').every(button => button.disabled));
+  await choosePreference(calendar, 'service', 'consultation');
+  await choosePreference(calendar, 'time', '14:00');
+  assert.equal(calendar.container.querySelector('[data-cal-value="service"]').textContent, 'Discuss my wishes');
+  assert.match(calendar.container.querySelector('[data-cal-value="date"]').textContent, /6 October 2026/);
+  assert.equal(calendar.container.querySelector('[data-cal-value="time"]').textContent, '14:00');
+  assert.equal(calendar.container.querySelector('[data-time="14:00"]').getAttribute('aria-pressed'), 'true');
+  assert.match(calendar.container.querySelector('.cal-time-hint').textContent, /preference/);
+  await form.emit('submit'); assert.equal(confirmations.length, 1); assert.equal(confirmations[0].serviceId, 'consultation'); assert.equal(confirmations[0].serviceTitle, 'Discuss my wishes'); assert.equal(confirmations[0].mode, 'demo');
+  assert.deepEqual(f.requests, []);
+});
+
+test('language and theme updates retain service IDs, viewed month, contact fields and focus while translating the summary', async () => {
+  const f = fixture(), options = lead('preserved-options', '123', { services: appointmentOptions() }), calendar = f.mount(options);
+  await choosePreference(calendar, 'service', 'appointment'); await choose(calendar, '2026-10-06'); await choosePreference(calendar, 'time', '15:30');
+  await fill(calendar, { name: 'Example', email: 'example@example.test', message: 'Keep this draft.' });
+  await calendar.container.emit('click', { target: calendar.container.querySelector('[data-cal-month="1"]') });
+  const before = plain(f.api.helpers.stateFor(options, '2026-10-04'));
+  for (const lang of ['nl', 'en']) {
+    calendar.container.querySelector('[data-service="appointment"]').focus(); calendar.mounted.update({ lang, theme: 'B3' });
+    assert.deepEqual(plain(f.api.helpers.stateFor(options, '2026-10-04')), before);
+    assert.equal(f.doc.activeElement.dataset.service, 'appointment');
+    assert.equal(f.doc.activeElement.children[0].textContent, lang === 'nl' ? 'Een afspraak' : 'An appointment');
+    assert.equal(calendar.container.querySelector('[data-cal-value="service"]').textContent, lang === 'nl' ? 'Een afspraak' : 'An appointment');
+    assert.match(calendar.container.querySelector('[data-cal-value="date"]').textContent, lang === 'nl' ? /6 oktober 2026/ : /6 October 2026/);
+    assert.equal(calendar.container.querySelector('[data-cal-value="time"]').textContent, '15:30');
+    assert.equal(calendar.container.querySelector('form').elements.message.value, 'Keep this draft.');
+  }
+  calendar.mounted.update({ services: appointmentOptions().reverse().map(service => ({ ...service, title: { en: service.title.en + ' updated', nl: service.title.nl + ' aangepast' } })) });
+  assert.equal(calendar.container.querySelector('[data-cal-value="service"]').textContent, 'An appointment updated');
+  assert.equal(calendar.container.querySelector('[data-service="appointment"]').getAttribute('aria-pressed'), 'true');
+  calendar.mounted.update({ services: [appointmentOptions()[1]] });
+  assert.equal(f.api.helpers.stateFor(options, '2026-10-04').serviceId, '');
+  assert.equal(calendar.container.querySelector('[data-cal-value="service"]').textContent, '—');
+  assert.equal(calendar.container.querySelector('[data-cal-value="time"]').textContent, '15:30');
+  await calendar.container.querySelector('form').emit('submit'); assert.match(calendar.container.querySelector('.cal-error').textContent, /Choose an option/);
+  const other = f.mount(lead('other-focused-calendar', '124', { services: appointmentOptions() })), otherChoice = other.container.querySelector('[data-service="appointment"]');
+  otherChoice.focus(); calendar.mounted.update({ lang: 'nl' }); assert.equal(f.doc.activeElement, otherChoice, 'An update must not steal focus from another mounted business');
+});
+
+test('valid initial service IDs preselect only an empty draft and cannot replace an existing choice', async () => {
+  const f = fixture(), services = appointmentOptions(), options = lead('preselected', '123', { services, serviceId: 'consultation' }), calendar = f.mount(options);
+  assert.equal(calendar.container.querySelector('[data-service="consultation"]').getAttribute('aria-pressed'), 'true');
+  await choosePreference(calendar, 'service', 'appointment'); calendar.mounted.destroy();
+  const remounted = f.mount(options); assert.equal(remounted.container.querySelector('[data-service="appointment"]').getAttribute('aria-pressed'), 'true');
+  const unknown = f.mount(lead('unknown-choice', '124', { services, serviceId: 'unknown' }));
+  assert(unknown.container.querySelectorAll('[data-service]').every(button => button.getAttribute('aria-pressed') === 'false'));
+});
+
+test('malformed service options are rejected before mount or update can mutate a draft, and titles render as plain text', async () => {
+  const f = fixture(), options = lead('safe-options', '123', { services: appointmentOptions() }), calendar = f.mount(options);
+  await choosePreference(calendar, 'service', 'consultation'); await fill(calendar, { name: 'Example', email: 'example@example.test' });
+  const before = plain(f.api.helpers.stateFor(options, '2026-10-04')), sparse = Array(2); sparse[0] = appointmentOptions()[0];
+  for (const services of [null, {}, sparse, [appointmentOptions()[0], appointmentOptions()[0]], [{ id: '', title: { en: 'Example', nl: 'Voorbeeld' } }], [{ id: 'example', title: { en: 'Example', nl: '' } }]]) {
+    assert.throws(() => calendar.mounted.update({ services, lang: 'nl' }), /Services must/);
+    assert.deepEqual(plain(f.api.helpers.stateFor(options, '2026-10-04')), before);
+    assert.equal(calendar.container.querySelector('h2').textContent, 'Your next appointment');
+    assert.throws(() => f.mount(lead('invalid-options', '125', { services })), /Services must/);
+  }
+  calendar.mounted.update({ services: [{ id: 'plain-text', title: { en: '<img src=x onerror=alert(1)>', nl: '<b>Voorbeeld</b>' } }] });
+  assert.equal(calendar.container.querySelector('[data-service]').children[0].textContent, '<img src=x onerror=alert(1)>');
+  assert.equal(calendar.container.querySelector('img'), null);
+});
+
+test('food enquiries use the configured visit topic without inventing table size, policy, price or availability', async () => {
+  const f = fixture(), confirmations = [], calendar = f.mount(lead('food-choice', '123', { family: 'restaurants', services: [{ id: 'visit', title: { en: 'Ask about a visit', nl: 'Een vraag over je bezoek' } }], serviceId: 'visit', onSuccess: data => confirmations.push(plain(data)) }));
+  await choose(calendar, '2026-10-06'); await choosePreference(calendar, 'time', '17:00'); await fill(calendar, { name: 'Example', email: 'example@example.test' });
+  calendar.mounted.update({ lang: 'nl' }); await calendar.container.querySelector('form').emit('submit');
+  assert.equal(confirmations[0].intent, 'visit-request'); assert.equal(confirmations[0].serviceId, 'visit'); assert.equal(confirmations[0].serviceTitle, 'Een vraag over je bezoek');
+  for (const key of ['party', 'price', 'duration', 'availability', 'reservationId']) assert.equal(confirmations[0][key], undefined);
+  assert.deepEqual(f.requests, []);
+});
+
+test('pending completion prevents duplicate requests through language updates and cleanup removes all listeners', async () => {
+  const f = fixture(), confirmations = []; let complete;
+  const calendar = f.mount(lead('pending-choice', '123', { services: appointmentOptions(), serviceId: 'appointment', onSuccess(data) { confirmations.push(data); return new Promise(resolve => { complete = resolve; }); } })), form = calendar.container.querySelector('form');
+  await choose(calendar, '2026-10-06'); await choosePreference(calendar, 'time', '10:00'); await fill(calendar, { name: 'Example', email: 'example@example.test' });
+  const pending = form.emit('submit'); assert.equal(confirmations.length, 1); calendar.mounted.update({ lang: 'nl' });
+  assert.equal(form.querySelector('[type="submit"]').disabled, true); assert(calendar.container.querySelectorAll('[data-time]').every(button => button.disabled));
+  await form.emit('submit'); assert.equal(confirmations.length, 1);
+  const grid = calendar.container.querySelector('.cal-days'); calendar.mounted.destroy(); complete(); await pending;
+  assert.equal(calendar.container.__campaignCalendar, undefined);
+  for (const [node, event] of [[form, 'input'], [form, 'change'], [form, 'submit'], [calendar.container, 'click'], [grid, 'keydown']]) assert.equal(node.listeners.get(event).length, 0);
   assert.deepEqual(f.requests, []);
 });

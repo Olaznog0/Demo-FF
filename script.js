@@ -10,7 +10,7 @@
     ? `<a class="${cls}" href="${h(C.safeUrl(url))}" target="_blank" rel="noopener noreferrer">${h(label)} <span aria-hidden="true">↗</span></a>` : '';
   const call = (cls = 'button outline') => c.business.phone
     ? `<a class="${cls}" href="tel:${h(c.business.phone)}">${h(t('call'))} <span aria-hidden="true">↗</span></a>` : '';
-  const book = (cls = 'button') => `<a class="${cls}" href="${h(link('booking.html'))}">${h(t('book'))}<span aria-hidden="true">↗</span></a>`;
+  const book = (cls = 'button') => `<a class="${cls}" href="${h(link('booking.html'))}" target="_blank" rel="noopener noreferrer">${h(t('book'))}<span aria-hidden="true">↗</span></a>`;
   function rating(compact = false) {
     if (!c.proof) return '';
     const value = new Intl.NumberFormat(C.locale(lang), { minimumFractionDigits: 1 }).format(c.proof.rating);
@@ -21,7 +21,7 @@
     return `<section id="hero" class="hero"><div class="container"><div class="jumbotron"><img id="heroImage" class="hero-image" src="${h(c.images.hero)}" alt="${h(t('photoConcept'))}" width="1536" height="1024" fetchpriority="high"><div class="hero-shade"></div><div class="hero-copy"><p class="eyebrow">${h(l(c.copy.eyebrow))}</p><h1>${h(l(c.copy.heroTitle)).replace(/\n/g, '<br>')}</h1><p class="hero-intro">${h(l(c.copy.heroIntro))}</p><div class="actions">${book('button light')}${call('button transparent')}</div></div><div class="hero-rating">${rating(true)}</div></div><div class="hero-bottom"><span><i aria-hidden="true">⌖</i>${h(c.business.address || c.business.locationLabel || '')}</span><a href="#services">${h(t('discover'))}<span aria-hidden="true">↓</span></a></div></div></section>`;
   }
   function services() {
-    return `<section id="services" class="section services-section"><div class="container"><div class="section-head"><div><p class="eyebrow">${h(t('services'))}</p><h2>${h(l(c.copy.serviceTitle)).replace(/\n/g, '<br>')}</h2></div><p>${h(l(c.copy.serviceIntro))}</p></div><div class="service-grid ${c.servicePresentation === 'list' ? 'services-list' : ''}">${c.services.map((service, i) => `<article class="service-card"><div class="service-image-wrap"><img src="${h(service.image || c.images.service || c.images.hero)}" class="service-image service-image-${i}" alt="${h(t('conceptShort'))}" loading="lazy" width="640" height="480"></div><div class="service-card-copy"><h3>${h(l(service.title))}</h3><p>${h(l(service.description))}</p><p class="treatment-note">${h(t('treatmentNote'))}</p><a class="text-link" href="${h(link('booking.html') + '&service=' + encodeURIComponent(service.id))}">${h(t('book'))} <span aria-hidden="true">↗</span></a></div></article>`).join('')}</div></div></section>`;
+    return `<section id="services" class="section services-section"><div class="container"><div class="section-head"><div><p class="eyebrow">${h(t('services'))}</p><h2>${h(l(c.copy.serviceTitle)).replace(/\n/g, '<br>')}</h2></div><p>${h(l(c.copy.serviceIntro))}</p></div><div class="service-grid ${c.servicePresentation === 'list' ? 'services-list' : ''}">${c.services.map((service, i) => `<article class="service-card"><div class="service-image-wrap"><img src="${h(service.image || c.images.service || c.images.hero)}" class="service-image service-image-${i}" alt="${h(t('conceptShort'))}" loading="lazy" width="640" height="480"></div><div class="service-card-copy"><h3>${h(l(service.title))}</h3><p>${h(l(service.description))}</p><p class="treatment-note">${h(t('treatmentNote'))}</p><a class="text-link" href="${h(link('booking.html') + '&service=' + encodeURIComponent(service.id))}" target="_blank" rel="noopener noreferrer">${h(t('book'))} <span aria-hidden="true">↗</span></a></div></article>`).join('')}</div></div></section>`;
   }
   function process() {
     return `<section class="process-section section"><div class="container process-layout"><div><p class="eyebrow">${h(t('booking'))}</p><h2>${h(t('howTitle'))}</h2><div class="actions">${book()}${call()}</div></div><div class="process-steps">${[1, 2, 3].map(i => `<article><div><h3>${h(t('how' + i))}</h3><p>${h(t('how' + i + 'Text'))}</p></div></article>`).join('')}</div></div></section>`;
@@ -160,7 +160,7 @@
   const page = document.documentElement.dataset.page;
   if (page === 'home') {
     const blocks = { services, process, reviews, gallery, contact };
-    main.innerHTML = hero() + c.sections.map(id => blocks[id]?.() || '').join('');
+    main.innerHTML = hero() + c.sections.map(id => (id === 'contact' && c.sector && c.id !== 'ff' ? C.faqMarkup(c, lang) : '') + (blocks[id]?.() || '')).join('');
     main.insertAdjacentHTML('beforeend', `<div class="mobile-contact-bar">${call()}${book()}</div>`);
     mountCarousels();
   }

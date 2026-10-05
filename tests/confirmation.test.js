@@ -34,6 +34,17 @@ test('public shared calendar and thanks resolve all five public clients without 
  }
  const nested=shell('bloom','en','/concepts/salon/index.html','',true);assert(nested.nodes.get('siteHeader').innerHTML.includes('/concepts/salon/index.html?client=bloom&amp;lang=nl'));assert.equal(nested.window.Site.link('booking.html'),'/booking.html?client=bloom&lang=en');assert(!nested.nodes.get('siteHeader').innerHTML.includes('href="//'));
 });
+
+test('shared headers expose FAQ in both menus and open the business booking flow in a separate tab',()=>{
+ for(const client of Object.values(registry.clients))for(const lang of ['en','nl']){
+  const {nodes}=shell(client.id,lang,'/'+client.homePage),header=nodes.get('siteHeader').innerHTML;
+  assert.equal((header.match(/data-faq-link="true"/g)||[]).length,2);
+  assert.equal((header.match(/href="[^"]*#faq"/g)||[]).length,2);
+  const bookings=[...header.matchAll(/<a\b[^>]*href="([^"]*booking\.html[^"]*)"[^>]*>/g)];
+  assert.equal(bookings.length,2);
+  for(const [anchor,href]of bookings){const url=new URL(href.replaceAll('&amp;','&'),'https://example.test/');assert.equal(url.searchParams.get('client'),client.id);assert.equal(url.searchParams.get('lang'),lang);assert.match(anchor,/target="_blank"/);assert.match(anchor,/rel="noopener noreferrer"/);}
+ }
+});
 test('themed table thank-you preserves guests, date and time across NL/EN and returns to its explicit sector page',()=>{
  const {api,storage}=setup(),c=registry.clients.brasa;storage.set(api.key,JSON.stringify(api.payload(c,'en',{type:'table',date:'2026-10-20',time:'19:00',party:4})));
  for(const lang of ['nl','en']){
