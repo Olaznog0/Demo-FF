@@ -44,6 +44,16 @@ export function validateModel(model) {
         if (!review.authorName || !review.text || !review.sourceUrl || !review.observedAt || !Number.isInteger(review.rating) || review.rating < 1 || review.rating > 5) issues.push('Invalid review extension: ' + business.id);
       }
     }
+    const snapshot = business.google.reviewSnapshot;
+    if (snapshot) {
+      if (snapshot.cid !== business.google.cid || !Array.isArray(snapshot.reviews) || snapshot.reviews.length !== 5 || !Number.isFinite(Date.parse(snapshot.observedAt))) issues.push('Five-review snapshot identity mismatch: ' + business.id);
+      const unique = new Set();
+      for (const review of Array.isArray(snapshot.reviews) ? snapshot.reviews : []) {
+        const target = review.originalLanguage === 'nl' ? 'en' : 'nl';
+        if (!review.authorName || !review.text || !review.sourceUrl || !review.reviewId || unique.has(review.reviewId) || !['en', 'nl'].includes(review.originalLanguage) || !review.translations?.[target] || !Number.isInteger(review.rating) || review.rating < 1 || review.rating > 5) issues.push('Invalid five-review snapshot: ' + business.id);
+        unique.add(review.reviewId);
+      }
+    }
     for (const key of ['contact', 'publicEmails', 'email', 'marketingPermission', 'inventory']) {
       if (Object.hasOwn(business, key)) issues.push('Private campaign metadata must not be bundled: ' + key);
     }

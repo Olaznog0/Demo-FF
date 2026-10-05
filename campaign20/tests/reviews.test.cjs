@@ -13,7 +13,7 @@ const components = fs.readFileSync(path.join(__dirname, '..', 'components.css'),
 class Element {
   constructor(tag, doc) {
     this.tagName = tag; this.ownerDocument = doc; this.children = [];
-    this.attrs = {}; this.dataset = {}; this.style = {}; this.listeners = new Map();
+    this.attrs = {}; this.dataset = {}; this.style = { setProperty(name, value) { this[name] = value; } }; this.listeners = new Map();
     this.className = ''; this._text = ''; this.hidden = false;
     this.scrollLeft = 0; this.scrollCalls = [];
     this.classList = { toggle: (value, enabled) => {
@@ -28,7 +28,7 @@ class Element {
   get clientHeight() { return this.measurement ? (this.className.split(/\s+/).includes('is-collapsed') ? Math.min(this.measurement.height, this.measurement.fullHeight) : this.measurement.fullHeight) : undefined; }
   get scrollHeight() { return this.measurement?.fullHeight; }
   get offsetLeft() { return Math.max(0, this.parentElement?.children.indexOf(this) || 0) * ((this.ownerDocument?.layout?.cardWidth || 560) + (this.ownerDocument?.layout?.gap || 20)); }
-  get scrollWidth() { return this.className.split(/\s+/).includes('cr-carousel') ? this.children.length * ((this.ownerDocument.layout.cardWidth || 560) + (this.ownerDocument.layout.gap || 20)) - (this.ownerDocument.layout.gap || 20) : this.clientWidth; }
+  get scrollWidth() { const classes = this.className.split(/\s+/), gap = this.ownerDocument?.layout?.gap || 20; return classes.includes('cr-carousel') ? Math.max(this.clientWidth, this.children.length * ((this.ownerDocument.layout.cardWidth || 560) + gap) - gap + (classes.includes('has-page-tail') ? parseFloat(this.style['--cr-page-tail']) + gap : 0)) : this.clientWidth; }
   getBoundingClientRect() { return { width: this.className.split(/\s+/).includes('cr-card') ? this.ownerDocument.layout.cardWidth : this.clientWidth }; }
   scrollTo(options) {
     this.scrollCalls.push(options);
@@ -74,9 +74,9 @@ function fixture({ reducedMotion = false, width = 620, cardWidth = 560, deferSmo
   vm.runInContext(snapshotSource, context); vm.runInContext(source, context);
   const container = doc.createElement('section'); doc.body.append(container);
   return { doc, window, motion, timers, container, observers,
-    mount(id = 'NLEZ2-029', lang = 'nl', reviewExtension) {
+    mount(id = 'NLEZ2-029', lang = 'nl', reviewExtension, reviewSnapshot) {
       const business = window.CAMPAIGN_REVIEWS.businesses[id];
-      return { business, controller: window.CampaignReviews.mount(container, { leadId: id, cid: business.cid, lang, reviewExtension }) };
+      return { business, controller: window.CampaignReviews.mount(container, { leadId: id, cid: business.cid, lang, reviewExtension, reviewSnapshot }) };
     },
     resize(width, cardWidth) { doc.layout = { width, cardWidth, gap: 20 }; for (const observer of observers) if (!observer.disconnected) observer.callback(); },
     advance() { const timer = timers.values().next().value; assert(timer); timers.clear(); timer.callback(); }
@@ -263,8 +263,72 @@ test('Verified same-business supplements add attributed reviews without mutating
 
 test('The responsive stylesheet uses native scroll snap and individual cards rather than a stacked or hidden slideshow', () => {
   assert.match(source, /overflow-x:auto/); assert.match(source, /scroll-snap-type:x mandatory/);
-  assert.match(source, /flex:0 0 calc\(\(100% - 20px\)\/2\)/); assert.match(source, /flex-basis:92%/);
+  assert.match(source, /min-width:720px/); assert.match(source, /flex-basis:calc\(\(100% - 20px\)\/2\)/);
+  assert.match(source, /min-width:900px/); assert.match(source, /flex-basis:calc\(\(100% - 40px\)\/3\)/); assert.match(source, /flex-basis:92%/);
   assert.doesNotMatch(source, /grid-area:1\/1|visibility:hidden|pointer-events:none|\.inert\s*=/);
+});
+
+function fiveReviewSnapshot(view, id = 'NLEZ2-029') {
+  return { cid: view.window.CAMPAIGN_REVIEWS.businesses[id].cid, observedAt: '2026-10-05T12:00:00Z', reviews: Array.from({ length: 5 }, (_, index) => ({ authorName: 'Fresh fixture author ' + index, text: 'Originele fixturetekst ' + index, rating: index + 1, originalLanguage: 'nl', translations: { en: 'Translated fixture text ' + index } })) };
+}
+
+test('An authoritative same-business five-review snapshot selects exactly five fresh reviews and preserves every actual rating', () => {
+  const view = fixture(), snapshot = fiveReviewSnapshot(view), frozenBefore = JSON.stringify(view.window.CAMPAIGN_REVIEWS);
+  const extra = { authorName: 'Legacy supplement fixture', text: 'Supplement must not enter the fresh selection.', rating: 5 };
+  view.mount(); // The fresh selection may replace an already mounted legacy view.
+  const { controller } = view.mount('NLEZ2-029', 'en', { cid: snapshot.cid, reviews: [extra] }, snapshot);
+  const cards = view.container.querySelectorAll('.cr-card');
+  assert.equal(controller.getState().count, 5); assert.equal(cards.length, 5);
+  cards.forEach((card, index) => { assert.equal(card.querySelector('.cr-author').textContent, snapshot.reviews[index].authorName); assert.equal(card.querySelector('.cr-stars').textContent, '★'.repeat(index + 1) + '☆'.repeat(4 - index)); assert.equal(card.querySelector('.cr-quote').textContent, snapshot.reviews[index].translations.en); });
+  assert.equal(JSON.stringify(view.window.CAMPAIGN_REVIEWS), frozenBefore);
+  assert.strictEqual(view.mount('NLEZ2-029', 'nl', undefined, snapshot).controller, controller);
+  assert.strictEqual(view.container.querySelectorAll('.cr-card')[0], cards[0]);
+  assert.equal(cards[0].querySelector('.cr-quote').textContent, snapshot.reviews[0].text);
+});
+
+test('A supplied mismatched or malformed five-review snapshot clears prior cards instead of silently displaying legacy or another business reviews', () => {
+  const view = fixture(), valid = fiveReviewSnapshot(view);
+  const invalid = [{ ...valid, cid: '999' }, { ...valid, reviews: valid.reviews.slice(0, 4) }, { ...valid, reviews: null }, ...[{ rating: 6 }, { rating: 0 }, { rating: 2.5 }, { text: ' ' }, { authorName: '' }, { authorName: valid.reviews[0].authorName }].map(change => ({ ...valid, reviews: valid.reviews.map((review, index) => index === 4 ? { ...review, ...change } : review) }))];
+  for (const snapshot of invalid) { view.mount(); assert.throws(() => view.mount('NLEZ2-029', 'nl', undefined, snapshot), /five-review snapshot.*identity/); assert.equal(view.container.querySelectorAll('.cr-card').length, 0); assert.equal(view.timers.size, 0); }
+});
+
+test('An array with five slots and a missing review cannot bypass exact-five snapshot validation', () => {
+  const view = fixture(), valid = fiveReviewSnapshot(view), sparse = valid.reviews.slice();
+  delete sparse[2];
+  assert.equal(sparse.length, 5);
+  view.mount('NLEZ2-029', 'en', undefined, valid);
+  assert.throws(() => view.mount('NLEZ2-029', 'en', undefined, { ...valid, reviews: sparse }), /five-review snapshot.*identity/);
+  assert.equal(view.container.querySelectorAll('.cr-card').length, 0); assert.equal(view.timers.size, 0);
+});
+
+test('Five wide-screen reviews page from 1–3 directly to 4–5, wrap with autoplay and retain the intended page while smooth scrolling and switching language', () => {
+  const view = fixture({ width: 1040, cardWidth: 1000 / 3, deferSmooth: true }), snapshot = fiveReviewSnapshot(view);
+  const { controller } = view.mount('NLEZ2-029', 'en', undefined, snapshot), track = view.container.querySelector('.cr-carousel'), buttons = view.container.querySelectorAll('.cr-button');
+  assert.equal(view.container.querySelector('.cr-position').textContent, '1–3 of 5');
+  assert.equal([...view.timers.values()][0].ms, 7200);
+  view.advance(); assert.equal(controller.getState().index, 3); assert.equal(view.container.querySelector('.cr-position').textContent, '4–5 of 5');
+  assert.equal(track.pendingScroll, 3 * (1000 / 3 + 20)); assert.equal(buttons[1].disabled, true);
+  track.scrollLeft = 200; track.emit('scroll'); controller.update({ lang: 'nl' });
+  assert.equal(controller.getState().index, 3); assert.equal(view.container.querySelector('.cr-position').textContent, '4–5 van 5');
+  buttons[1].emit('click'); assert.equal(controller.getState().index, 3);
+  view.resize(390, 358); assert.equal(controller.getState().index, 3); assert.equal(track.pendingScroll, 1134);
+  assert.equal(view.container.querySelector('.cr-position').textContent, '4 van 5');
+  track.scrollLeft = track.pendingScroll; track.emit('scroll');
+  view.resize(1040, 1000 / 3); assert.equal(controller.getState().index, 3); assert.equal(view.container.querySelector('.cr-position').textContent, '4–5 van 5');
+  track.scrollLeft = track.pendingScroll; track.emit('scroll');
+  view.advance(); assert.equal(controller.getState().index, 0); assert.equal(track.pendingScroll, 0);
+  assert.equal(view.container.querySelectorAll('.cr-card').length, 5);
+});
+
+test('Medium-width review pages advance by two and narrow native swipes retain one-card positions', () => {
+  const view = fixture({ width: 740, cardWidth: 360 }), snapshot = fiveReviewSnapshot(view);
+  const { controller } = view.mount('NLEZ2-029', 'en', undefined, snapshot), track = view.container.querySelector('.cr-carousel');
+  assert.equal(view.container.querySelector('.cr-position').textContent, '1–2 of 5');
+  view.advance(); assert.equal(track.scrollLeft, 760); assert.equal(view.container.querySelector('.cr-position').textContent, '3–4 of 5');
+  view.advance(); assert.equal(track.scrollLeft, 1520); assert.equal(view.container.querySelector('.cr-position').textContent, '5 of 5');
+  view.resize(390, 358); track.emit('pointerdown'); track.scrollLeft = 378; track.emit('scroll');
+  assert.equal(controller.getState().index, 1); assert.equal(view.container.querySelector('.cr-position').textContent, '2 of 5');
+  assert.equal(view.timers.size, 0); track.emit('pointerup'); assert.equal(view.timers.size, 1);
 });
 
 test('Long quotes expand reversibly without shortening the attributed text or resetting translation and scroll state', () => {

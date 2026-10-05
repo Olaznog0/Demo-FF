@@ -10,6 +10,9 @@
 #main [data-carousel]:has([data-review-card]) .carousel-track::-webkit-scrollbar{display:block;height:5px;}
 #main [data-carousel]:has([data-review-card]) .carousel-track::-webkit-scrollbar-track{background:#e8edf0;border-radius:20px;}
 #main [data-carousel]:has([data-review-card]) .carousel-track::-webkit-scrollbar-thumb{background:#83929d;border-radius:20px;}
+#main [data-carousel]:has([data-review-card]) .carousel-track.has-page-tail::after{content:"";flex:0 0 var(--carousel-page-tail);}
+#main [data-carousel]:has([data-review-card]) .carousel-track.is-paged [data-review-card]{scroll-snap-align:none;}
+#main [data-carousel]:has([data-review-card]) .carousel-track.is-paged [data-review-card].is-page-start{scroll-snap-align:start;}
 body #main .review-card[data-review-card],
 body #main .public-voices-carousel .public-voice[data-review-card]{
  display:flex;flex-direction:column;flex:0 0 calc(100% - 56px);min-width:0;max-width:100%;
@@ -91,10 +94,15 @@ body #main .review-card[data-review-card] .review-source .text-link:hover{color:
 #main [data-carousel]:has([data-review-card]) .carousel-arrows button:disabled{opacity:.4;cursor:default;}
 #main [data-carousel]:has([data-review-card]) [hidden]{display:none!important;}
 #main [data-carousel]:has([data-review-card]) :is(a,button,summary,[tabindex]):focus-visible{outline:3px solid #24618a;outline-offset:4px;}
-/* The component adapts to its own space: a narrow column shows the next card,
-   while a full-width section has two comfortably readable reviews together. */
+/* Three cards in a wide section, two in a medium column, and a next-card peek
+   on mobile. The last page retains room for the remaining two reviews. */
 @container reviews (min-width:720px){
  body #main .review-card[data-review-card],body #main .public-voices-carousel .public-voice[data-review-card]{flex-basis:calc((100% - 20px)/2);width:calc((100% - 20px)/2);}
+}
+@container reviews (min-width:1000px){
+ body #main .review-card[data-review-card],body #main .public-voices-carousel .public-voice[data-review-card]{flex-basis:calc((100% - 40px)/3);width:calc((100% - 40px)/3);padding:24px 22px;}
+ body #main .review-card[data-review-card] .review-text,body #main .public-voice[data-review-card] blockquote{font-size:19px;line-height:1.65;}
+ body #main .review-card[data-review-card] .review-author-link,body #main .public-voice[data-review-card] .public-voice-author strong{font-size:17px;}
 }
 @container reviews (max-width:420px){
  body #main .review-card[data-review-card],body #main .public-voices-carousel .public-voice[data-review-card]{flex-basis:calc(100% - 44px);width:calc(100% - 44px);}

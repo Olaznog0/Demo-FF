@@ -125,7 +125,7 @@ function mountModules() {
   if (window.CampaignReviews?.mount) {
     const container = $('reviews-module');
     if (reviewsMount?.container === container && reviewsMount.controller?.update) reviewsMount.controller.update({ lang: payload.lang });
-    else { reviewsMount?.controller?.destroy?.(); reviewsMount = { container, controller: window.CampaignReviews.mount(container, { leadId: payload.leadId, cid: payload.cid, lang: payload.lang, reviewExtension: context.lead.google.reviewExtension }) }; }
+    else { reviewsMount?.controller?.destroy?.(); reviewsMount = { container, controller: window.CampaignReviews.mount(container, { leadId: payload.leadId, cid: payload.cid, lang: payload.lang, reviewExtension: context.lead.google.reviewExtension, reviewSnapshot: context.lead.google.reviewSnapshot }) }; }
   }
   else { const slot = $('reviews-module'); slot.replaceChildren(); const link = translated(linked('', context.lead.google.mapsUrl, 'google-summary'), d => `${context.lead.google.rating} / 5 · ${context.lead.google.reviewCount} Google ${d.reviews.toLowerCase()} ↗`); link.target = '_blank'; link.rel = 'noopener noreferrer'; slot.append(link); applyLanguage(); }
   if (window.CampaignCalendar?.mount) {

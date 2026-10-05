@@ -94,6 +94,55 @@ test('Thank-you and return URLs retain business identity with no personal detail
     const back = contextUrl(thanks, context, 'home'); assert.equal(back.searchParams.has('view'), false); assert.equal(back.searchParams.get('lead'), lead.id);
   }
 });
+test('The current five-review selection covers all twenty businesses with exact primary attribution and no duplicate slides', async () => {
+  const sourceFiles = ['google-five-food-2026-10-05.json', 'google-five-beauty-2026-10-05.json'];
+  const observedBusinesses = new Map();
+  for (const file of sourceFiles) {
+    const raw = await fs.readFile(path.resolve(root, '../../deliverables/leads/campaign-pitches-20-2026-10-04', file), 'utf8');
+    assert.equal(model.fiveReviewSourceSha256[file], createHash('sha256').update(raw).digest('hex'));
+    const source = JSON.parse(raw);
+    assert.equal(source.primaryUiObserved, true);
+    assert.equal(source.businesses.length, 10);
+    for (const observed of source.businesses) {
+      assert.ok(!observedBusinesses.has(observed.leadId));
+      observedBusinesses.set(observed.leadId, observed);
+    }
+  }
+  let count = 0;
+  for (const lead of model.businesses) {
+    const observed = observedBusinesses.get(lead.id), selection = lead.google.reviewSnapshot;
+    assert.equal(observed.businessName, lead.name);
+    assert.equal(selection.cid, lead.google.cid);
+    assert.equal(selection.cid, observed.cid);
+    assert.equal(selection.observedAt, observed.observedAt);
+    const feature = observed.primarySourceUrl.match(/!1s0x[a-f0-9]+:(0x[a-f0-9]+)/i);
+    assert.equal(BigInt(feature[1]).toString(), selection.cid);
+    assert.equal(selection.reviews.length, 5);
+    assert.equal(new Set(selection.reviews.map(review => review.reviewId)).size, 5);
+    for (const review of selection.reviews) {
+      const original = observed.reviews.find(item => item.reviewId === review.reviewId);
+      assert.equal(review.authorName, original.author);
+      assert.equal(review.authorUrl, original.authorUrl);
+      assert.equal(review.photoUrl, original.photoUrl || null);
+      assert.equal(review.rating, original.rating);
+      assert.equal(review.text, original.quote);
+      assert.equal(review.publishedLabel, original.publishedLabel);
+      assert.equal(review.originalLanguage, original.originalLanguage);
+      assert.equal(review.sourceUrl, observed.primarySourceUrl);
+      assert.equal(review.translationProvider, 'editorial translation');
+      const target = review.originalLanguage === 'nl' ? 'en' : 'nl';
+      assert.equal(review.translations[target], original.translation[target]);
+      count++;
+    }
+  }
+  assert.equal(count, 100);
+  const foreign = structuredClone(model);
+  foreign.businesses[0].google.reviewSnapshot.cid = foreign.businesses[1].google.cid;
+  assert.ok(validateModel(foreign).some(issue => issue.includes('Five-review snapshot identity mismatch')));
+  const duplicate = structuredClone(model);
+  duplicate.businesses[0].google.reviewSnapshot.reviews[4] = structuredClone(duplicate.businesses[0].google.reviewSnapshot.reviews[0]);
+  assert.ok(validateModel(duplicate).some(issue => issue.includes('Invalid five-review snapshot')));
+});
 test('A restaurant cannot select a beauty style, and an unknown language safely defaults', () => {
   const food = model.businesses.find(lead => lead.family === 'restaurants'), beauty = model.businesses.find(lead => lead.family === 'salon');
   assert.equal(resolveContext(model, `lead=${food.id}&theme=B1&lang=es`).theme, food.defaultTheme);

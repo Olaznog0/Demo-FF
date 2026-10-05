@@ -59,7 +59,57 @@ try {
   }
   reviewExtensionSha256 = createHash('sha256').update(rawExtension).digest('hex');
 } catch (error) { if (error.code !== 'ENOENT') throw error; }
-const model = { schemaVersion: 1, generatedAt: '2026-10-04', manifestSha256: createHash('sha256').update(rawManifest).digest('hex'), reviewSnapshotSha256, reviewExtensionSha256, businesses };
+// Keep the earlier evidence immutable; a complete new selection is versioned
+// separately and is authoritative only when both ten-business cohorts exist.
+const fiveSources = ['google-five-food-2026-10-05.json', 'google-five-beauty-2026-10-05.json'];
+const fiveReads = await Promise.allSettled(fiveSources.map(file => fs.readFile(path.join(packet, file), 'utf8')));
+const fiveReviewSourceSha256 = {};
+if (fiveReads.some(result => result.status === 'fulfilled')) {
+  if (fiveReads.some(result => result.status === 'rejected')) throw new Error('Both complete five-review cohorts are required before regenerating the campaign.');
+  const seenBusinesses = new Set();
+  const relativeEnglish = value => value.replace(/^Bewerkt: /, 'Edited: ').replace(/\b(een|\d+) (jaar|jaren|maand|maanden|week|weken|dag|dagen|uur|uren|minuut|minuten) geleden\b/g, (_, amount, unit) => {
+    const count = amount === 'een' ? 1 : Number(amount);
+    const translated = { jaar: 'year', jaren: 'year', maand: 'month', maanden: 'month', week: 'week', weken: 'week', dag: 'day', dagen: 'day', uur: 'hour', uren: 'hour', minuut: 'minute', minuten: 'minute' }[unit];
+    return count + ' ' + translated + (count === 1 ? '' : 's') + ' ago';
+  }).replace(/^gisteren$/i, 'Yesterday').replace(/^vandaag$/i, 'Today');
+  const googleEvidenceUrl = (value, kind) => {
+    const url = new URL(value);
+    const allowed = kind === 'photo' ? url.hostname.endsWith('.googleusercontent.com') : url.hostname === 'www.google.com' && url.pathname.startsWith(kind === 'author' ? '/maps/contrib/' : '/maps/');
+    if (url.protocol !== 'https:' || !allowed) throw new Error('Unexpected five-review evidence URL.');
+    return value;
+  };
+  for (let sourceIndex = 0; sourceIndex < fiveSources.length; sourceIndex++) {
+    const raw = fiveReads[sourceIndex].value, source = JSON.parse(raw);
+    if (source.schemaVersion !== 1 || source.primaryUiObserved !== true || !Array.isArray(source.businesses) || source.businesses.length !== 10) throw new Error('Five-review cohorts need ten businesses observed in primary UI.');
+    fiveReviewSourceSha256[fiveSources[sourceIndex]] = createHash('sha256').update(raw).digest('hex');
+    for (const record of source.businesses) {
+      const lead = businesses.find(item => item.id === record.leadId);
+      if (!lead || seenBusinesses.has(record.leadId) || lead.name !== record.businessName || lead.google.cid !== record.cid) throw new Error('Five-review business identity mismatch.');
+      if (lead.family !== (sourceIndex === 0 ? 'restaurants' : 'salon')) throw new Error('Five-review cohort family mismatch.');
+      seenBusinesses.add(record.leadId);
+      const feature = googleEvidenceUrl(record.primarySourceUrl, 'source').match(/!1s0x[a-f0-9]+:(0x[a-f0-9]+)/i);
+      if (!feature || BigInt(feature[1]).toString() !== record.cid || !Number.isFinite(Date.parse(record.observedAt))) throw new Error('Five-review source does not prove its business identity.');
+      if (!Array.isArray(record.reviews) || record.reviews.length !== 5) throw new Error('Each current selection must have exactly five observed comments.');
+      const reviewIds = new Set();
+      const reviews = record.reviews.map(review => {
+        if (!review.author || !review.quote || !review.publishedLabel || !review.reviewId || reviewIds.has(review.reviewId) || !['nl', 'en'].includes(review.originalLanguage) || !Number.isInteger(review.rating) || review.rating < 1 || review.rating > 5) throw new Error('Invalid five-review primary observation.');
+        reviewIds.add(review.reviewId);
+        const target = review.originalLanguage === 'nl' ? 'en' : 'nl';
+        if (review.translation?.isTranslation !== true || review.translation?.provider !== 'editorial translation' || !review.translation[target]) throw new Error('Five-review observations need a labelled translation.');
+        if (review.excerpt && !review.quote.startsWith(review.excerpt)) throw new Error('Five-review excerpts must preserve the original words.');
+        return { authorName: review.author, authorUrl: googleEvidenceUrl(review.authorUrl, 'author'), photoUrl: review.photoUrl ? googleEvidenceUrl(review.photoUrl, 'photo') : null, rating: review.rating, text: review.quote, displayText: review.excerpt || review.quote, originalLanguage: review.originalLanguage, translations: { [target]: review.translation[target] }, translationProvider: review.translation.provider, publishedLabel: review.publishedLabel, publishedLabels: { nl: review.publishedLabels?.nl || review.publishedLabel, en: review.publishedLabels?.en || relativeEnglish(review.publishedLabel) }, reviewId: review.reviewId, isExcerpt: review.isExcerpt === true, sourceUrl: record.primarySourceUrl, observedAt: record.observedAt };
+      });
+      // Feature the strongest observed scores first without changing or hiding
+      // any of the five selected reviews; preserve source order for tied scores.
+      reviews.sort((a, b) => b.rating - a.rating);
+      lead.google.reviewSnapshot = { cid: record.cid, observedAt: record.observedAt, selectionOrder: 'rating-descending-stable', reviews };
+    }
+  }
+  if (seenBusinesses.size !== 20) throw new Error('The five-review selection must cover all twenty campaign businesses.');
+} else {
+  for (const result of fiveReads) if (result.reason?.code !== 'ENOENT') throw result.reason;
+}
+const model = { schemaVersion: 1, generatedAt: Object.keys(fiveReviewSourceSha256).length ? '2026-10-05' : '2026-10-04', manifestSha256: createHash('sha256').update(rawManifest).digest('hex'), reviewSnapshotSha256, reviewExtensionSha256, fiveReviewSourceSha256, businesses };
 const errors = validateModel(model); if (errors.length) throw new Error(errors.join('\n'));
 await fs.writeFile(path.join(here, 'business-data.json'), JSON.stringify(model, null, 2) + '\n');
 console.log(JSON.stringify({ businesses: businesses.length, families: businesses.reduce((counts, lead) => ({ ...counts, [lead.family]: (counts[lead.family] || 0) + 1 }), {}), publicContactEmailIncluded: false, privateCampaignFilesCopied: false }));

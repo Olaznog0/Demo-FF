@@ -24,7 +24,8 @@
       .cr-aggregate-stars{display:inline-block;position:relative;font-size:17px;line-height:1;letter-spacing:1px;color:var(--cr-empty);white-space:nowrap}.cr-aggregate-star-fill{position:absolute;inset:0 auto 0 0;overflow:hidden;color:var(--cr-gold);white-space:nowrap}
       .cr-carousel{display:flex;align-items:stretch;gap:20px;min-width:0;padding:4px 0 18px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--cr-line) transparent;touch-action:pan-x pan-y;position:relative;color:var(--cr-ink)}
       .cr-carousel::-webkit-scrollbar{height:6px}.cr-carousel::-webkit-scrollbar-thumb{background:var(--cr-line);border-radius:999px}.cr-carousel::-webkit-scrollbar-track{background:transparent}
-      .cr-card{display:grid;grid-template-rows:auto auto 1fr auto;gap:18px;flex:0 0 calc((100% - 20px)/2);scroll-snap-align:start;scroll-snap-stop:normal;padding:28px;min-width:0;box-sizing:border-box;border:1px solid var(--cr-line);border-radius:var(--cr-radius);background:var(--cr-paper);box-shadow:var(--cr-shadow)}
+      .cr-card{display:grid;grid-template-rows:auto auto 1fr auto;gap:18px;flex:0 0 88%;scroll-snap-align:start;scroll-snap-stop:normal;padding:24px;min-width:0;box-sizing:border-box;border:1px solid var(--cr-line);border-radius:var(--cr-radius);background:var(--cr-paper);box-shadow:var(--cr-shadow)}
+      .cr-carousel.has-page-tail::after{content:"";flex:0 0 var(--cr-page-tail)}.cr-carousel.is-paged .cr-card{scroll-snap-align:none}.cr-carousel.is-paged .cr-card.is-page-start{scroll-snap-align:start}
       .cr-carousel.is-single .cr-card{flex-basis:100%}.cr-author-row{display:flex;align-items:center;gap:14px;min-height:56px;flex-wrap:wrap}.cr-avatar{display:grid;place-items:center;flex:0 0 56px;width:56px;height:56px;border-radius:50%;overflow:hidden;background:#e8eeea;color:var(--cr-ink);font:700 18px/1 Arial,Helvetica,sans-serif;box-shadow:0 0 0 3px var(--cr-paper),0 0 0 4px var(--cr-line)}
       .cr-avatar img{width:100%;height:100%;object-fit:cover;display:block}.cr-author-details{min-width:0;flex:1 1 150px}.cr-author{font:700 18px/1.4 Arial,Helvetica,sans-serif;color:var(--cr-ink);text-decoration:none;overflow-wrap:anywhere}.cr-author[href]:hover{text-decoration:underline;text-underline-offset:3px}.cr-date{display:block;font:15px/1.5 Arial,Helvetica,sans-serif;color:var(--cr-muted);margin-top:2px}
       .cr-source{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;border:1px solid var(--cr-line);border-radius:999px;color:var(--cr-muted);font:600 13px/1.3 Arial,Helvetica,sans-serif;text-decoration:none;white-space:nowrap}.cr-source:hover{color:var(--cr-ink);border-color:var(--cr-ink)}.cr-source-arrow{font-size:17px;line-height:1}
@@ -38,8 +39,9 @@
       @media(max-width:600px){.cr-heading-row{align-items:flex-start;gap:16px}.cr-heading{font-size:32px;max-width:none}.cr-aggregate{padding:11px 14px}.cr-card{padding:24px;gap:17px}.cr-author{font-size:17px}.cr-source{margin-left:70px;margin-top:-7px;padding:5px 9px}.cr-quote{font-size:21px;line-height:1.6;min-block-size:3.2em}.cr-controls{gap:14px}.cr-all{font-size:15px}.cr-aggregate strong{font-size:27px}}
       @container preview (max-width:740px){.cr-heading-row{gap:17px}.cr-heading{font-size:32px}.cr-card{padding:24px}.cr-quote{font-size:21px}.cr-source{font-size:12px}}
       .cr-button:disabled{opacity:.4;cursor:default;transform:none;box-shadow:none}
-      @container campaign-reviews (min-width:760px){.cr-carousel.is-pair .cr-card{flex-basis:62%}}
-      @container campaign-reviews (max-width:759px){.cr-card{flex-basis:88%;padding:24px}.cr-quote{font-size:21px}.cr-source{font-size:12px;padding:5px 9px}}
+      @container campaign-reviews (min-width:720px){.cr-card{flex-basis:calc((100% - 20px)/2)}}
+      @container campaign-reviews (min-width:900px){.cr-card{flex-basis:calc((100% - 40px)/3);padding:22px;gap:16px}.cr-quote{font-size:20px;line-height:1.6}.cr-author{font-size:17px}.cr-author-details{flex-basis:130px}.cr-source{font-size:12px;padding:5px 9px}.cr-carousel.is-pair .cr-card{flex-basis:calc((100% - 20px)/2)}}
+      @container campaign-reviews (max-width:719px){.cr-quote{font-size:21px}.cr-source{font-size:12px;padding:5px 9px}}
       @container campaign-reviews (max-width:479px){.cr-card{flex-basis:92%;padding:22px}.cr-source{margin-left:70px;margin-top:-7px}.cr-carousel{gap:16px}.cr-quote{font-size:20px;line-height:1.6}.cr-author{font-size:17px}}
       @media(prefers-reduced-motion:reduce){.cr-carousel{scroll-behavior:auto}.cr-button{transition:none}.cr-button:hover{transform:none}}
     `;
@@ -56,14 +58,20 @@
       existing?.destroy(); container.replaceChildren();
       throw new RangeError('The requested business and Google review identity do not match');
     }
-    if (existing && existing.leadId === leadId && existing.cid === cid) { existing.update({ lang: context.lang }); return existing; }
+    const snapshot = context.reviewSnapshot;
+    const validReview = review => review && typeof review.authorName === 'string' && !!review.authorName.trim() && typeof review.text === 'string' && !!review.text.trim() && Number.isInteger(review.rating) && review.rating >= 1 && review.rating <= 5;
+    if (snapshot != null && (String(snapshot.cid) !== cid || !Array.isArray(snapshot.reviews) || snapshot.reviews.length !== 5 || !Array.from(snapshot.reviews).every(validReview) || new Set(snapshot.reviews.map(review => review.authorName.trim().toLocaleLowerCase())).size !== 5)) {
+      existing?.destroy(); container.replaceChildren();
+      throw new RangeError('The five-review snapshot is invalid or its Google review identity does not match');
+    }
+    if (existing && existing.leadId === leadId && existing.cid === cid && existing.reviewSnapshot === snapshot) { existing.update({ lang: context.lang }); return existing; }
     existing?.destroy();
     styles();
     const extension = context.reviewExtension || global.CAMPAIGN_REVIEW_EXTENSION?.businesses?.[leadId];
     const additions = extension && String(extension.cid) === cid && Array.isArray(extension.reviews) ? extension.reviews : [];
     const seen = new Set();
-    const reviews = [...business.reviews, ...additions].filter(review => {
-      if (!review || typeof review.authorName !== 'string' || !review.authorName.trim() || typeof review.text !== 'string' || !review.text.trim() || !Number.isInteger(review.rating) || review.rating < 1 || review.rating > 5) return false;
+    const reviews = (snapshot == null ? [...business.reviews, ...additions] : snapshot.reviews).filter(review => {
+      if (!validReview(review)) return false;
       const identity = review.authorName.trim().toLocaleLowerCase() + '\n' + review.text.trim().replace(/\s+/g, ' ');
       if (seen.has(identity)) return false;
       seen.add(identity); return true;
@@ -152,12 +160,30 @@
     controls.append(group, all, status); wrapper.append(controls); container.replaceChildren(wrapper);
 
     function cancel() { if (timer !== null) global.clearTimeout(timer); timer = null; }
+    function visibleCards() {
+      if (!cards.length) return 1;
+      const width = cards[0].node.getBoundingClientRect().width;
+      const gap = cards.length > 1 ? Math.max(0, cards[1].node.offsetLeft - cards[0].node.offsetLeft - width) : 0;
+      return Math.max(1, Math.min(cards.length, Math.floor((carousel.clientWidth + gap) / Math.max(1, width + gap) + .02)));
+    }
     function positions() {
       if (!cards.length) return [];
+      const visible = visibleCards();
+      const unit = cards.length > 1 ? cards[1].node.offsetLeft - cards[0].node.offsetLeft : cards[0].node.getBoundingClientRect().width;
+      const gap = Math.max(0, unit - cards[0].node.getBoundingClientRect().width);
+      const missing = cards.length > visible ? (visible - cards.length % visible) % visible : 0;
+      // Native trailing space lets a five-review desktop page begin at review
+      // four. Without it, the browser clamps at the overlapping reviews 3–5.
+      const tail = missing ? missing * unit - gap : 0;
+      carousel.style.setProperty('--cr-page-tail', tail + 'px');
+      carousel.classList.toggle('has-page-tail', tail > 0);
+      carousel.classList.toggle('is-paged', visible > 1);
       const maximum = Math.max(0, carousel.scrollWidth - carousel.clientWidth);
       const first = cards[0].node.offsetLeft;
       const result = [];
       cards.forEach((card, cardIndex) => {
+        card.node.classList.toggle('is-page-start', cardIndex % visible === 0);
+        if (cardIndex % visible !== 0) return;
         const left = Math.max(0, Math.min(maximum, card.node.offsetLeft - first));
         if (!result.length || Math.abs(left - result[result.length - 1].left) > 1) result.push({ left, index: cardIndex });
       });
@@ -179,9 +205,7 @@
       if (!stops.length) return;
       const selected = stopIndex === undefined ? navigationPosition(stops) : Math.max(0, Math.min(stops.length - 1, stopIndex));
       index = stops[selected].index;
-      const width = cards[0].node.getBoundingClientRect().width;
-      const gap = cards.length > 1 ? Math.max(0, cards[1].node.offsetLeft - cards[0].node.offsetLeft - width) : 0;
-      const visible = Math.max(1, Math.floor((carousel.clientWidth + gap) / (width + gap) + .02));
+      const visible = visibleCards();
       const last = Math.min(reviews.length, index + visible);
       const range = last > index + 1 ? (index + 1) + '–' + last : String(index + 1);
       position.textContent = range + ' ' + text[lang].of + ' ' + reviews.length;
@@ -261,7 +285,7 @@
     let sizeObserver = null;
     if (global.ResizeObserver) { sizeObserver = new global.ResizeObserver(resize); sizeObserver.observe(carousel); cards.forEach(card => sizeObserver.observe(card.quote)); }
     else if (global.addEventListener) listen(global, 'resize', resize);
-    const controller = { leadId, cid, update, destroy() { if (destroyed) return; destroyed = true; cancel(); cleanup.forEach(remove => remove()); observer?.disconnect(); sizeObserver?.disconnect(); if (instances.get(container) === controller) instances.delete(container); container.replaceChildren(); }, getState() { return { leadId, cid, lang, index, count: reviews.length, autoplay: autoplay && !motion.matches, paused: hover || focused || interacting || !onscreen || document.hidden, intervalMs: 7200 }; } };
+    const controller = { leadId, cid, reviewSnapshot: snapshot, update, destroy() { if (destroyed) return; destroyed = true; cancel(); cleanup.forEach(remove => remove()); observer?.disconnect(); sizeObserver?.disconnect(); if (instances.get(container) === controller) instances.delete(container); container.replaceChildren(); }, getState() { return { leadId, cid, lang, index, count: reviews.length, autoplay: autoplay && !motion.matches, paused: hover || focused || interacting || !onscreen || document.hidden, intervalMs: 7200 }; } };
     instances.set(container, controller); update({ lang }); return controller;
   }
 
