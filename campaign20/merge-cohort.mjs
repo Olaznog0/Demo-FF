@@ -35,7 +35,8 @@ function googleUrl(value, kind) {
   if (kind === 'photo') assert(url.hostname.endsWith('.googleusercontent.com'), 'Unexpected portrait source');
   else {
     assert.equal(url.hostname, 'www.google.com', 'Evidence must be an attributable primary Google URL');
-    assert(url.pathname.startsWith(kind === 'author' ? '/maps/contrib/' : '/maps/'), 'Unexpected Google evidence path');
+    const allowedPath = kind === 'author' ? url.pathname.startsWith('/maps/contrib/') : url.pathname.startsWith('/maps/') || kind === 'source' && url.pathname === '/search' && text(url.searchParams.get('q'));
+    assert(allowedPath, 'Unexpected Google evidence path');
   }
   return value;
 }
@@ -59,7 +60,9 @@ function snapshotFromEvidence(business, evidence) {
   assert(evidence && evidence.leadId === business.id && evidence.businessName === business.name, 'Review evidence business identity differs: ' + business.id);
   assert.equal(evidence.cid, business.google.cid, 'Review evidence CID differs');
   googleUrl(evidence.primarySourceUrl, 'source');
-  assert.equal(featureCid(evidence.primarySourceUrl), evidence.cid, 'Canonical evidence belongs to another Google business');
+  const identitySourceUrl = evidence.identitySourceUrl || evidence.primarySourceUrl;
+  googleUrl(identitySourceUrl, 'identity');
+  assert.equal(featureCid(identitySourceUrl), evidence.cid, 'Canonical evidence belongs to another Google business');
   assert(validTime(evidence.observedAt), 'Review evidence needs its observed timestamp');
   assert(Array.isArray(evidence.reviews) && evidence.reviews.length === 5, 'Each new business needs exactly five attributable reviews');
   const ids = new Set(), authors = new Set();
@@ -92,7 +95,7 @@ function snapshotFromEvidence(business, evidence) {
       sourceUrl: evidence.primarySourceUrl, observedAt: review.observedAt || evidence.observedAt,
       ...(quoteContext ? { quoteContext: { nl: quoteContext.nl, en: quoteContext.en } } : {}),
       ...(nativeReviewId ? { nativeReviewId, reviewIdType: review.reviewIdType } : {}),
-      sourceAttribution: { provider: 'Google Maps', primarySourceUrl: evidence.primarySourceUrl, cid: evidence.cid, observedAt: review.observedAt || evidence.observedAt, reviewId: review.reviewId, reviewIdType: review.reviewIdType || 'evidence-identifier' },
+      sourceAttribution: { provider: 'Google Maps', primarySourceUrl: evidence.primarySourceUrl, ...(identitySourceUrl !== evidence.primarySourceUrl ? { identitySourceUrl } : {}), cid: evidence.cid, observedAt: review.observedAt || evidence.observedAt, reviewId: review.reviewId, reviewIdType: review.reviewIdType || 'evidence-identifier' },
     };
   });
   reviews.sort((a, b) => b.rating - a.rating);
