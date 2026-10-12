@@ -41,8 +41,16 @@ test('Portraits and quotes escape authored labels without enabling remote image 
 test('Real campaign Google ratings remain identity-bound and retain their observed distributions',()=>{
  const context={window:{}};
  vm.runInNewContext(fs.readFileSync(require.resolve('../campaign20/reviews-data.js'),'utf8'),context);
- const businesses=Object.values(context.window.CAMPAIGN_REVIEWS.businesses);
- assert.equal(businesses.length,20);
+ const snapshot=context.window.CAMPAIGN_REVIEWS.businesses;
+ const businesses=Object.values(snapshot),model=JSON.parse(fs.readFileSync(require.resolve('../campaign20/business-data.json'),'utf8'));
+ assert.equal(businesses.length,60);
+ assert.deepEqual(new Set(Object.keys(snapshot)),new Set(model.businesses.map(business=>business.id)));
+ assert.deepEqual(model.cohorts.map(cohort=>[cohort.id,cohort.expectedCount]),[['J1-legacy',20],['J2-2026-10-06',20],['J3-2026-10-07',20]]);
+ for(const business of model.businesses){
+  const observed=snapshot[business.id];
+  assert.equal(observed.cid,business.google.cid);assert.equal(observed.name,business.name);
+  assert.equal(observed.rating,business.google.rating);assert.equal(observed.reviewCount,business.google.reviewCount);
+ }
  assert(businesses.some(business=>business.rating<4));
  assert(businesses.flatMap(business=>business.reviews).some(review=>review.rating===4));
  for(const business of businesses){assert(business.cid);assert(business.reviews.every(review=>review.authorName&&review.rating>=1&&review.rating<=5));}

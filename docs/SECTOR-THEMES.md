@@ -1,5 +1,7 @@
 # Reusable sector designs
 
+Apply [Design quality requirements](DESIGN-QUALITY.md) to every variant and every new template. The October 2026 review adds five complete compositions per sector; the source paths and local review index are documented there.
+
 Each sector has one visual system shared by its public fictional concept and private business presentation. Keep the layout in sector CSS and the business identity, copy, photos and integration settings in configuration.
 
 | Sector | Visual structure | Style entry |

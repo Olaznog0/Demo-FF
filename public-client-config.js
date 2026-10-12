@@ -48,6 +48,8 @@ for(const [id,title] of Object.entries({bloom:bi('Bespreek je haarwensen','Tell 
 lumen.ui.contactIntro=bi('Plan je bezoek of stel een praktische vraag.','Plan your visit or ask a practical question.');
 northline.ui.contactIntro=bi('Plan een kennismaking of bespreek je vraag.','Book an introduction or tell us what you need.');
 brightmove.ui.contactIntro=bi('Vertel ons je datum, je route en je verhuisplannen.','Tell us your date, your route and your moving plans.');
+brightmove.images.hero='/assets/moving-team-concept.webp';
+brightmove.images.heroAlt=bi('Conceptfoto: een verhuisteam draagt samen een beschermde bank naar een bestelwagen.','Concept photograph: a moving team carries a protected sofa to a van.');
 if(typeof module!=='undefined')module.exports=registry;
 root.PublicClientRegistry=registry;
 })(typeof window==='undefined'?globalThis:window);

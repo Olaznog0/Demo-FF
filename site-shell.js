@@ -7,7 +7,7 @@ if(window.PitchClientRegistry?.clients)for(const [id,config]of Object.entries(wi
 for(const config of [window.DentistConfig,window.AccountantConfig,window.MovingConfig,window.RestaurantConfig])if(config?.id)window.ClientRegistry.clients[config.id]=config;
 let resolved;try{resolved=C.resolve(window.ClientRegistry,location.search);}catch{document.getElementById('main').innerHTML='<div class="container error-page"><h1>'+I.translate('configError','en')+'</h1><a href="index.html">Home</a></div>';window.LocaleBootstrap?.ready();return;}
 const {config:c,lang}=resolved;
-function rootLink(path,client,language){return '/'+C.link(path,client,language).replace(/^\/+/, '');}
+function rootLink(path,client,language){const result='/'+C.link(path,client,language).replace(/^\/+/, '');if(!c.theme.designCode)return result;const target=new URL(result,location.origin||'http://local');target.searchParams.set('design',c.theme.designCode);return target.pathname+target.search+target.hash;}
 const S=window.Site={config:c,lang,t:key=>I.localize(c.ui?.[key],lang)||I.translate(key,lang),l:value=>I.localize(value,lang),h:C.escape,link:path=>{if(path==='faq.html'&&c.id!=='ff')return rootLink((c.homePage||'index.html')+'#faq',c.id,lang);if(c.homePage&&(path.startsWith('index.html')||path==='faq.html')){const hash=path==='faq.html'?(c.id==='ff'?'information':'faq'):path.split('#')[1];return rootLink(c.homePage+(hash?'#'+(c.navAnchors?.[hash]||hash):''),c.id,lang);}return rootLink(path,c.id,lang);}};
 const {t,h,link}=S;
 document.documentElement.lang=lang;document.documentElement.dataset.layout=c.theme.layout;

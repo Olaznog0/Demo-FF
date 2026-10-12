@@ -8,6 +8,10 @@ const PUBLIC_ORIGIN=process.env.PUBLIC_ORIGIN||`http://localhost:${PORT}`;
 const root=__dirname,limits=new Map();
 const publicFiles=new Set(['locale-bootstrap.js','index.html','booking.html','confirmation.html','confirmation.js','confirmation.css','confirmation-state.js','actions.css','faq.html','style.css','appointment.css','client-config.js','core.js','i18n.js','site-shell.js','script.js','appointment.js','carousel.js','contact-widget.js','contact-widget.css','sector-site.js','sector-compact.css','sectors/index.html','sectors/gallery.css','sectors/gallery.js','pitch-library/index.html','pitch-library/gallery.css','pitch-library/gallery.js','public-client-config.js','concepts/public-site.js','concepts/public.css','concepts/public-core.js','pitch-businesses.js','pitch-client-config.js','pitches/index.html','pitches/site.js','pitches/styles.css']);
 for(const file of ['reviews.css','concepts/seo.js','sectors/nl.html','sectors/es.html'])publicFiles.add(file);
+publicFiles.add('concepts/design-controls.css');
+publicFiles.add('concepts/design-context.js');
+for(const file of ['concepts/sector-variations.css','concepts/sector-variations.js','design-review/index.html',...['index.html','styles.css','app.js','model.mjs','business-data.json','reviews-data.js','reviews-ui.js','calendar-ui.js'].map(file=>'campaign20/'+file)])publicFiles.add(file);
+for(const prefix of ['R','B','D','A','M'])for(let index=1;index<=5;index++)publicFiles.add('design-review/previews/'+prefix+index+'.jpg');
 const mime={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.svg':'image/svg+xml'};
 function json(res,status,data){res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'});res.end(JSON.stringify(data));}
 function rateLimit(ip){const now=Date.now();for(const [key,value] of limits)if(value.reset<now)limits.delete(key);for(const key of [ip,'global']){const item=limits.get(key)||{count:0,reset:now+60000};item.count++;limits.set(key,item);if(item.count>(key==='global'?60:20))return false;}return true;}
@@ -43,10 +47,11 @@ const server=http.createServer(async(req,res)=>{
  const accounting=/^sectors\/accountants\/(index\.html|accounting\.css|accounting\.js|config\.js|assets\/[A-Za-z0-9_-]+\.(png|jpg|jpeg|webp|svg))$/.test(relative);
  const moving=/^sectors\/movers\/(index\.html|moving\.css|moving\.js|config\.js|assets\/[A-Za-z0-9_-]+\.(png|jpg|jpeg|webp|svg))$/.test(relative);
  const concept=/^concepts\/(salon|restaurants|dentists|accountants|movers)\/(index\.html|nl\.html|config\.js)$/.test(relative);
+ if(/^demos\/assets\/[A-Za-z0-9_-]+\.(png|jpg|jpeg|webp|svg)$/.test(relative))relative=relative.replace(/^demos\//,'');
  const asset=/^assets\/[A-Za-z0-9_-]+\.(png|jpg|jpeg|webp|svg)$/.test(relative)||sector||dental||accounting||moving||concept;
  if(!publicFiles.has(relative)&&!asset){res.writeHead(404);res.end('Not found');return;}
  const filename=path.resolve(root,relative);if(!filename.startsWith(root+path.sep)){res.writeHead(404);res.end();return;}
- try{const content=await fs.readFile(filename);res.writeHead(200,{'Content-Type':mime[path.extname(filename)]||'application/octet-stream','Cache-Control':'no-cache','Content-Length':content.length});res.end(req.method==='HEAD'?undefined:content);}catch{res.writeHead(404);res.end('Not found');}
+ try{const content=await fs.readFile(filename);res.writeHead(200,{'Content-Type':({'.mjs':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8'}[path.extname(filename)])||mime[path.extname(filename)]||'application/octet-stream','Cache-Control':'no-cache','Content-Length':content.length});res.end(req.method==='HEAD'?undefined:content);}catch{res.writeHead(404);res.end('Not found');}
 });
 if(require.main===module)server.listen(PORT,HOST,()=>console.log(`Demo preview: http://localhost:${PORT}/`));
 module.exports={server,getPlace,allowedRequest};

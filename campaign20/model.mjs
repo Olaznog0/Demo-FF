@@ -1,7 +1,16 @@
 export const LANGUAGES = ['en', 'nl'];
 export const THEME_IDS = { restaurants: ['R1', 'R2', 'R3', 'R4', 'R5'], salon: ['B1', 'B2', 'B3', 'B4', 'B5'] };
 
-export function resolveContext(model, search) {
+export function resolveContext(model, search, opaque = null) {
+  if (opaque) {
+    const url = new URL(String(search), 'https://example.test');
+    const token = /^\/start\/([A-Za-z0-9_-]{24})\/?$/.exec(url.pathname)?.[1];
+    const route = opaque.schemaVersion === 1 && opaque.pathPrefix === '/start/' && Array.isArray(opaque.routes) && opaque.routes.find(item => item.token === token);
+    const lead = route && model.businesses.find(item => item.id === route.leadId);
+    if (!lead || !THEME_IDS[lead.family]?.includes(route.theme) || !LANGUAGES.includes(route.lang) || !['home', 'booking', 'faq', 'thanks'].includes(route.view) || (route.view === 'booking' ? route.serviceId !== null && !bookingServices(lead).some(service => service.id === route.serviceId) : route.serviceId !== null)) throw new Error('Unknown opaque campaign address.');
+    return {lead, theme: route.theme, lang: route.lang, view: route.view, serviceId: route.serviceId,
+      opaqueRoutes: opaque.routes.filter(item => item.leadId === lead.id)};
+  }
   const query = search instanceof URLSearchParams ? search : new URLSearchParams(search);
   const requestedLead = query.get('lead');
   const lead = requestedLead ? model.businesses.find(item => item.id === requestedLead) : model.businesses[0];
@@ -16,6 +25,13 @@ export function contextUrl(base, context, view = 'home') {
   const url = new URL(base);
   url.search = '';
   url.hash = '';
+  if (context.opaqueRoutes) {
+    const serviceId = view === 'booking' && bookingServices(context.lead).some(service => service.id === context.serviceId) ? context.serviceId : null;
+    const route = context.opaqueRoutes.find(item => item.leadId === context.lead.id && item.theme === context.theme && item.lang === context.lang && item.view === view && item.serviceId === serviceId);
+    if (!route || !/^[A-Za-z0-9_-]{24}$/.test(route.token)) throw new Error('Opaque campaign navigation is unavailable.');
+    url.pathname = '/start/' + route.token;
+    return url;
+  }
   url.searchParams.set('lead', context.lead.id);
   url.searchParams.set('theme', context.theme);
   url.searchParams.set('lang', context.lang);

@@ -3,7 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 export const PUBLIC_ENTRY_FILES = Object.freeze(['index.html', 'styles.css', 'app.js', 'model.mjs', 'business-data.json', 'reviews-data.js', 'reviews-ui.js', 'calendar-ui.js']);
-export const PUBLIC_ASSETS = Object.freeze(['ocimatik-logo.svg', 'restaurant-cover.webp', 'de-happertjes-kibbeling-concept.webp', 'salon-scene.webp', 'hair-inspiration.webp']);
+export const PUBLIC_ASSETS = Object.freeze(['ocimatik-logo.svg', 'restaurant-cover.webp', 'cafe-atmosphere-concept.webp', 'de-happertjes-kibbeling-concept.webp', 'salon-scene.webp', 'hair-inspiration.webp']);
 const here = path.dirname(fileURLToPath(import.meta.url));
 export async function getCampaignFiles() {
   const records = [];

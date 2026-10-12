@@ -1,0 +1,485 @@
+/* Fifteen public sector compositions. Switch data-design without rebuilding forms. */
+body.public-concept[data-design] {
+  --primary:#17676b; --teal:var(--primary); --accent:#c6e0d6;
+  --ink:#203b3d; --muted:#4c6567; --paper:#f7faf7; --soft:#e8f1ed;
+  --line:color-mix(in srgb,var(--primary) 20%,white);
+  --display:Arial,Helvetica,sans-serif; --heading-weight:500; --radius:14px;
+  background:var(--paper); color:var(--ink); font:18px/1.65 Arial,Helvetica,sans-serif;
+}
+body.public-concept[data-design] :is(h1,h2,h3) {font-family:var(--display);font-weight:var(--heading-weight);letter-spacing:-.045em}
+body.public-concept[data-design] :is(a,button,input,select,textarea,summary):focus-visible {outline:3px solid var(--primary);outline-offset:4px}
+body.public-concept[data-design] .container {width:min(1200px,calc(100% - 80px));min-width:0;margin-inline:auto}
+body.public-concept[data-design] #main .container {width:min(1200px,calc(100% - 80px))}
+body.public-concept[data-design] :is(.brand,.hero-copy,.service-copy,.contact-form-container,.faq-heading,.faq-list) {min-width:0}
+body.public-concept[data-design] :is(.text-link,.button) {white-space:normal;overflow-wrap:anywhere}
+body.public-concept[data-design] .button {min-height:54px;border-radius:var(--radius);background:var(--primary);border-color:var(--primary);color:#fff;box-shadow:none}
+body.public-concept[data-design] .button:hover {background:color-mix(in srgb,var(--primary) 86%,black);border-color:color-mix(in srgb,var(--primary) 86%,black)}
+body.public-concept[data-design] .button.outline {background:transparent;color:var(--primary);border-color:var(--line)}
+body.public-concept[data-design] .text-link {color:var(--primary);min-height:44px;font:600 17px/1.5 Arial,Helvetica,sans-serif}
+
+/* All navigation remains available at compact widths, without a hidden menu. */
+html[data-page=home] body.public-concept[data-design] #header {position:relative;inset:auto;width:auto;height:auto;background:var(--paper);color:var(--ink);border-bottom:1px solid var(--line)}
+html[data-page=home] body.public-concept[data-design] #main,
+html[data-page=home] body.public-concept[data-design] #footer {margin-left:0}
+html[data-page=home] body.public-concept[data-design] #header .header-inner {display:grid;grid-template-columns:minmax(190px,.8fr) minmax(0,1.8fr) auto;grid-template-areas:'brand nav action';flex-direction:row;align-items:center;width:min(1200px,calc(100% - 80px));margin:0 auto;min-height:100px;padding:17px 0;gap:24px;border:0}
+html[data-page=home] body.public-concept[data-design] #header .brand {grid-area:brand;display:flex;flex-direction:row;align-items:center;gap:11px;flex:none;width:auto;max-width:none;margin:0;color:var(--ink);font:600 27px/1.1 var(--display)}
+html[data-page=home] body.public-concept[data-design] #header .brand>span {font:inherit;max-width:100%;white-space:normal}
+html[data-page=home] body.public-concept[data-design] #header .brand-symbol {width:36px;height:40px;padding:4px;border:0;border-radius:0;background:transparent;color:var(--primary);box-shadow:none}
+html[data-page=home] body.public-concept[data-design] #header .brand-descriptor {font:400 13px/1.4 Arial,Helvetica,sans-serif;min-height:0;width:auto;white-space:normal;max-width:100%;margin-top:4px;color:var(--muted)}
+html[data-page=home] body.public-concept[data-design] #header .nav {grid-area:nav;display:flex;flex-direction:row;justify-content:center;align-items:center;flex-wrap:wrap;gap:2px 22px;min-height:44px;padding:0;margin:0;border:0;font-size:16px;background:transparent}
+html[data-page=home] body.public-concept[data-design] #header .nav>a {display:inline-flex;align-items:center;min-height:44px;padding:0;border:0;color:var(--ink)}
+html[data-page=home] body.public-concept[data-design] #header .nav>a:hover {color:var(--primary);text-decoration:underline;text-underline-offset:6px}
+html[data-page=home] body.public-concept[data-design] #header .header-actions {grid-area:action;display:flex;flex-direction:row;align-items:center;justify-content:end;gap:0;width:auto;margin:0;flex:none}
+html[data-page=home] body.public-concept[data-design] #header .header-actions>.button {display:none}
+html[data-page=home] body.public-concept[data-design] #header .langs {width:100px!important;min-height:48px;height:48px;flex:none;background:var(--soft);border:1px solid var(--line);border-radius:var(--radius);padding:2px}
+html[data-page=home] body.public-concept[data-design] #header .langs>a {min-height:42px;height:42px;color:var(--ink);border-radius:max(0px,calc(var(--radius) - 4px))}
+html[data-page=home] body.public-concept[data-design] #header .langs>a.active {background:var(--primary);color:white}
+
+/* Natural text measures replace the inherited fixed translated-copy heights. */
+body.public-concept[data-design] #main .hero.hero {padding:42px 0 46px;background:var(--paper);border:0;overflow:visible;background-image:none}
+body.public-concept[data-design] #main .hero .hero-grid {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);grid-template-areas:'copy image' 'topics topics';gap:30px 56px;align-items:center;min-height:0;height:auto;padding:0;position:relative;text-align:left;isolation:isolate}
+body.public-concept[data-design] #main .hero .hero-copy {grid-area:copy;display:flex;flex-direction:column;justify-content:center;align-items:start;justify-self:start;position:relative;z-index:2;width:100%;max-width:none;min-height:0;height:auto;padding:0;margin:0;border:0;border-radius:0;background:transparent;color:var(--ink);box-shadow:none;text-align:left}
+body.public-concept[data-design] #main .hero .hero-copy>.eyebrow {grid-area:auto;max-width:100%;min-height:0;padding:0;border:0;margin:0 0 18px;font:600 13px/1.5 Arial,Helvetica,sans-serif;letter-spacing:.1em;color:var(--primary)}
+body.public-concept[data-design] #main .hero .hero-copy h1 {grid-area:auto;font:var(--heading-weight) clamp(43px,4.5vw,68px)/1.08 var(--display);letter-spacing:-.045em;white-space:normal;overflow-wrap:normal;min-height:0;max-width:100%;width:100%;margin:0 0 24px;padding:0;color:inherit}
+body.public-concept[data-design] #main .hero .hero-copy .hero-intro {grid-area:auto;font:400 19px/1.65 Arial,Helvetica,sans-serif;color:var(--muted);min-height:0;max-width:560px;width:100%;margin:0;padding:0;border:0}
+body.public-concept[data-design] #main .hero .hero-copy .actions {grid-area:auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:start;gap:12px 20px;min-height:0;margin:25px 0 0;padding:0;width:100%;max-width:100%}
+body.public-concept[data-design] #main .hero .hero-copy .actions>.button {display:inline-flex;justify-content:space-between;max-width:100%;width:auto;min-width:0;min-height:56px;padding:14px 21px;font:600 17px/1.4 Arial,Helvetica,sans-serif;white-space:normal;border:1px solid var(--primary);border-radius:var(--radius);background:var(--primary);color:white;box-shadow:none}
+body.public-concept[data-design] #main .hero .hero-copy .actions>.button.outline {display:inline-flex;min-height:44px;padding:9px 0;border:0;border-bottom:1px solid var(--primary);border-radius:0;background:transparent;color:var(--primary);text-decoration:none}
+body.public-concept[data-design] #main .hero .hero-grid>div.visual {grid-area:image;order:0;position:relative;display:block;align-self:stretch;justify-self:stretch;width:100%;max-width:none;height:500px;min-height:0;aspect-ratio:auto;margin:0;padding:0;border:0;border-radius:var(--radius);background:var(--soft);overflow:hidden;box-shadow:none}
+body.public-concept[data-design] #main .hero .hero-grid>div.visual::before,
+body.public-concept[data-design] #main .hero .hero-grid>div.visual::after {content:none}
+body.public-concept[data-design] #main .hero .hero-grid>.visual>img.public-cover {display:block;width:100%;height:100%;max-height:none;max-width:none;object-fit:cover;object-position:center;border:0;border-radius:0;box-shadow:none}
+body.public-concept[data-design] #main :is(.practice-links,.ledger-links) {grid-area:topics;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0;padding:0;border:1px solid var(--line);border-radius:var(--radius);background:#fff;overflow:hidden;box-shadow:none}
+body.public-concept[data-design] #main .practice-links {margin-top:28px}
+body.public-concept[data-design] #main :is(.practice-links,.ledger-links)>a {display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:76px;padding:20px 24px;border:0;background:transparent;color:var(--primary);font:500 18px/1.4 var(--display);border-radius:0}
+body.public-concept[data-design] #main :is(.practice-links,.ledger-links)>a+a {border-left:1px solid var(--line)}
+body.public-concept[data-design] #main :is(.practice-links,.ledger-links)>a>span:last-child {display:grid;place-items:center;flex:none;width:30px;height:30px;border:0;border-radius:0;font:24px/1 Arial,Helvetica,sans-serif}
+body.public-concept[data-design] #main :is(.practice-links,.ledger-links)>a:hover {background:var(--soft)}
+
+/* Every direction continues through services, reviews, FAQ and enquiry. */
+body.public-concept[data-design] #main :is(#information,#location,#faq,#contact) {padding-block:72px;background:var(--paper);color:var(--ink);border:0;border-top:1px solid var(--line);border-radius:0}
+body.public-concept[data-design] #main #information>.container {display:block}
+body.public-concept[data-design] #main .section-head,
+body.public-concept[data-design] #main #information .section-head {display:flex;align-items:end;justify-content:space-between;gap:36px;min-width:0;margin:0 0 32px}
+body.public-concept[data-design] #main :is(.section-head h2,.contact-grid h2,.faq-heading h2) {font:var(--heading-weight) clamp(34px,3.3vw,48px)/1.15 var(--display);letter-spacing:-.035em;max-width:600px;color:inherit}
+body.public-concept[data-design] #main .section-head .eyebrow {min-height:0;font:600 13px/1.5 Arial,Helvetica,sans-serif;letter-spacing:.09em;color:var(--primary);margin:0 0 13px}
+body.public-concept[data-design] #main .section-head>p,
+body.public-concept[data-design] #main #information .section-head>p {max-width:410px;font:18px/1.65 Arial,Helvetica,sans-serif;color:var(--muted);margin:0}
+body.public-concept[data-design] #main #information .services-compact {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;border:0;min-width:0}
+body.public-concept[data-design] #main #information .services-compact::before {content:none}
+body.public-concept[data-design] #main #information .service-card {display:flex;flex-direction:column;align-items:start;min-width:0;gap:22px;padding:30px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;box-shadow:none}
+body.public-concept[data-design] #main #information .service-card::after {content:none}
+body.public-concept[data-design] #main #information .service-icon {grid-area:auto;grid-row:auto;display:grid;place-items:center;flex:none;width:54px;height:54px;margin:0;padding:10px;border:0;border-radius:var(--radius);background:var(--soft);color:var(--primary);box-shadow:none}
+body.public-concept[data-design] #main #information .service-icon svg {width:32px;height:34px;stroke:var(--primary)}
+body.public-concept[data-design] #main #information .service-copy {grid-area:auto;grid-column:auto;margin:0;min-width:0}
+body.public-concept[data-design] #main #information .service-card h3 {font:var(--heading-weight) 27px/1.22 var(--display);letter-spacing:-.025em;margin:0 0 12px;max-width:100%}
+body.public-concept[data-design] #main #information .service-card p {font:18px/1.65 Arial,Helvetica,sans-serif;margin:0;max-width:100%;color:var(--muted)}
+body.public-concept[data-design] #main #information .service-card>.text-link {grid-column:auto;align-self:start;justify-self:start;margin:auto 0 0;font:600 17px/1.5 Arial,Helvetica,sans-serif;white-space:normal;color:var(--primary)}
+body.public-concept[data-design] #main #location .location-grid {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:30px;align-items:stretch}
+body.public-concept[data-design] #main #location .map {order:0;min-width:0;border:1px solid var(--line);border-radius:var(--radius);background:#fff;box-shadow:none;overflow:hidden}
+body.public-concept[data-design] #main #location .map iframe {height:350px;min-height:0;width:100%;display:block}
+body.public-concept[data-design] #main #location .map-caption {padding:24px;background:#fff}
+body.public-concept[data-design] #main #location .reviews {order:0;min-width:0;padding:30px;border:1px solid var(--line);border-radius:var(--radius);background:var(--soft);box-shadow:none}
+body.public-concept[data-design] #main .public-voices-heading h3 {font:var(--heading-weight) 27px/1.22 var(--display);color:var(--ink)}
+body.public-concept[data-design] #main .public-voices-carousel .carousel-track>.public-voice {padding:24px;border-radius:var(--radius);background:#fff;border-color:var(--line)}
+body.public-concept[data-design] #main .public-voice blockquote {min-height:0;font:400 22px/1.6 var(--display);color:var(--ink)}
+body.public-concept[data-design] #main .carousel-footer {display:flex;flex-wrap:wrap;gap:12px}
+body.public-concept[data-design] #main .carousel-arrows {margin-left:auto}
+body.public-concept[data-design] #main .carousel-arrows button {min-width:44px;min-height:44px;border-radius:var(--radius);border-color:var(--line);background:#fff;color:var(--primary)}
+body.public-concept[data-design] #main #faq .faq-layout {display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.3fr);align-items:start;gap:60px}
+body.public-concept[data-design] #main #faq .faq-list {border-color:var(--line)}
+body.public-concept[data-design] #main #faq .faq-list summary {font:600 20px/1.5 Arial,Helvetica,sans-serif;color:var(--ink);min-height:70px;gap:20px;padding:22px 0}
+body.public-concept[data-design] #main #faq .faq-list summary>span {color:var(--primary);border-color:var(--line)}
+body.public-concept[data-design] #main #faq .faq-list details>p {font:18px/1.7 Arial,Helvetica,sans-serif;color:var(--muted)}
+body.public-concept[data-design] #main #contact {background:var(--soft)}
+body.public-concept[data-design] #main #contact .contact-grid {display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:64px;align-items:start;padding:0}
+body.public-concept[data-design] #main #contact .contact-grid>div:first-child {position:static;padding:0;min-width:0}
+body.public-concept[data-design] #main #contact .eyebrow {font:600 13px/1.5 Arial,Helvetica,sans-serif;color:var(--primary);letter-spacing:.09em;min-height:0;margin-bottom:18px}
+body.public-concept[data-design] #main #contact .contact-grid>div>p:not(.eyebrow) {font:18px/1.65 Arial,Helvetica,sans-serif;color:var(--muted);max-width:100%;margin-top:22px}
+body.public-concept[data-design] #main #contact .button.light {background:var(--primary);color:white;border-color:var(--primary);border-radius:var(--radius)}
+body.public-concept[data-design] #main #contact .hours {color:var(--muted);font-size:17px}
+body.public-concept[data-design] #main #contact .hours>div {border-color:var(--line)}
+body.public-concept[data-design] #main #contact .contact-widget.contact-widget[data-contact-widget] {--cw-ink:var(--ink);--cw-muted:var(--muted);--cw-paper:#fff;--cw-field:#fff;--cw-line:var(--line);--cw-tint:var(--soft);--cw-accent:var(--primary);min-width:0;padding:32px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;box-shadow:none}
+body.public-concept[data-design] #main #contact .contact-widget.contact-widget .cw-title {font:var(--heading-weight) 30px/1.2 var(--display);letter-spacing:-.025em}
+body.public-concept[data-design] #main #contact .contact-widget :is(input,select,textarea) {font-size:18px;border-radius:max(3px,calc(var(--radius) / 2));min-width:0;max-width:100%}
+body.public-concept[data-design] #main #contact .contact-widget .cw-submit {background:var(--primary);border-color:var(--primary);border-radius:var(--radius);color:#fff;min-height:54px}
+body.public-concept[data-design] .public-footer {background:var(--paper);color:var(--ink);border-color:var(--line)}
+body.public-concept[data-design] .public-footer>.container {padding-block:30px;flex-wrap:wrap}
+body.public-concept[data-design] .public-footer p {color:var(--muted)}
+
+/* D1 / Lumen Split: spacious reception portrait and soft care cards. */
+body.public-concept[data-design=D1] {--primary:#176a65;--ink:#153f3e;--muted:#486662;--paper:#f9fcf8;--soft:#e8f2e9;--radius:20px}
+body.public-concept[data-design=D1] #main .hero .hero-grid {grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:60px}
+body.public-concept[data-design=D1] #main .hero .hero-grid>div.visual {height:540px;border-radius:46% 46% 18px 18px}
+body.public-concept[data-design=D1] #main #information .service-card {border-radius:22px 22px 52px 22px;padding:34px}
+body.public-concept[data-design=D1] #main #information .service-icon {border-radius:50%}
+body.public-concept[data-design=D1] #main #faq {background:#fff}
+body.public-concept[data-design=D1] #main #contact .contact-widget.contact-widget[data-contact-widget] {border-top:4px solid #85b6a5}
+
+/* D2 / Azure Panorama: invitation and photograph arranged in a broad band. */
+body.public-concept[data-design=D2] {--primary:#285ca0;--ink:#173453;--muted:#48617e;--paper:#f7faff;--soft:#e8f0fb;--radius:8px;--heading-weight:600}
+body.public-concept[data-design=D2] #main .hero .hero-grid {grid-template-columns:minmax(0,1fr);grid-template-areas:'copy' 'image';gap:28px}
+body.public-concept[data-design=D2] #main .hero .hero-copy {display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);grid-template-areas:'label label' 'title intro' 'title actions';gap:0 64px;align-items:start}
+body.public-concept[data-design=D2] #main .hero .hero-copy>.eyebrow {grid-area:label}
+body.public-concept[data-design=D2] #main .hero .hero-copy h1 {grid-area:title;font-size:clamp(44px,4.3vw,66px);margin:0}
+body.public-concept[data-design=D2] #main .hero .hero-copy .hero-intro {grid-area:intro}
+body.public-concept[data-design=D2] #main .hero .hero-copy .actions {grid-area:actions}
+body.public-concept[data-design=D2] #main .hero .hero-grid>div.visual {height:360px;border-radius:8px 8px 75px 8px}
+body.public-concept[data-design=D2] #main .practice-links {margin-top:20px;border:0;background:var(--primary)}
+body.public-concept[data-design=D2] #main .practice-links>a {color:white;border-color:#ffffff40}
+body.public-concept[data-design=D2] #main .practice-links>a:hover {background:#214f89}
+body.public-concept[data-design=D2] #main #information .service-card {border:0;border-top:3px solid var(--primary);background:var(--soft)}
+body.public-concept[data-design=D2] #main #location .location-grid {grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}
+body.public-concept[data-design=D2] #main #faq .faq-layout {grid-template-columns:minmax(0,1fr);gap:28px}
+body.public-concept[data-design=D2] #main #faq .faq-list {max-width:900px}
+
+/* D3 / Sand Editorial: warm serif language with a photograph to the left. */
+body.public-concept[data-design=D3] {--primary:#6d5443;--ink:#3e332b;--muted:#665e54;--paper:#faf6ee;--soft:#efe6d8;--radius:3px;--display:Georgia,Cambria,serif;--heading-weight:400}
+body.public-concept[data-design=D3] #main .hero .hero-grid {grid-template-columns:minmax(0,1.07fr) minmax(0,1fr);grid-template-areas:'image copy';gap:68px}
+body.public-concept[data-design=D3] #main .hero .hero-grid>div.visual {height:540px;border-radius:150px 150px 3px 3px}
+body.public-concept[data-design=D3] #main .practice-links {border:0;border-block:1px solid var(--line);background:transparent}
+body.public-concept[data-design=D3] #main #information .services-compact {grid-template-columns:minmax(0,1fr);gap:0;border-top:1px solid var(--line)}
+body.public-concept[data-design=D3] #main #information .service-card {display:grid;grid-template-columns:70px minmax(0,1fr) 210px;gap:32px;padding:30px 0;border:0;border-bottom:1px solid var(--line);background:transparent;align-items:center}
+body.public-concept[data-design=D3] #main #information .service-card>.text-link {grid-column:3;margin:0;justify-self:end;align-self:center}
+body.public-concept[data-design=D3] #main #location .map {order:2}
+body.public-concept[data-design=D3] #main #location .reviews {order:1;background:transparent;border:0;padding-left:0}
+body.public-concept[data-design=D3] #main #faq .faq-heading {border-top:2px solid var(--primary);padding-top:24px}
+body.public-concept[data-design=D3] #main #contact .contact-widget.contact-widget[data-contact-widget] {border-top:4px solid #ac8d6c}
+
+/* D4 / Teal Cover: image fills the stage around a compact readable panel. */
+body.public-concept[data-design=D4] {--primary:#155962;--ink:#163f45;--muted:#4d6669;--paper:#f6faf9;--soft:#deeeec;--radius:12px}
+body.public-concept[data-design=D4] #main .hero .hero-grid {display:block;min-height:590px;padding:52px;overflow:hidden;border-radius:18px}
+body.public-concept[data-design=D4] #main .hero .hero-grid>div.visual {position:absolute;inset:0;z-index:-1;height:100%;border-radius:0}
+body.public-concept[data-design=D4] #main .hero .hero-copy {width:47%;max-width:530px;min-height:470px;padding:32px;background:#f6faf9f2;border-radius:8px;box-shadow:0 12px 36px #0b364519}
+body.public-concept[data-design=D4] #main .hero .hero-copy h1 {font-size:clamp(43px,4.1vw,61px)}
+body.public-concept[data-design=D4] #main .practice-links {border:0;border-bottom:2px solid var(--primary);background:#fff}
+body.public-concept[data-design=D4] #main #information .service-card {background:var(--primary);border:0;color:#fff}
+body.public-concept[data-design=D4] #main #information .service-card p {color:#dae9e9}
+body.public-concept[data-design=D4] #main #information .service-card>.text-link {color:#fff}
+body.public-concept[data-design=D4] #main #location .reviews {background:white}
+body.public-concept[data-design=D4] #main #contact {background:#e1eeee}
+
+/* D5 / Lilac Modern: sculpted photo and clean, compact service choices. */
+body.public-concept[data-design=D5] {--primary:#5b5093;--ink:#302c52;--muted:#605c76;--paper:#fcfbff;--soft:#eeeaf8;--radius:24px;--heading-weight:600}
+body.public-concept[data-design=D5] #main .hero .hero-grid {grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:44px}
+body.public-concept[data-design=D5] #main .hero .hero-grid>div.visual {height:515px;border-radius:24px 100px 24px 100px;border:12px solid var(--soft)}
+body.public-concept[data-design=D5] #main .practice-links {gap:16px;overflow:visible;border:0;background:transparent}
+body.public-concept[data-design=D5] #main .practice-links>a {border:1px solid var(--line);border-radius:18px;background:#fff}
+body.public-concept[data-design=D5] #main #information {background:var(--soft)}
+body.public-concept[data-design=D5] #main #information .service-icon {border-radius:50%;background:#e2ddf3}
+body.public-concept[data-design=D5] #main #location .reviews {border-radius:45px 24px 24px 24px}
+body.public-concept[data-design=D5] #main #faq .faq-list {border:0}
+body.public-concept[data-design=D5] #main #faq .faq-list details {margin-bottom:12px;padding:0 22px;border:1px solid var(--line);border-radius:18px;background:#fff}
+
+/* A1 / Ledger Rail: a true editorial rail, document rows and paper framing. */
+body.public-concept[data-design=A1] {--primary:#24435a;--ink:#20364a;--muted:#526473;--paper:#faf7ef;--soft:#efece1;--radius:0px;--display:Georgia,Cambria,serif;--heading-weight:400}
+body.public-concept[data-design=A1] #main .hero .hero-grid {grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:26px 40px}
+body.public-concept[data-design=A1] #main .hero .hero-grid>div.visual {height:490px;border:9px solid #fff;box-shadow:0 10px 30px #203b5010}
+body.public-concept[data-design=A1] #main #information>.container {display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1.4fr);gap:45px}
+body.public-concept[data-design=A1] #main #information .section-head {display:block}
+body.public-concept[data-design=A1] #main #information .section-head>p {margin-top:23px}
+body.public-concept[data-design=A1] #main #information .services-compact {grid-template-columns:minmax(0,1fr);gap:0}
+body.public-concept[data-design=A1] #main #information .service-card {display:grid;grid-template-columns:45px minmax(0,1fr);gap:20px;border:0;border-top:1px solid var(--line);padding:26px 0;background:transparent}
+body.public-concept[data-design=A1] #main #information .service-card>.text-link {grid-column:2;margin:0}
+body.public-concept[data-design=A1] #main #location .map {order:2}
+body.public-concept[data-design=A1] #main #location .reviews {order:1;border:0;border-top:2px solid #aa8b60;background:transparent;padding:28px 0}
+body.public-concept[data-design=A1] #main #contact .contact-widget.contact-widget[data-contact-widget] {border-top:4px solid #b69a74}
+@media(min-width:1300px) {
+  body.public-concept[data-design=A1] .design-toolbar {width:calc(100% - 215px);margin-left:215px}
+  html[data-page=home] body.public-concept[data-design=A1] #header {position:fixed;inset:0 auto 0 0;width:215px;height:100dvh;overflow-y:auto;background:var(--primary);color:white;z-index:30}
+  html[data-page=home] body.public-concept[data-design=A1] #header .header-inner {display:flex;flex-direction:column;align-items:stretch;justify-content:start;width:auto;min-height:100%;padding:32px 22px;gap:25px}
+  html[data-page=home] body.public-concept[data-design=A1] #header .brand {flex-direction:column;align-items:start;color:white}
+  html[data-page=home] body.public-concept[data-design=A1] #header :is(.brand-symbol,.brand-descriptor) {color:#e4eaf0}
+  html[data-page=home] body.public-concept[data-design=A1] #header .nav {flex-direction:column;align-items:stretch;gap:6px;padding-block:14px}
+  html[data-page=home] body.public-concept[data-design=A1] #header .nav>a {color:white;border-bottom:1px solid #ffffff38}
+  html[data-page=home] body.public-concept[data-design=A1] #header .header-actions {justify-content:start}
+  html[data-page=home] body.public-concept[data-design=A1] #header .langs {background:#f4efe2}
+  html[data-page=home] body.public-concept[data-design=A1] #main,
+  html[data-page=home] body.public-concept[data-design=A1] #footer {margin-left:215px}
+  body.public-concept[data-design=A1] #main .hero .hero-copy h1 {font-size:clamp(40px,4vw,58px)}
+}
+
+/* A2 / Sage Balance: image-first, calm advice and an open enquiry area. */
+body.public-concept[data-design=A2] {--primary:#355d4f;--ink:#233d33;--muted:#56675d;--paper:#f7f8f2;--soft:#e5ece0;--radius:18px;--display:Georgia,Cambria,serif;--heading-weight:400}
+body.public-concept[data-design=A2] #main .hero .hero-grid {grid-template-areas:'image copy' 'topics topics';grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:32px 58px}
+body.public-concept[data-design=A2] #main .hero .hero-grid>div.visual {height:530px;border-radius:90px 18px 18px 18px}
+body.public-concept[data-design=A2] #main .ledger-links {gap:15px;overflow:visible;background:transparent;border:0}
+body.public-concept[data-design=A2] #main .ledger-links>a {background:#fff;border:1px solid var(--line);border-radius:var(--radius)}
+body.public-concept[data-design=A2] #main #information {background:#fff}
+body.public-concept[data-design=A2] #main #information .service-card {background:var(--paper);border-bottom:3px solid #8da483}
+body.public-concept[data-design=A2] #main #location .reviews {background:var(--soft)}
+body.public-concept[data-design=A2] #main #faq .faq-layout {grid-template-columns:minmax(0,1fr);gap:30px;max-width:1000px}
+body.public-concept[data-design=A2] #main #contact {background:#e2eadc}
+
+/* A3 / Cobalt Cover: broad office view, compact dark message and crisp cards. */
+body.public-concept[data-design=A3] {--primary:#2455a0;--ink:#17324e;--muted:#4d647a;--paper:#f6f9fc;--soft:#e7eff8;--radius:6px;--heading-weight:600}
+body.public-concept[data-design=A3] #main .hero .hero-grid {grid-template-columns:minmax(0,1fr);grid-template-areas:'copy' 'topics';gap:0;min-height:570px;padding:42px;overflow:hidden;border-radius:6px}
+body.public-concept[data-design=A3] #main .hero .hero-grid>div.visual {grid-area:auto;position:absolute;inset:0;z-index:-1;height:100%;border-radius:0}
+body.public-concept[data-design=A3] #main .hero .hero-copy {width:48%;max-width:570px;background:#15314ff5;color:#fff;padding:33px;align-self:center;min-height:420px}
+body.public-concept[data-design=A3] #main .hero .hero-copy h1 {font-size:clamp(43px,4vw,60px)}
+body.public-concept[data-design=A3] #main .hero .hero-copy :is(.hero-intro,.eyebrow) {color:#dce7f2}
+body.public-concept[data-design=A3] #main .hero .hero-copy .actions>.button {background:#fff;color:#193d71;border-color:#fff}
+body.public-concept[data-design=A3] #main .hero .hero-copy .actions>.button.outline {background:transparent;color:#fff;border-color:#ffffff80}
+body.public-concept[data-design=A3] #main .ledger-links {position:relative;margin-top:30px;border:0;background:#fff}
+body.public-concept[data-design=A3] #main #information .service-card {border:0;border-top:3px solid var(--primary);background:#fff}
+body.public-concept[data-design=A3] #main #location {background:#e7eff8}
+body.public-concept[data-design=A3] #main #location .reviews {background:white}
+body.public-concept[data-design=A3] #main #contact .contact-widget.contact-widget[data-contact-widget] {border-top:4px solid var(--primary)}
+
+/* A4 / Brass Editorial: a photographic masthead and broad ledger rows. */
+body.public-concept[data-design=A4] {--primary:#70592f;--ink:#3d382d;--muted:#696352;--paper:#fcf8ef;--soft:#f0e8d8;--radius:0px;--display:Georgia,Cambria,serif;--heading-weight:400}
+body.public-concept[data-design=A4] #main .hero .hero-grid {grid-template-columns:minmax(0,1fr);grid-template-areas:'copy' 'image' 'topics';gap:28px}
+body.public-concept[data-design=A4] #main .hero .hero-copy {display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);grid-template-areas:'label label' 'title intro' 'title actions';gap:0 70px}
+body.public-concept[data-design=A4] #main .hero .hero-copy>.eyebrow {grid-area:label}
+body.public-concept[data-design=A4] #main .hero .hero-copy h1 {grid-area:title;margin:0;font-size:clamp(45px,4.5vw,69px)}
+body.public-concept[data-design=A4] #main .hero .hero-copy .hero-intro {grid-area:intro}
+body.public-concept[data-design=A4] #main .hero .hero-copy .actions {grid-area:actions}
+body.public-concept[data-design=A4] #main .hero .hero-grid>div.visual {height:335px;border-block:8px solid white}
+body.public-concept[data-design=A4] #main .ledger-links {border:0;border-block:1px solid var(--line);background:transparent}
+body.public-concept[data-design=A4] #main #information .services-compact {grid-template-columns:minmax(0,1fr);gap:0}
+body.public-concept[data-design=A4] #main #information .service-card {display:grid;grid-template-columns:64px minmax(0,1fr) 200px;gap:34px;align-items:center;border:0;border-top:1px solid var(--line);padding:30px 0;background:transparent}
+body.public-concept[data-design=A4] #main #information .service-card>.text-link {grid-column:3;justify-self:end;align-self:center;margin:0}
+body.public-concept[data-design=A4] #main #location .location-grid {grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}
+body.public-concept[data-design=A4] #main #location .reviews {background:transparent;border:0;border-top:2px solid var(--primary);padding-inline:0}
+body.public-concept[data-design=A4] #main #faq {background:#fff}
+
+/* A5 / Ink Studio: sculpted office photo, ink masthead and asymmetric cards. */
+body.public-concept[data-design=A5] {--primary:#333e66;--ink:#29304b;--muted:#596279;--paper:#f8f9ff;--soft:#e9ecf7;--radius:26px;--heading-weight:600}
+html[data-page=home] body.public-concept[data-design=A5] #header {background:#28324f;color:white}
+html[data-page=home] body.public-concept[data-design=A5] #header :is(.brand,.nav>a) {color:white}
+html[data-page=home] body.public-concept[data-design=A5] #header :is(.brand-symbol,.brand-descriptor) {color:#d8deef}
+body.public-concept[data-design=A5] #main .hero .hero-grid {grid-template-columns:minmax(0,1fr) minmax(0,1.06fr);gap:30px 58px}
+body.public-concept[data-design=A5] #main .hero .hero-grid>div.visual {height:525px;border-radius:26px 100px 26px 26px;box-shadow:12px 12px 0 #dde2f0}
+body.public-concept[data-design=A5] #main .ledger-links {gap:16px;border:0;background:transparent;overflow:visible}
+body.public-concept[data-design=A5] #main .ledger-links>a {border:1px solid var(--line);border-radius:18px;background:white}
+body.public-concept[data-design=A5] #main #information {background:var(--soft)}
+body.public-concept[data-design=A5] #main #information .service-card:nth-child(2) {border-radius:50px 26px 26px 26px}
+body.public-concept[data-design=A5] #main #location .reviews {border:0;background:var(--soft)}
+body.public-concept[data-design=A5] #main #faq .faq-list details {padding-inline:23px;margin-bottom:14px;border:1px solid var(--line);border-radius:18px;background:#fff}
+body.public-concept[data-design=A5] #main #faq .faq-list {border:0}
+
+/* The moving route starter continues to feed the original enquiry form. */
+body.public-concept[data-design^=M] #main .hero .hero-grid {grid-template-areas:'copy image' 'route route'}
+body.public-concept[data-design^=M] #main .hero .route-starter {grid-area:route;order:2;min-width:0;background:#fff;border:1px solid var(--line);border-radius:var(--radius);margin:0;padding:27px;box-shadow:none}
+body.public-concept[data-design^=M] #main .route-starter h2 {min-height:0;font:600 22px/1.35 Arial,Helvetica,sans-serif;color:var(--ink);margin:0 0 20px}
+body.public-concept[data-design^=M] #main .route-starter-fields {display:grid;grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr) minmax(0,1fr) minmax(170px,1fr);gap:14px;align-items:end}
+body.public-concept[data-design^=M] #main .route-starter-fields>div {min-width:0;grid-column:auto}
+body.public-concept[data-design^=M] #main .route-starter label {min-height:0;display:block;font:15px/1.5 Arial,Helvetica,sans-serif;margin-bottom:7px;color:var(--muted)}
+body.public-concept[data-design^=M] #main .route-starter input {width:100%;min-width:0;max-width:100%;min-height:52px;padding:10px 12px;border:1px solid var(--line);border-radius:max(3px,calc(var(--radius) / 2));font:17px/1.4 Arial,Helvetica,sans-serif;color:var(--ink);background:var(--paper)}
+body.public-concept[data-design^=M] #main .route-starter .route-connector {display:grid;place-items:center;height:52px;color:var(--primary)}
+body.public-concept[data-design^=M] #main .route-starter .button {grid-column:auto;min-height:52px;width:100%;background:var(--primary);border-color:var(--primary);color:#fff;border-radius:max(3px,calc(var(--radius) / 2));font-size:16px;padding:10px 13px}
+body.public-concept[data-design^=M] #main #contact .contact-widget.contact-widget .cw-moving {min-width:0;margin:10px 0;padding:20px;border:1px solid var(--line);border-radius:var(--radius);background:var(--paper)}
+body.public-concept[data-design^=M] #main #contact .contact-widget.contact-widget .cw-moving legend {max-width:100%;padding:0 5px;font:600 17px/1.45 Arial,Helvetica,sans-serif;color:var(--ink)}
+body.public-concept[data-design^=M] #main #contact .contact-widget.contact-widget .cw-moving .cw-privacy {margin:15px 0 0;font-size:14px;line-height:1.6;color:var(--muted)}
+
+/* M1 / Route Panorama: the team leads, then the route and practical choices. */
+body.public-concept[data-design=M1] {--primary:#214b59;--ink:#1c3c47;--muted:#53686f;--paper:#faf8f1;--soft:#e8eee7;--accent:#e5b569;--radius:10px;--heading-weight:700}
+body.public-concept[data-design=M1] #main .hero .hero-grid {grid-template-columns:minmax(0,1fr);grid-template-areas:'image' 'copy' 'route';gap:0}
+body.public-concept[data-design=M1] #main .hero .hero-grid>div.visual {height:370px;border-radius:10px 10px 0 0}
+body.public-concept[data-design=M1] #main .hero .hero-grid>.visual>img.public-cover {object-position:center 25%}
+body.public-concept[data-design=M1] #main .hero .hero-copy {display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);grid-template-areas:'label label' 'title intro' 'title actions';gap:0 55px;width:calc(100% - 64px);margin:-50px 32px 0;padding:30px 34px;background:var(--primary);color:#fff;border-left:5px solid var(--accent)}
+body.public-concept[data-design=M1] #main .hero .hero-copy>.eyebrow {grid-area:label;color:#d7e6e5}
+body.public-concept[data-design=M1] #main .hero .hero-copy h1 {grid-area:title;font-size:clamp(43px,4.2vw,63px);margin:0}
+body.public-concept[data-design=M1] #main .hero .hero-copy .hero-intro {grid-area:intro;color:#dce8e9}
+body.public-concept[data-design=M1] #main .hero .hero-copy .actions {grid-area:actions}
+body.public-concept[data-design=M1] #main .hero .hero-copy .actions>.button {background:var(--accent);border-color:var(--accent);color:#183b46}
+body.public-concept[data-design=M1] #main .hero .hero-copy .actions>.button.outline {background:transparent;color:#fff;border-color:#ffffff70}
+body.public-concept[data-design=M1] #main .hero .route-starter {margin-top:24px}
+body.public-concept[data-design=M1] #main #information .service-card {border-radius:10px 35px 10px 10px;border-bottom:3px solid #c6a365}
+body.public-concept[data-design=M1] #main #location {background:#f0f3ed}
+body.public-concept[data-design=M1] #main #contact .contact-widget.contact-widget[data-contact-widget] {border-top:4px solid var(--primary)}
+
+/* M2 / Cobalt Dispatch: direct split, blue service cards and a clear planner. */
+body.public-concept[data-design=M2] {--primary:#234ead;--ink:#1f3557;--muted:#52657e;--paper:#f8faff;--soft:#e9effb;--radius:8px;--heading-weight:700}
+body.public-concept[data-design=M2] #main .hero .hero-grid {grid-template-columns:minmax(0,.95fr) minmax(0,1.15fr);gap:28px 50px}
+body.public-concept[data-design=M2] #main .hero .hero-grid>div.visual {height:510px;border-radius:8px 8px 75px 8px}
+body.public-concept[data-design=M2] #main .hero .route-starter {border-top:4px solid var(--primary);background:var(--soft)}
+body.public-concept[data-design=M2] #main #information .service-card {background:var(--primary);color:white;border:0}
+body.public-concept[data-design=M2] #main #information .service-card p {color:#e0e8f9}
+body.public-concept[data-design=M2] #main #information .service-card>.text-link {color:#fff}
+body.public-concept[data-design=M2] #main #location .location-grid {grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}
+body.public-concept[data-design=M2] #main #faq .faq-layout {grid-template-columns:minmax(0,1fr);gap:28px;max-width:1000px}
+
+/* M3 / Terracotta Cover: warm photographic stage with deliberate exposed image. */
+body.public-concept[data-design=M3] {--primary:#8a4330;--ink:#46312b;--muted:#6e5d55;--paper:#fcf6ed;--soft:#f0e3d3;--radius:3px;--heading-weight:600}
+body.public-concept[data-design=M3] #main .hero .hero-grid {grid-template-columns:minmax(0,1fr);grid-template-areas:'copy' 'route';gap:28px;min-height:640px;padding:40px;overflow:hidden;border-radius:6px}
+body.public-concept[data-design=M3] #main .hero .hero-grid>div.visual {grid-area:auto;position:absolute;inset:0;z-index:-1;height:100%;border-radius:0}
+body.public-concept[data-design=M3] #main .hero .hero-copy {width:46%;max-width:530px;background:#fcf6edf5;padding:30px;border-left:4px solid var(--primary)}
+body.public-concept[data-design=M3] #main .hero .hero-copy h1 {font-size:clamp(43px,4.1vw,61px)}
+body.public-concept[data-design=M3] #main .hero .route-starter {background:#fffaf3f7;border:0;align-self:end}
+body.public-concept[data-design=M3] #main #information .services-compact {grid-template-columns:minmax(0,1fr);gap:0;border-top:1px solid var(--line)}
+body.public-concept[data-design=M3] #main #information .service-card {display:grid;grid-template-columns:70px minmax(0,1fr) 200px;gap:28px;align-items:center;padding:30px 0;border:0;border-bottom:1px solid var(--line);background:transparent}
+body.public-concept[data-design=M3] #main #information .service-card>.text-link {grid-column:3;margin:0;justify-self:end;align-self:center}
+body.public-concept[data-design=M3] #main #location .reviews {background:transparent;border:0;border-top:2px solid var(--primary);padding-left:0}
+body.public-concept[data-design=M3] #main #faq {background:#fffaf3}
+body.public-concept[data-design=M3] #main #contact .contact-widget.contact-widget[data-contact-widget] {border-top:4px solid #b98a61}
+
+/* M4 / Green Neighbourhood: portrait on the left, rounded cards and friendly flow. */
+body.public-concept[data-design=M4] {--primary:#345e43;--ink:#294236;--muted:#586a5e;--paper:#f8faf3;--soft:#e6eddf;--radius:23px;--heading-weight:600}
+body.public-concept[data-design=M4] #main .hero .hero-grid {grid-template-columns:minmax(0,1.12fr) minmax(0,1fr);grid-template-areas:'image copy' 'route route';gap:30px 60px}
+body.public-concept[data-design=M4] #main .hero .hero-grid>div.visual {height:535px;border-radius:90px 23px 23px 23px}
+body.public-concept[data-design=M4] #main .hero .route-starter {background:var(--soft);border:0}
+body.public-concept[data-design=M4] #main #information {background:#fff}
+body.public-concept[data-design=M4] #main #information .service-card {background:var(--paper);border-radius:23px 23px 50px 23px}
+body.public-concept[data-design=M4] #main #information .service-icon {border-radius:50%}
+body.public-concept[data-design=M4] #main #location .reviews {order:1;background:var(--soft)}
+body.public-concept[data-design=M4] #main #location .map {order:2}
+body.public-concept[data-design=M4] #main #faq .faq-list details {padding-inline:22px;margin-bottom:13px;border:1px solid var(--line);border-radius:17px;background:#fff}
+body.public-concept[data-design=M4] #main #faq .faq-list {border:0}
+
+/* M5 / Indigo Editorial: tall team photo with an integrated vertical planner. */
+body.public-concept[data-design=M5] {--primary:#514879;--ink:#322f49;--muted:#666177;--paper:#faf8fe;--soft:#ede9f4;--radius:12px;--heading-weight:600}
+body.public-concept[data-design=M5] #main .hero .hero-grid {grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);grid-template-areas:'image copy' 'image route';gap:26px 45px;align-items:start}
+body.public-concept[data-design=M5] #main .hero .hero-grid>div.visual {height:auto;min-height:675px;border-radius:100px 12px 12px 12px}
+body.public-concept[data-design=M5] #main .hero .hero-copy h1 {font-size:clamp(43px,4.15vw,63px)}
+body.public-concept[data-design=M5] #main .hero .route-starter {background:var(--soft);border:0;padding:24px}
+body.public-concept[data-design=M5] #main .route-starter-fields {grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+body.public-concept[data-design=M5] #main .route-starter .route-connector {display:none}
+body.public-concept[data-design=M5] #main .route-starter-fields>div:nth-of-type(3) {grid-column:1/-1}
+body.public-concept[data-design=M5] #main .route-starter .button {grid-column:1/-1}
+body.public-concept[data-design=M5] #main #information .service-card {border:0;border-left:3px solid #9185b3;background:#fff}
+body.public-concept[data-design=M5] #main #location .location-grid {grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}
+body.public-concept[data-design=M5] #main #faq .faq-heading {border-top:3px solid #9e92bc;padding-top:25px}
+body.public-concept[data-design=M5] #main #contact .contact-widget.contact-widget[data-contact-widget] {border-top:4px solid var(--primary)}
+
+/* Tablet: let the copy grow before a narrow column can crowd the actions. */
+@media(max-width:1100px) {
+  body.public-concept[data-design] .container,
+  body.public-concept[data-design] #main .container {width:calc(100% - 48px)}
+  html[data-page=home] body.public-concept[data-design] #header .header-inner {grid-template-columns:minmax(0,1fr) auto;grid-template-areas:'brand action' 'nav nav';width:calc(100% - 48px);gap:10px 20px;padding:17px 0 9px;min-height:0}
+  html[data-page=home] body.public-concept[data-design] #header .nav {justify-content:start;gap:2px 25px}
+  body.public-concept[data-design] #main .hero .hero-grid {gap:26px 34px}
+  body.public-concept[data-design] #main .hero .hero-copy h1 {font-size:clamp(39px,4.9vw,58px)}
+  body.public-concept[data-design] #main #information .service-card {padding:25px}
+  body.public-concept[data-design] #main #contact .contact-grid {gap:36px}
+  body.public-concept[data-design^=M] #main .route-starter-fields {grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr)}
+  body.public-concept[data-design^=M] #main .route-starter-fields>div:nth-of-type(3) {grid-column:1}
+  body.public-concept[data-design^=M] #main .route-starter .button {grid-column:3}
+  body.public-concept[data-design=M5] #main .route-starter-fields {grid-template-columns:minmax(0,1fr)}
+  body.public-concept[data-design=M5] #main .route-starter-fields>div:nth-of-type(3),
+  body.public-concept[data-design=M5] #main .route-starter .button {grid-column:auto}
+  body.public-concept[data-design]:is([data-design=D4],[data-design=A3],[data-design=M3]) #main .hero .hero-grid {padding:30px}
+  body.public-concept[data-design]:is([data-design=D4],[data-design=A3],[data-design=M3]) #main .hero .hero-copy {width:53%;padding:26px}
+  body.public-concept[data-design]:is([data-design=D3],[data-design=A4],[data-design=M3]) #main #information .service-card {padding:27px 0;grid-template-columns:60px minmax(0,1fr) 175px;gap:24px}
+}
+
+/* Mobile has a visible photo immediately, real text height and reachable controls. */
+@media(max-width:760px) {
+  body.public-concept[data-design] .container,
+  body.public-concept[data-design] #main .container {width:calc(100% - 36px)}
+  html[data-page=home] body.public-concept[data-design] #header .brand {font-size:25px;gap:8px}
+  html[data-page=home] body.public-concept[data-design] #header .header-inner {width:calc(100% - 36px)}
+  html[data-page=home] body.public-concept[data-design] #header .brand-symbol {width:30px;height:35px}
+  html[data-page=home] body.public-concept[data-design] #header .brand-descriptor {font-size:12px}
+  html[data-page=home] body.public-concept[data-design] #header .nav {gap:0 19px;font-size:15px}
+  html[data-page=home] body.public-concept[data-design] #header .nav>a {min-height:42px}
+  html[data-page=home] body.public-concept[data-design] #header .langs {width:94px!important}
+  body.public-concept[data-design] #main .hero.hero {padding:20px 0 35px}
+  body.public-concept[data-design] #main .hero .hero-grid {display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:'image' 'copy' 'topics';gap:25px;min-height:0;height:auto;padding:0;overflow:visible;border-radius:0}
+  body.public-concept[data-design^=M] #main .hero .hero-grid {grid-template-areas:'image' 'copy' 'route'}
+  body.public-concept[data-design] #main .hero .hero-grid>div.visual {grid-area:image;position:relative;inset:auto;z-index:auto;width:100%;height:255px;min-height:0;margin:0;max-width:none;border-radius:var(--radius);border-width:0;box-shadow:none}
+  body.public-concept[data-design] #main .hero .hero-copy {grid-area:copy;display:flex;flex-direction:column;align-items:start;justify-content:start;gap:0;width:100%;max-width:none;min-height:0;max-height:none;padding:0;margin:0;border:0;background:transparent;color:var(--ink);border-radius:0;box-shadow:none}
+  body.public-concept[data-design]:is([data-design=D4],[data-design=A3],[data-design=M3]) #main .hero .hero-grid {padding:0}
+  body.public-concept[data-design]:is([data-design=D4],[data-design=A3],[data-design=M3]) #main .hero .hero-copy {width:100%;min-height:0;padding:0}
+  body.public-concept[data-design] #main .hero .hero-copy>.eyebrow {min-height:0;max-width:100%;padding:0;margin:0 0 14px;font-size:12px;line-height:1.5;color:var(--primary)}
+  body.public-concept[data-design] #main .hero .hero-copy h1 {font-size:clamp(35px,9.7vw,46px);line-height:1.1;min-height:0;max-width:100%;margin:0 0 18px;color:inherit}
+  body.public-concept[data-design] #main .hero .hero-copy .hero-intro {min-height:0;margin:0;font:18px/1.65 Arial,Helvetica,sans-serif;color:var(--muted)}
+  body.public-concept[data-design] #main .hero .hero-copy .actions {display:flex;flex-direction:column;align-items:start;justify-content:start;gap:9px;width:100%;min-height:0;margin:22px 0 0}
+  body.public-concept[data-design] #main .hero .hero-copy .actions>.button {width:100%;min-height:55px;font-size:17px;background:var(--primary);border-color:var(--primary);color:#fff;padding:14px 19px}
+  body.public-concept[data-design] #main .hero .hero-copy .actions>.button.outline {width:auto;min-height:44px;background:transparent;color:var(--primary);border-color:var(--primary);padding:9px 0}
+  body.public-concept[data-design] #main :is(.practice-links,.ledger-links) {grid-template-columns:minmax(0,1fr);gap:0;margin:0;padding:0;border:1px solid var(--line);border-radius:var(--radius);background:#fff;overflow:hidden}
+  body.public-concept[data-design] #main .practice-links {margin-top:24px}
+  body.public-concept[data-design] #main :is(.practice-links,.ledger-links)>a {min-height:64px;padding:16px 20px;border:0;border-radius:0;background:#fff;color:var(--primary);font-size:18px}
+  body.public-concept[data-design] #main :is(.practice-links,.ledger-links)>a+a {border-left:0;border-top:1px solid var(--line)}
+  body.public-concept[data-design] #main :is(#information,#location,#faq,#contact) {padding-block:48px}
+  body.public-concept[data-design] #main #information>.container {display:block}
+  body.public-concept[data-design] #main .section-head,
+  body.public-concept[data-design] #main #information .section-head {display:block;margin:0 0 27px}
+  body.public-concept[data-design] #main .section-head>p,
+  body.public-concept[data-design] #main #information .section-head>p {max-width:100%;margin-top:20px;font-size:18px}
+  body.public-concept[data-design] #main :is(.section-head h2,.contact-grid h2,.faq-heading h2) {font-size:35px;line-height:1.16}
+  body.public-concept[data-design] #main #information .services-compact {grid-template-columns:minmax(0,1fr);gap:16px}
+  body.public-concept[data-design] #main #information .service-card {display:grid;grid-template-columns:45px minmax(0,1fr);gap:18px;align-items:start;padding:24px 21px}
+  body.public-concept[data-design] #main #information .service-icon {grid-column:1;grid-row:1;width:43px;height:43px;padding:6px}
+  body.public-concept[data-design] #main #information .service-icon svg {width:29px;height:30px}
+  body.public-concept[data-design] #main #information .service-copy {grid-column:2;grid-row:1}
+  body.public-concept[data-design] #main #information .service-card h3 {font-size:25px;line-height:1.23;margin-bottom:12px}
+  body.public-concept[data-design] #main #information .service-card>.text-link {grid-column:2;justify-self:start;align-self:start;margin:0;font-size:17px}
+  body.public-concept[data-design]:is([data-design=D3],[data-design=A4],[data-design=M3]) #main #information .service-card {grid-template-columns:45px minmax(0,1fr);gap:18px;padding:24px 0}
+  body.public-concept[data-design] #main #location .location-grid {grid-template-columns:minmax(0,1fr);gap:24px}
+  body.public-concept[data-design] #main #location .map {order:2}
+  body.public-concept[data-design] #main #location .reviews {order:1;padding:25px 21px}
+  body.public-concept[data-design] #main #location .map iframe {height:280px}
+  body.public-concept[data-design] #main #location .map-caption {padding:23px 21px}
+  body.public-concept[data-design] #main .public-voices-carousel .carousel-track>.public-voice {padding:21px 18px}
+  body.public-concept[data-design] #main .public-voice blockquote {font-size:20px}
+  body.public-concept[data-design] #main .public-voice-author {font-size:17px;gap:11px}
+  body.public-concept[data-design] #main .public-avatar {width:52px;height:52px}
+  body.public-concept[data-design] #main .public-avatar-portrait {width:52px;height:52px}
+  body.public-concept[data-design] #main .carousel-autoplay {font-size:15px;padding-inline:9px}
+  body.public-concept[data-design] #main #faq .faq-layout {grid-template-columns:minmax(0,1fr);gap:28px}
+  body.public-concept[data-design] #main #faq .faq-list summary {font-size:18px;padding-block:20px;gap:13px}
+  body.public-concept[data-design] #main #faq .faq-list details>p {padding-right:0;font-size:18px}
+  body.public-concept[data-design] #main #contact .contact-grid {grid-template-columns:minmax(0,1fr);gap:32px}
+  body.public-concept[data-design] #main #contact .contact-widget.contact-widget[data-contact-widget] {padding:26px 21px}
+  body.public-concept[data-design] #main #contact .contact-widget.contact-widget .cw-title {font-size:28px}
+  body.public-concept[data-design] .public-footer>.container {gap:20px}
+  body.public-concept[data-design] .public-footer p {width:100%;order:3}
+  body.public-concept[data-design] .public-footer .text-link {white-space:normal;margin-left:0;font-size:16px}
+  body.public-concept[data-design^=M] #main .hero .route-starter {padding:24px 20px;margin:0;border:1px solid var(--line);background:var(--soft)}
+  body.public-concept[data-design^=M] #main .route-starter-fields {grid-template-columns:minmax(0,1fr);gap:16px}
+  body.public-concept[data-design^=M] #main .route-starter-fields>div:nth-of-type(3),
+  body.public-concept[data-design^=M] #main .route-starter .button {grid-column:auto}
+  body.public-concept[data-design^=M] #main .route-starter .route-connector {display:none}
+  body.public-concept[data-design^=M] #main .route-starter input {min-height:54px;font-size:18px}
+  body.public-concept[data-design^=M] #main .route-starter label {font-size:16px}
+  body.public-concept[data-design^=M] #main .route-starter .button {min-height:54px;font-size:17px}
+  body.public-concept[data-design^=M] #main #contact .contact-widget.contact-widget .cw-moving {padding:20px 15px}
+
+  /* Mobile retains individual silhouettes instead of forcing every photo into one frame. */
+  body.public-concept[data-design=D1] #main .hero .hero-grid>div.visual {border-radius:65px 65px 18px 18px}
+  body.public-concept[data-design=D2] #main .hero .hero-grid>div.visual {height:225px;border-radius:8px 8px 50px 8px}
+  body.public-concept[data-design=D3] #main .hero .hero-grid>div.visual {border-radius:80px 80px 3px 3px}
+  body.public-concept[data-design]:is([data-design=D4]) #main .hero .hero-copy {background:var(--soft);padding:24px;border-radius:8px}
+  body.public-concept[data-design=D5] #main .hero .hero-grid>div.visual {border-radius:20px 60px 20px 60px;border:8px solid var(--soft)}
+  body.public-concept[data-design=A1] #main .hero .hero-grid>div.visual {border:7px solid #fff}
+  body.public-concept[data-design=A2] #main .hero .hero-grid>div.visual {border-radius:65px 18px 18px 18px}
+  body.public-concept[data-design]:is([data-design=A3]) #main .hero .hero-copy {padding:25px;background:#15314f;color:#fff}
+  body.public-concept[data-design=A3] #main .hero .hero-copy :is(.hero-intro,.eyebrow) {color:#dce7f2}
+  body.public-concept[data-design=A3] #main .hero .hero-copy .actions>.button {background:#fff;border-color:#fff;color:#193d71}
+  body.public-concept[data-design=A3] #main .hero .hero-copy .actions>.button.outline {background:transparent;color:white;border-color:#ffffff80}
+  body.public-concept[data-design=A4] #main .hero .hero-grid>div.visual {height:225px;border-block:6px solid #fff}
+  body.public-concept[data-design=A5] #main .hero .hero-grid>div.visual {border-radius:22px 70px 22px 22px}
+  body.public-concept[data-design=M1] #main .hero .hero-grid {gap:0}
+  body.public-concept[data-design=M1] #main .hero .hero-grid>div.visual {height:245px;border-radius:10px 10px 0 0}
+  body.public-concept[data-design=M1] #main .hero .hero-copy {padding:25px;background:var(--primary);color:white;border-left:4px solid var(--accent)}
+  body.public-concept[data-design=M1] #main .hero .hero-copy :is(.hero-intro,.eyebrow) {color:#dce8e9}
+  body.public-concept[data-design=M1] #main .hero .hero-copy .actions>.button {background:var(--accent);border-color:var(--accent);color:#183b46}
+  body.public-concept[data-design=M1] #main .hero .hero-copy .actions>.button.outline {background:transparent;color:white;border-color:#ffffff70}
+  body.public-concept[data-design=M1] #main .hero .route-starter {margin-top:23px}
+  body.public-concept[data-design=M2] #main .hero .hero-grid>div.visual {border-radius:8px 8px 55px 8px}
+  body.public-concept[data-design]:is([data-design=M3]) #main .hero .hero-copy {padding:24px;background:var(--soft);border-left:4px solid var(--primary)}
+  body.public-concept[data-design=M4] #main .hero .hero-grid>div.visual {border-radius:65px 23px 23px 23px}
+  body.public-concept[data-design=M5] #main .hero .hero-grid>div.visual {border-radius:65px 12px 12px 12px}
+}
+@media(max-width:380px) {
+  body.public-concept[data-design] .container,
+  body.public-concept[data-design] #main .container {width:calc(100% - 32px)}
+  html[data-page=home] body.public-concept[data-design] #header .header-inner {width:calc(100% - 32px);gap:9px 10px}
+  html[data-page=home] body.public-concept[data-design] #header .brand {font-size:22px}
+  html[data-page=home] body.public-concept[data-design] #header .brand-symbol {width:25px;height:30px}
+  html[data-page=home] body.public-concept[data-design] #header .langs {width:90px!important}
+  html[data-page=home] body.public-concept[data-design] #header .nav {gap:0 17px;font-size:14px}
+  body.public-concept[data-design] #main .hero .hero-grid>div.visual {height:220px}
+  body.public-concept[data-design] #main .hero .hero-copy h1 {font-size:34px}
+  body.public-concept[data-design] #main #information .service-card {grid-template-columns:34px minmax(0,1fr);padding:22px 17px;gap:14px}
+  body.public-concept[data-design]:is([data-design=D3],[data-design=A4],[data-design=M3]) #main #information .service-card {grid-template-columns:34px minmax(0,1fr);padding:22px 0;gap:14px}
+  body.public-concept[data-design] #main #information .service-icon {width:33px;height:36px;padding:3px}
+  body.public-concept[data-design] #main #information .service-card h3 {font-size:23px}
+  body.public-concept[data-design] #main #location .reviews {padding:23px 17px}
+  body.public-concept[data-design] #main #contact .contact-widget.contact-widget[data-contact-widget] {padding:25px 18px}
+}
+@media(prefers-reduced-motion:reduce) {
+  body.public-concept[data-design] .button,
+  body.public-concept[data-design] #main #information .service-card {transition:none;transform:none}
+}

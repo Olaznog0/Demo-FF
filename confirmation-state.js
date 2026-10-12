@@ -19,6 +19,9 @@
   const data=payload(client,lang,details,mode,receipt);
   try{root.sessionStorage.setItem(key,JSON.stringify(data));}catch{return false;}
   const url=new URL('confirmation.html',base);url.search=new URLSearchParams({client:client.id,lang,type:data.type});
+  const prefix={lumen:'D',northline:'A',brightmove:'M'}[client.id];
+  const design=new URLSearchParams(root.location?.search||'').get('design')||client.theme?.designCode;
+  if(prefix&&new RegExp('^'+prefix+'[1-5]$').test(design||''))url.searchParams.set('design',design);
   root.location.assign(url.href);return true;
  }
  function read(client,type,now=Date.now()){

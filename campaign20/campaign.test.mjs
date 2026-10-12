@@ -36,7 +36,7 @@ test('Public Google summaries use the newest CID-matched primary snapshots', asy
     assert.equal(lead.google.summarySourceUrl, observed.sourceUrl);
   }
 });
-test('All 400 current business, theme and language combinations preserve the requested identity', () => {
+test('All 600 current business, theme and language combinations preserve the requested identity', () => {
   const combinations = [];
   for (const lead of model.businesses) for (const theme of THEME_IDS[lead.family]) for (const lang of ['en', 'nl']) {
     const context = resolveContext(model, `?lead=${lead.id}&theme=${theme}&lang=${lang}`);
@@ -45,8 +45,8 @@ test('All 400 current business, theme and language combinations preserve the req
     assert.equal(url.searchParams.get('lead'), lead.id); assert.equal(url.searchParams.get('theme'), theme); assert.equal(url.searchParams.get('lang'), lang); assert.equal(url.hash, ''); assert.equal(url.searchParams.has('old'), false);
     combinations.push(url.href);
   }
-  assert.equal(model.businesses.length, 40);
-  assert.equal(new Set(combinations).size, 400);
+  assert.equal(model.businesses.length, 60);
+  assert.equal(new Set(combinations).size, 600);
 });
 
 test('All twenty carousels have multiple genuine reviews, preserving frozen snapshots and primary extension attribution', async () => {
@@ -55,10 +55,12 @@ test('All twenty carousels have multiple genuine reviews, preserving frozen snap
   const rawEvidence = await fs.readFile(path.resolve(root, '../../deliverables/leads/campaign-pitches-20-2026-10-04/review-evidence-extension-2026-10-05.json'), 'utf8');
   const evidence = JSON.parse(rawEvidence);
   assert.equal(model.reviewExtensionSha256, createHash('sha256').update(rawEvidence).digest('hex'));
-  // Reconstruct the unchanged original serialization before checking its frozen
-  // hash; the later cohort is an append and cannot overwrite this evidence.
+  // Cohort append serialization dropped the original preamble. Restore the
+  // frozen serialization, including that comment, without using newer headers.
+  // All original business records remain covered by the exact original hash.
   const originalBaseline = { ...baseline, businesses: Object.fromEntries(Object.entries(baseline.businesses).filter(([id]) => originalIds.has(id))) };
-  const originalRaw = raw.slice(0, raw.indexOf('window.CAMPAIGN_REVIEWS')) + 'window.CAMPAIGN_REVIEWS = ' + JSON.stringify(originalBaseline, null, 2) + ';\n';
+  const originalRaw = '/* Primary Google review snapshots. Generated from attributed UI evidence. */\nwindow.CAMPAIGN_REVIEWS = ' + JSON.stringify(originalBaseline, null, 2) + ';\n';
+  assert.equal(model.reviewSnapshotSha256, '6c9e7f8ef6dd5b2bb8b96dbd9d4aa331c1ef1c04d10dbde42481f4d60c9ff70f');
   assert.equal(model.reviewSnapshotSha256, createHash('sha256').update(originalRaw).digest('hex'));
   let added = 0;
   for (const lead of originalBusinesses) {
@@ -185,11 +187,35 @@ test('The original five-review selection still covers its twenty businesses with
   duplicate.businesses[0].google.reviewSnapshot.reviews[4] = structuredClone(duplicate.businesses[0].google.reviewSnapshot.reviews[0]);
   assert.ok(validateModel(duplicate).some(issue => issue.includes('Invalid five-review snapshot')));
 });
-test('The current forty-business release contains two hundred reviews and twenty new native Google-attributed businesses', async () => {
+test('The three preserved cohorts contain sixty businesses and three hundred exact Google-attributed reviews', async () => {
   assert.deepEqual(validateModel(model), []);
-  assert.deepEqual(model.cohorts.map(cohort => [cohort.id, cohort.expectedCount]), [['J1-legacy', 20], ['J2-2026-10-06', 20]]);
-  const newIds = new Set(model.cohorts[1].leadIds), additions = model.businesses.filter(business => newIds.has(business.id));
-  assert.equal(additions.length, 20); assert.equal(additions.filter(business => business.family === 'restaurants').length, 19); assert.equal(additions.filter(business => business.family === 'salon').length, 1);
+  assert.deepEqual(model.cohorts.map(cohort => [cohort.id, cohort.expectedCount]), [['J1-legacy', 20], ['J2-2026-10-06', 20], ['J3-2026-10-07', 20]]);
+  const allCohortIds = model.cohorts.flatMap(cohort => cohort.leadIds);
+  assert.equal(allCohortIds.length, 60);
+  assert.equal(new Set(allCohortIds).size, 60);
+  assert.deepEqual(new Set(allCohortIds), new Set(model.businesses.map(business => business.id)));
+  const evidenceById = new Map();
+  const evidencePackets = [
+    ['J2-2026-10-06', 'campaign-pitches-next20-2026-10-05', 19, 1],
+    ['J3-2026-10-07', 'campaign-pitches-next20-2026-10-06', 16, 4],
+  ];
+  for (const [cohortId, packet, foodCount, salonCount] of evidencePackets) {
+    const addition = JSON.parse(await fs.readFile(path.resolve(root, '../../deliverables/leads', packet, 'public-addition.json'), 'utf8'));
+    const cohort = model.cohorts.find(item => item.id === cohortId);
+    assert.equal(addition.cohortId, cohortId); assert.equal(addition.expectedCount, 20);
+    assert.equal(addition.reviewEvidence.primaryUiObserved, true);
+    assert.equal(addition.reviewEvidence.businesses.length, 20);
+    assert.equal(model.cohortEvidenceSha256[cohortId], createHash('sha256').update(JSON.stringify(addition.reviewEvidence)).digest('hex'));
+    assert.deepEqual(new Set(cohort.leadIds), new Set(addition.businesses.map(business => business.id)));
+    const cohortBusinesses = model.businesses.filter(business => cohort.leadIds.includes(business.id));
+    assert.equal(cohortBusinesses.filter(business => business.family === 'restaurants').length, foodCount);
+    assert.equal(cohortBusinesses.filter(business => business.family === 'salon').length, salonCount);
+    for (const record of addition.reviewEvidence.businesses) {
+      assert.ok(!evidenceById.has(record.leadId)); evidenceById.set(record.leadId, record);
+    }
+  }
+  const newIds = new Set(model.cohorts.slice(1).flatMap(cohort => cohort.leadIds)), additions = model.businesses.filter(business => newIds.has(business.id));
+  assert.equal(additions.length, 40); assert.equal(additions.filter(business => business.family === 'restaurants').length, 35); assert.equal(additions.filter(business => business.family === 'salon').length, 5);
   assert.ok([...newIds].every(id => !originalIds.has(id)));
   const reviewIds = new Set(); let count = 0;
   for (const business of model.businesses) {
@@ -199,13 +225,24 @@ test('The current forty-business release contains two hundred reviews and twenty
       assert.ok(!reviewIds.has(review.reviewId), 'A Google review must not be reused for another business'); reviewIds.add(review.reviewId); count++;
     }
   }
-  assert.equal(count, 200);
+  assert.equal(count, 300);
   for (const business of additions) {
     assert.equal(business.google.placeId, null, 'A Google CID must never be represented as an invented Places API ID');
     assert.deepEqual(business.confirmedServices, []); assert.equal(business.tableReservationEnabled, false);
     const snapshot = business.google.reviewSnapshot;
+    const evidence = evidenceById.get(business.id);
+    assert.equal(evidence.businessName, business.name); assert.equal(evidence.cid, business.google.cid);
+    assert.equal(snapshot.observedAt, evidence.observedAt);
+    assert.equal(evidence.reviews.length, 5);
     const profiles = new Set();
     for (const review of snapshot.reviews) {
+      const observed = evidence.reviews.find(item => item.reviewId === review.reviewId);
+      assert.ok(observed, 'Each published quote must exist in its preserved primary evidence');
+      assert.equal(review.authorName, observed.author); assert.equal(review.authorUrl, observed.authorUrl);
+      assert.equal(review.photoUrl, observed.photoUrl || null); assert.equal(review.text, observed.quote);
+      assert.equal(review.rating, observed.rating); assert.equal(review.publishedLabel, observed.publishedLabel);
+      assert.equal(review.originalLanguage, observed.originalLanguage);
+      assert.equal(review.sourceUrl, evidence.primarySourceUrl);
       assert.equal(review.nativeReviewId, review.reviewId); assert.equal(review.reviewIdType, 'native-google-review-id');
       const authorUrl = new URL(review.authorUrl), profile = authorUrl.pathname.match(/^\/maps\/contrib\/(\d+)\//);
       assert.equal(authorUrl.protocol, 'https:'); assert.equal(authorUrl.hostname, 'www.google.com'); assert.ok(profile);
@@ -214,12 +251,18 @@ test('The current forty-business release contains two hundred reviews and twenty
       assert.equal(attribution.provider, 'Google Maps'); assert.equal(attribution.cid, business.google.cid);
       assert.equal(attribution.reviewId, review.reviewId); assert.equal(attribution.reviewIdType, 'native-google-review-id');
       assert.equal(attribution.observedAt, review.observedAt); assert.equal(attribution.primarySourceUrl, review.sourceUrl);
-      const maps = new URL(review.sourceUrl), feature = maps.href.match(/!1s0x[a-f0-9]+:(0x[a-f0-9]+)/i);
-      assert.equal(maps.protocol, 'https:'); assert.equal(maps.hostname, 'www.google.com'); assert.ok(feature);
+      const primary = new URL(review.sourceUrl);
+      assert.equal(primary.protocol, 'https:'); assert.equal(primary.hostname, 'www.google.com');
+      assert.ok(primary.pathname.startsWith('/maps/') || primary.pathname === '/search' && primary.searchParams.get('q'));
+      const identityUrl = evidence.identitySourceUrl || evidence.primarySourceUrl;
+      assert.equal(attribution.identitySourceUrl || attribution.primarySourceUrl, identityUrl);
+      const maps = new URL(identityUrl), feature = maps.href.match(/!1s0x[a-f0-9]+:(0x[a-f0-9]+)/i);
+      assert.equal(maps.protocol, 'https:'); assert.equal(maps.hostname, 'www.google.com'); assert.ok(maps.pathname.startsWith('/maps/')); assert.ok(feature);
       assert.equal(BigInt(feature[1]).toString(), business.google.cid);
       assert.ok(Number.isFinite(Date.parse(review.observedAt)));
       assert.equal(review.translationProvider, 'editorial translation');
-      assert.ok(review.translations[review.originalLanguage === 'nl' ? 'en' : 'nl']);
+      const target = review.originalLanguage === 'nl' ? 'en' : 'nl';
+      assert.ok(review.translations[target]); assert.equal(review.translations[target], observed.translation[target]);
       assert.ok(Number.isInteger(review.rating) && review.rating >= 1 && review.rating <= 5);
     }
   }
@@ -240,8 +283,8 @@ test('Public preview payload excludes email lists and private workflow informati
   assert.doesNotMatch(raw, /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/);
   assert.equal(originalBusinesses.filter(lead => lead.family === 'restaurants').length, 10);
   assert.equal(originalBusinesses.filter(lead => lead.family === 'salon').length, 10);
-  assert.equal(model.businesses.filter(lead => lead.family === 'restaurants').length, 29);
-  assert.equal(model.businesses.filter(lead => lead.family === 'salon').length, 11);
+  assert.equal(model.businesses.filter(lead => lead.family === 'restaurants').length, 45);
+  assert.equal(model.businesses.filter(lead => lead.family === 'salon').length, 15);
   assert.equal(model.businesses.filter(lead => lead.tableReservationEnabled !== false).length, 0);
 });
 test('Language and palette changes update content without rebuilding product or calling providers', async () => {
@@ -282,7 +325,9 @@ test('The preview server serves only explicit public assets and separate local l
 test('The public release is an exact allowlist and never exports launcher, tests or campaign research', async () => {
   const { getCampaignFiles, PUBLIC_ENTRY_FILES, PUBLIC_ASSETS } = await import('./release-files.mjs');
   const files = await getCampaignFiles();
-  assert.equal(files.length, 13);
+  assert.deepEqual(PUBLIC_ENTRY_FILES, ['index.html', 'styles.css', 'app.js', 'model.mjs', 'business-data.json', 'reviews-data.js', 'reviews-ui.js', 'calendar-ui.js']);
+  assert.deepEqual(PUBLIC_ASSETS, ['ocimatik-logo.svg', 'restaurant-cover.webp', 'cafe-atmosphere-concept.webp', 'de-happertjes-kibbeling-concept.webp', 'salon-scene.webp', 'hair-inspiration.webp']);
+  assert.equal(files.length, PUBLIC_ENTRY_FILES.length + PUBLIC_ASSETS.length);
   assert.deepEqual(new Set(files.map(file => file.destinationPath)), new Set([...PUBLIC_ENTRY_FILES.map(file => 'pitch/' + file), ...PUBLIC_ASSETS.map(file => 'demos/assets/' + file)]));
   for (const file of files) {
     assert.match(file.sha256, /^[a-f0-9]{64}$/);

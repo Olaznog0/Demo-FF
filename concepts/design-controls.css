@@ -1,0 +1,38 @@
+.design-toolbar{position:relative;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:13px max(24px,calc((100vw - 1320px)/2));background:#fff;color:#273f44;border-bottom:1px solid #dbe3e1;font:14px/1.4 Arial,sans-serif;min-height:70px}
+.design-toolbar>a{display:inline-flex;align-items:center;min-height:44px;white-space:nowrap;font-weight:600;text-decoration:underline;text-underline-offset:4px}
+.design-options{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.design-options button{border:1px solid #d8e2df;border-radius:6px;background:#f9fbfa;color:#3b5355;min-height:44px;padding:10px 13px;font:inherit;cursor:pointer}
+.design-options button[aria-pressed=true]{background:#244b46;color:#fff;border-color:#244b46}
+.design-options button:focus-visible,.design-toolbar a:focus-visible{outline:3px solid #257267;outline-offset:3px}
+.design-menu{display:none}
+.public-map-poster{display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;isolation:isolate;overflow:hidden;min-height:315px;padding:32px;gap:22px;color:var(--primary);background:var(--soft);text-align:center}
+.public-map-drawing{position:absolute;inset:0;z-index:-1;opacity:.18}
+.public-map-drawing svg{width:100%;height:100%;object-fit:cover}
+.public-map-poster strong{max-width:320px;font-size:22px;line-height:1.4}
+.public-map-poster .button{font-size:16px;padding:12px 20px;cursor:pointer}
+html[data-page=home] body.public-concept[data-design] .public-footer>.container{flex-wrap:wrap}
+@media(max-width:1120px){
+ html[data-page=home] body.public-concept[data-design] #header .header-inner{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;min-height:0;padding:20px 0;gap:14px}
+ html[data-page=home] body.public-concept[data-design] #header .header-inner .brand{grid-column:1;grid-row:1}
+ html[data-page=home] body.public-concept[data-design] #header .header-actions{grid-column:2;grid-row:1}
+ html[data-page=home] body.public-concept[data-design] #header .design-menu{display:inline-flex;align-items:center;justify-content:center;grid-column:3;grid-row:1;min-height:44px;padding:10px 12px;border:1px solid currentColor;border-radius:5px;background:transparent;color:inherit;font:600 14px/1 Arial,sans-serif;cursor:pointer}
+ html[data-page=home] body.public-concept[data-design] #header .header-inner .nav{display:none!important;grid-column:1/-1;grid-row:2;margin:0;width:100%;max-width:none}
+ html[data-page=home] body.public-concept[data-design] #header .header-inner .nav.design-nav-open{display:flex!important;flex-wrap:wrap;flex-direction:row;gap:8px 20px;padding:10px 0;border-top:1px solid var(--line)}
+ html[data-page=home] body.public-concept[data-design] #header .header-inner .nav a{min-height:44px;display:inline-flex;align-items:center}
+}
+@media(max-width:740px){
+ .design-toolbar{padding:10px 20px;display:block;min-height:0}
+ .design-toolbar>a{min-height:30px;margin-bottom:6px}
+ .design-options{justify-content:flex-start;gap:6px}
+ .design-options button{font-size:0;padding:8px 13px;min-width:44px;min-height:44px}
+ .design-options button::after{content:attr(data-design);font-size:14px}
+ html[data-page=home] body.public-concept[data-design] #header .header-inner{gap:10px;padding:17px 0}
+ html[data-page=home] body.public-concept[data-design] #header .header-actions>.button{display:none}
+ html[data-page=home] body.public-concept[data-design] #header .brand{font-size:22px}
+ html[data-page=home] body.public-concept[data-design] #header .brand>span{max-width:none}
+ html[data-page=home] body.public-concept[data-design] #header .brand-symbol{width:32px;height:32px;flex:0 0 32px}
+ html[data-page=home] body.public-concept[data-design] #header .langs{width:70px}
+ html[data-page=home] body.public-concept[data-design] #header .langs>a{width:34px;height:44px;font-size:13px}
+ html[data-page=home] body.public-concept[data-design] .public-footer>.container{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+}
+@media(max-width:360px){.design-toolbar{padding-inline:16px}html[data-page=home] body.public-concept[data-design] #header .header-inner{grid-template-columns:minmax(0,1fr) auto}html[data-page=home] body.public-concept[data-design] #header .header-actions{grid-row:2;grid-column:1/-1;justify-self:start}html[data-page=home] body.public-concept[data-design] #header .design-menu{grid-column:2}html[data-page=home] body.public-concept[data-design] #header .header-inner .nav{grid-row:3}}

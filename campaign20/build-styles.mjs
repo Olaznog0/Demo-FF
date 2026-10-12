@@ -6,5 +6,6 @@ const css = await fs.readFile(path.resolve(here, '../../deliverables/leads/campa
 const start = css.indexOf('/* Shared primitives only:');
 if (start < 0) throw new Error('The approved theme primitives are missing.');
 const common = await fs.readFile(path.join(here, 'shell.css'), 'utf8');
-await fs.writeFile(path.join(here, 'styles.css'), common + '\n' + css.slice(start) + '\n' + await fs.readFile(path.join(here, 'components.css'), 'utf8'));
+const refinements = await Promise.all(['cafe-refinement.css', 'salon-refinement.css', 'navigation-refinement.css'].map(file => fs.readFile(path.join(here, file), 'utf8')));
+await fs.writeFile(path.join(here, 'styles.css'), common + '\n' + css.slice(start) + '\n' + await fs.readFile(path.join(here, 'components.css'), 'utf8') + '\n' + refinements.join('\n'));
 console.log('Theme stylesheet reuses the ten approved directions; no image assets copied.');

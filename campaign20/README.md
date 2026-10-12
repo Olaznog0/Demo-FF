@@ -1,8 +1,14 @@
 # Twenty personalized business previews
 
+The full-page visual refinements are maintained in `cafe-refinement.css`, `salon-refinement.css` and `navigation-refinement.css`. `build-styles.mjs` includes them after the original primitives and shared components. Apply [the design quality requirements](../docs/DESIGN-QUALITY.md) to every future template. The local `/design-review/index.html` index on the main port 4174 exposes all 25 sector compositions for review. Café photography uses `cafe-atmosphere-concept.webp` as a conceptual reference; it is not a verified photograph of any campaign business.
+
 One lightweight frontend gives each of the ten food businesses five restaurant directions (`R1`–`R5`) and each of the ten Hair & Beauty businesses five salon directions (`B1`–`B5`). Business identity remains fixed when a visitor changes a palette or switches between English and Nederlands.
 
 Start the local preview with `node campaign20/server.cjs`, then open `http://127.0.0.1:4188/campaign20/launcher.html`. A business link is `./index.html?lead=NLEZ2-029&theme=R1&lang=nl`. Localhost is for review, and must never be sent as a campaign link.
+
+Future campaign links use `/start/<token>`. Run `node campaign20/build-opaque-routes.mjs` from `Demo-FF` after an evidence-backed model is appended. The private `opaque-routes.json` preserves random 144-bit tokens across runs. `lead-links.json` provides each future lead's EN/NL home URLs and an explicit `ready` flag. Only ready contexts reach the Cloudflare Worker; reserved addresses return 404 until their validated business model exists. The 40 already-sent J1/J2 businesses retain their original `/pitch/` URLs without redirects.
+
+Neither registry, link inventory nor generator is a public asset. The Worker injects only the current business's route table and serves runtime aliases from `/start/_assets/`. Palette, language, services, booking, FAQ and confirmation navigation each keep opaque addresses. Regenerating the registry activates reserved home tokens without replacing them. The complete packaged preview uses `node corporate/scripts/preview-cloudflare.js` from the workspace root and loads the generated Worker in memory.
 
 ## Public release boundary
 
